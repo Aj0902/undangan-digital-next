@@ -4,6 +4,7 @@ import EventDetails from "@/components/sections/EventDetails";
 import GalleryView from "@/components/sections/GalleryView";
 import GiftBox from "@/components/sections/GiftBox";
 import RsvpSection from "@/components/sections/RsvpSection";
+import GuestbookView from "@/components/sections/GuestbookView";
 
 export default function Home() {
   return (
@@ -37,6 +38,7 @@ export default function Home() {
           <GalleryView />
           <GiftBox />
           <RsvpSection />
+          <GuestbookView />
           
           <footer className="w-full py-12 text-center border-t-[0.5px] border-gold/40 bg-cream">
              <p className="text-[0.55rem] tracking-[0.4em] uppercase text-primary/40 font-medium mb-2">
