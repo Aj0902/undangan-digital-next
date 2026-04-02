@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import FadeIn from '@/components/ui/FadeIn';
+import { toast } from 'sonner';
 
 export default function GiftBox() {
   const [copied, setCopied] = useState(false);
@@ -8,6 +9,7 @@ export default function GiftBox() {
   const handleCopy = () => {
     navigator.clipboard.writeText("1234567890");
     setCopied(true);
+    toast.success("Nomor Rekening Berhasil Disalin");
     setTimeout(() => setCopied(false), 2500);
   };
 
@@ -29,7 +31,7 @@ export default function GiftBox() {
            
            <button 
              onClick={handleCopy}
-             className="px-8 py-4 border border-primary text-primary text-[0.65rem] uppercase tracking-[0.25em] hover:bg-primary hover:text-white transition-colors duration-500 w-full"
+             className="px-8 py-5 border border-primary text-primary text-[0.65rem] uppercase tracking-[0.25em] hover:bg-neutral-800 hover:text-white transition-all duration-700 w-full hover:tracking-[0.4em]"
            >
              {copied ? "Berhasil Disalin" : "Salin Nomor Rekening"}
            </button>

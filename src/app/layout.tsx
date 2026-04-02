@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   description: "Undangan pernikahan elegan dan romantis",
 };
 
+import { Toaster } from 'sonner';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -39,6 +41,18 @@ export default function RootLayout({
         )}
       >
         <div className="noise-overlay" />
+        <Toaster position="bottom-right" toastOptions={{
+          style: {
+            background: 'var(--bg-cream)',
+            color: 'var(--text-primary)',
+            border: '0.5px solid var(--text-primary)',
+            borderRadius: '0',
+            fontFamily: 'var(--font-montserrat)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.2em',
+            fontSize: '10px'
+          }
+        }} />
         {children}
       </body>
     </html>
