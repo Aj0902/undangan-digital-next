@@ -53,7 +53,7 @@ export default function HeroCover() {
         
         {/* Tipografi Editorial Style Raksasa (Kinetic) */}
         <div className="flex flex-col items-center justify-center w-full mb-16">
-          <KineticText text="ROMEO" />
+          <KineticText text="SITI" />
           <motion.span 
             initial={{ opacity: 0, scale: 0.5 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -63,7 +63,7 @@ export default function HeroCover() {
           >
              &amp;
           </motion.span>
-          <KineticText text="JULIET" />
+          <KineticText text="ZAED" />
         </div>
         
         {/* Garis Horizontal Tipis */}
@@ -82,7 +82,7 @@ export default function HeroCover() {
           viewport={{ once: true }}
           className="font-body tracking-[0.3em] text-xs sm:text-sm text-neutral-500 uppercase"
         >
-          12 . 12 . 2026
+          23 . 05 . 2026
         </motion.p>
 
       </FadeIn>

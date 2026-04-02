@@ -12,6 +12,7 @@ import WelcomeOverlay from "@/components/ui/WelcomeOverlay";
 import AudioPlayer from "@/components/ui/AudioPlayer";
 import PrologueSection from "@/components/sections/PrologueSection";
 import ColophonSection from "@/components/sections/ColophonSection";
+import CountdownTimer from "@/components/sections/CountdownTimer";
 import InteractiveBackground from "@/components/ui/InteractiveBackground";
 import Image from "next/image";
 
@@ -56,7 +57,7 @@ export default function Home() {
           
           <div className="absolute bottom-12 left-12 mix-blend-difference text-white/70 text-xs tracking-[0.3em] font-light uppercase z-10 flex flex-col gap-2">
              <span>Vol. I — The Beginning</span>
-             <span className="opacity-50">Romeo & Juliet</span>
+             <span className="opacity-50">Siti & Zaed</span>
           </div>
         </div>
 
@@ -68,6 +69,7 @@ export default function Home() {
           <PrologueSection />
           <CoupleInfo />
           <EventDetails />
+          <CountdownTimer targetDate="2026-05-23T08:00:00+07:00" />
           <GalleryView />
           <GiftBox />
           <RsvpSection />

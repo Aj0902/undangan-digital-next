@@ -10,16 +10,19 @@ export default function ColophonSection() {
           Mengiringi Langkah,<br />Menghimpun Doa.
         </h2>
         
-        <p className="text-sm sm:text-base text-primary/80 leading-loose font-light mb-20 text-balance">
-          Kehadiran dan doa restu Anda adalah lembaran paling bermakna dalam awal kisah kami. Dari lubuk hati terdalam, kami mengucapkan terima kasih.
+        <p className="text-sm sm:text-base text-primary/80 leading-loose font-light mb-16 text-balance">
+          Lembaran ini hanyalah awal dari cerita kami. Dari lubuk hati terdalam, kami mengucapkan terima kasih atas segala doa yang mengiringi langkah kami.
         </p>
         
-        <span className="uppercase text-[0.6rem] sm:text-xs tracking-[0.25em] font-medium text-primary mb-24 block">
-          Wassalamu'alaikum Warahmatullahi Wabarakatuh
+        <span className="text-[0.65rem] sm:text-xs tracking-[0.2em] font-medium text-primary mb-12 block">
+          Wassalamu’alaikum Warahmatullahi Wabarakatuh.
         </span>
 
-        <p className="uppercase text-[9px] sm:text-[10px] tracking-[0.3em] text-neutral-400 font-medium">
-          VOL. I — ROMEO &amp; JULIET — MMXXVI
+        <p className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-medium">Kami yang berbahagia,</p>
+        <span className="font-heading text-4xl text-primary italic font-light mb-24 block">Siti &amp; Zaed</span>
+
+        <p className="uppercase text-[9px] sm:text-[10px] tracking-[0.3em] text-neutral-400 font-medium tracking-widest">
+          VOL. I — SITI &amp; ZAED — MMXXVI
         </p>
       </FadeIn>
     </section>

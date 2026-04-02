@@ -8,12 +8,18 @@ export default function PrologueSection() {
           The Prologue
         </span>
         
-        <h2 className="font-heading text-3xl sm:text-5xl text-primary italic font-light leading-snug mb-16">
+        <h2 className="font-heading text-2xl sm:text-4xl text-primary italic font-light leading-relaxed mb-6">
           "Dan di antara tanda-tanda kekuasaan-Nya, diciptakan-Nya untukmu pasangan hidup dari jenismu sendiri..."
         </h2>
+        <span className="uppercase text-[0.6rem] tracking-[0.2em] font-medium text-neutral-500 mb-16 block">
+          — (QS. Ar-Rum: 21)
+        </span>
         
+        <p className="text-sm sm:text-base text-primary/90 leading-loose font-medium mb-4">
+          Assalamu’alaikum Warahmatullahi Wabarakatuh.
+        </p>
         <p className="text-sm sm:text-base text-primary/80 leading-loose font-light max-w-lg mx-auto">
-          Sebuah babak baru dimulai. Bukan sekadar penyatuan dua nama, melainkan pertautan dua takdir dalam harmoni dan rida Ilahi.
+          Dengan memohon rida Allah SWT, perkenankanlah kami melangkah menuju babak baru. Bukan sekadar penyatuan dua nama, melainkan pertautan dua takdir dalam harmoni ibadah.
         </p>
       </FadeIn>
     </section>

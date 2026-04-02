@@ -56,9 +56,12 @@ export default function RsvpSection() {
   return (
     <section className="w-full py-24 px-8 bg-transparent flex flex-col items-center">
       <FadeIn className="max-w-sm mx-auto w-full relative z-10 px-4">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 px-4">
           <span className="text-[0.65rem] tracking-[0.3em] text-neutral-500 mb-4 uppercase block font-medium">Kepastian Hadir</span>
-          <h2 className="font-heading text-4xl sm:text-5xl text-primary font-light">Reservasi</h2>
+          <h2 className="font-heading text-4xl sm:text-5xl text-primary font-light mb-8">Reservasi</h2>
+          <p className="text-sm text-primary/80 leading-loose font-light">
+            Mohon kesediaan Anda untuk mengonfirmasi kehadiran serta meninggalkan pesan singkat untuk melengkapi hari bahagia kami.
+          </p>
         </div>
 
         <form 

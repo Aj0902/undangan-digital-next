@@ -28,10 +28,10 @@ export default function CoupleInfo() {
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-3/4 bg-neutral-300 hidden sm:block" />
             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-3/4 bg-neutral-300 hidden sm:block" />
             
-            <h3 className="font-heading text-5xl sm:text-6xl text-primary mb-4 font-light">Romeo Sagara</h3>
-            <p className="text-xs text-neutral-500 mb-6 leading-loose tracking-[0.2em] uppercase font-medium">Putra Utama dari <br/> <span className="text-primary/90">Bpk. [Nama Ayah] &amp; Ibu [Nama Ibu]</span></p>
+            <h3 className="font-heading text-5xl sm:text-6xl text-primary mb-4 font-light">Siti Aisyah Prameswari</h3>
+            <p className="text-xs text-neutral-500 mb-6 leading-loose tracking-[0.2em] uppercase font-medium">Putri dari <br/> <span className="text-primary/90">Bpk. H. Ridwan Kusuma &amp; Ibu Hj. Anita Dewi</span></p>
             <a href="#" className="inline-block border-b border-neutral-300 pb-1 text-[0.65rem] text-primary/60 italic tracking-widest hover:text-primary transition-colors">
-              @romeosagara
+              @siti.prameswari
             </a>
           </div>
         </FadeIn>
@@ -43,7 +43,7 @@ export default function CoupleInfo() {
           <div className="w-24 border-t border-neutral-300"></div>
         </FadeIn>
 
-        {/* Mempelai Wanita */}
+        {/* Mempelai Pria (Zaed) */}
         <FadeIn direction="up" className="relative">
           {/* Elemen Latar Tipografi Massif */}
           <span className="absolute -top-12 -right-12 font-heading text-[12rem] leading-none text-neutral-300 opacity-[0.10] select-none pointer-events-none z-[-1]">
@@ -52,7 +52,7 @@ export default function CoupleInfo() {
 
           <div className="w-full aspect-[3/4] mb-10 relative overflow-hidden border border-neutral-300 p-2">
              <div className="absolute inset-2 bg-neutral-200">
-               <Image src="/images/cover.jpg" alt="Juliet" fill className="object-cover grayscale mix-blend-multiply opacity-80 hover:scale-105 transition-transform duration-1000" />
+               <Image src="/images/cover.jpg" alt="Zaed" fill className="object-cover grayscale mix-blend-multiply opacity-80 hover:scale-105 transition-transform duration-1000" />
              </div>
           </div>
           
@@ -61,10 +61,10 @@ export default function CoupleInfo() {
             <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-3/4 bg-neutral-300 hidden sm:block" />
             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-3/4 bg-neutral-300 hidden sm:block" />
             
-            <h3 className="font-heading text-5xl sm:text-6xl text-primary mb-4 font-light">Juliet Kinanti</h3>
-            <p className="text-xs text-neutral-500 mb-6 leading-loose tracking-[0.2em] uppercase font-medium">Putri Bungsu dari <br/> <span className="text-primary/90">Bpk. [Nama Ayah] &amp; Ibu [Nama Ibu]</span></p>
+            <h3 className="font-heading text-5xl sm:text-6xl text-primary mb-4 font-light">Zaed Ramadhan</h3>
+            <p className="text-xs text-neutral-500 mb-6 leading-loose tracking-[0.2em] uppercase font-medium">Putra dari <br/> <span className="text-primary/90">Bpk. H. Lukman Hakim &amp; Ibu Hj. Fatimah Azzahra</span></p>
             <a href="#" className="inline-block border-b border-neutral-300 pb-1 text-[0.65rem] text-primary/60 italic tracking-widest hover:text-primary transition-colors">
-              @julietkinanti
+              @zaed.ramadhan
             </a>
           </div>
         </FadeIn>

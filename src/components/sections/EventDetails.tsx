@@ -21,8 +21,12 @@ export default function EventDetails() {
             I
           </span>
           <h3 className="font-heading text-3xl text-primary mb-4 italic">Akad Nikah</h3>
-          <p className="text-[0.7rem] text-primary/80 mb-2 uppercase tracking-[0.25em] font-medium">Minggu, 12 Desember 2026</p>
-          <p className="text-[0.65rem] text-neutral-500 tracking-[0.2em] uppercase">08:00 WIB - Selesai</p>
+          <p className="text-[0.7rem] text-primary/80 mb-2 uppercase tracking-[0.25em] font-medium">Sabtu, 23 Mei 2026</p>
+          <p className="text-[0.65rem] text-neutral-500 tracking-[0.2em] uppercase mb-4">08.00 WIB - Selesai</p>
+          <p className="text-sm text-primary leading-loose font-light">
+            Masjid Al-Irsyad<br/>
+            <span className="text-[0.6rem] text-neutral-500 uppercase tracking-widest mt-1 block">Kota Baru Parahyangan, Padalarang<br/>Kabupaten Bandung Barat</span>
+          </p>
         </div>
 
         <div className="w-full border-t border-neutral-200 mb-12" />
@@ -32,19 +36,17 @@ export default function EventDetails() {
           <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-heading text-[10rem] text-neutral-300 opacity-[0.08] select-none pointer-events-none z-[-1]">
             II
           </span>
-          <h3 className="font-heading text-3xl text-primary mb-4 italic">Resepsi</h3>
-          <p className="text-[0.7rem] text-primary/80 mb-2 uppercase tracking-[0.25em] font-medium">Minggu, 12 Desember 2026</p>
-          <p className="text-[0.65rem] text-neutral-500 tracking-[0.2em] uppercase">11:00 WIB - 14:00 WIB</p>
+          <h3 className="font-heading text-3xl text-primary mb-4 italic">Resepsi Pernikahan</h3>
+          <p className="text-[0.7rem] text-primary/80 mb-2 uppercase tracking-[0.25em] font-medium">Sabtu, 23 Mei 2026</p>
+          <p className="text-[0.65rem] text-neutral-500 tracking-[0.2em] uppercase mb-4">11.00 - 14.00 WIB</p>
+          <p className="text-sm text-primary leading-loose font-light">
+            Mason Pine Hotel (Grand Ballroom)<br/>
+            <span className="text-[0.6rem] text-neutral-500 uppercase tracking-widest mt-1 block">Kota Baru Parahyangan, Padalarang<br/>Kabupaten Bandung Barat</span>
+          </p>
         </div>
 
-        {/* Lokasi */}
+        {/* Action Buttons */}
         <div className="text-center pt-8 border-t border-neutral-300 relative">
-          <p className="text-[0.6rem] font-medium text-neutral-400 mb-5 uppercase tracking-[0.4em]">Lokasi Penyelenggaraan</p>
-          <p className="text-sm text-primary leading-loose font-light mb-12">
-            Hotel Mulia Senayan<br/>
-            <span className="text-xs text-neutral-500">Jl. Asia Afrika, Gelora, Jakarta Pusat</span>
-          </p>
-          
           <div className="flex flex-col gap-4">
             <a 
               href="https://calendar.google.com" 
