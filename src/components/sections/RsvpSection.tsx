@@ -128,7 +128,7 @@ export default function RsvpSection() {
           <button 
              type="submit"
              disabled={isSubmitting}
-             className="w-full py-5 bg-primary text-white tracking-[0.3em] text-[0.65rem] uppercase mt-12 hover:bg-neutral-800 hover:tracking-[0.4em] transition-all duration-700 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center"
+             className="w-full py-5 bg-black text-white tracking-[0.3em] text-[0.65rem] uppercase mt-12 hover:bg-neutral-800 hover:tracking-[0.4em] transition-all duration-700 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center"
            >
              {isSubmitting ? (
                <span className="animate-pulse tracking-[0.4em]">Mengirim Doa...</span>

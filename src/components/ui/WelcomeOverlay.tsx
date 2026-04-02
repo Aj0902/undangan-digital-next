@@ -68,7 +68,7 @@ export default function WelcomeOverlay({ onUnlock, isUnlocked }: WelcomeOverlayP
 
             <button 
               onClick={onUnlock}
-              className="group relative px-10 py-5 bg-primary text-white overflow-hidden rounded-none transition-all duration-700 ease-out hover:bg-neutral-800"
+              className="group relative px-10 py-5 bg-black text-white overflow-hidden rounded-none transition-all duration-700 ease-out hover:bg-neutral-800"
             >
               <span className="relative z-10 uppercase text-[0.65rem] tracking-[0.35em] font-medium group-hover:tracking-[0.45em] transition-all duration-700">
                 Buka Undangan
