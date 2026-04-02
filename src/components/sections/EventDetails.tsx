@@ -52,7 +52,7 @@ export default function EventDetails() {
               href="https://calendar.google.com" 
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 w-full px-6 py-5 bg-transparent border border-primary text-primary tracking-[0.25em] text-[0.65rem] uppercase hover:bg-neutral-800 hover:text-white hover:tracking-[0.4em] transition-all duration-700 group"
+              className="flex items-center justify-center gap-3 w-full px-6 py-5 bg-primary border border-primary text-white tracking-[0.25em] text-[0.65rem] uppercase hover:bg-neutral-800 hover:tracking-[0.4em] transition-all duration-700 group"
             >
               <CalendarPlus className="w-3.5 h-3.5" />
               Simpan Tanggal

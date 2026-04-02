@@ -26,7 +26,7 @@ export default function GiftBox() {
            <p className="font-bold text-primary tracking-[0.2em] text-xs uppercase mb-2">BCA</p>
            <p className="text-3xl tracking-widest text-primary mb-2 font-light font-heading">8765432109</p>
            <p className="text-[0.6rem] text-primary/80 uppercase tracking-widest mb-8 font-medium">a.n Zaed Ramadhan</p>
-           <button onClick={() => handleCopy("8765432109", "Nomor Rekening")} className="px-8 py-4 border border-primary text-primary text-[0.65rem] uppercase tracking-[0.25em] hover:bg-neutral-800 hover:text-white transition-all duration-700 w-full hover:tracking-[0.4em]">
+           <button onClick={() => handleCopy("8765432109", "Nomor Rekening")} className="px-8 py-4 border border-primary bg-primary text-white text-[0.65rem] uppercase tracking-[0.25em] hover:bg-neutral-800 transition-all duration-700 w-full hover:tracking-[0.4em]">
              Salin Rekening
            </button>
         </div>
@@ -38,7 +38,7 @@ export default function GiftBox() {
            <p className="font-bold text-primary tracking-[0.2em] text-xs uppercase mb-2">Mandiri</p>
            <p className="text-3xl tracking-widest text-primary mb-2 font-light font-heading">1098765432</p>
            <p className="text-[0.6rem] text-primary/80 uppercase tracking-widest mb-8 font-medium">a.n Siti Aisyah Prameswari</p>
-           <button onClick={() => handleCopy("1098765432", "Nomor Rekening")} className="px-8 py-4 border border-primary text-primary text-[0.65rem] uppercase tracking-[0.25em] hover:bg-neutral-800 hover:text-white transition-all duration-700 w-full hover:tracking-[0.4em]">
+           <button onClick={() => handleCopy("1098765432", "Nomor Rekening")} className="px-8 py-4 border border-primary bg-primary text-white text-[0.65rem] uppercase tracking-[0.25em] hover:bg-neutral-800 transition-all duration-700 w-full hover:tracking-[0.4em]">
              Salin Rekening
            </button>
         </div>
@@ -62,7 +62,7 @@ export default function GiftBox() {
              Tatar Jingganagara Blok B No. 8 <br /> Kota Baru Parahyangan, Padalarang <br /> Kabupaten Bandung Barat, 40553
            </p>
            <p className="text-[0.55rem] uppercase text-primary/70 tracking-widest mb-8">Penerima: Zaed Ramadhan (0812-3456-7890)</p>
-           <button onClick={() => handleCopy("Tatar Jingganagara Blok B No. 8, Kota Baru Parahyangan, Padalarang, Kabupaten Bandung Barat, 40553 (Penerima: Zaed Ramadhan 0812-3456-7890)", "Alamat")} className="px-8 py-4 border border-primary text-primary text-[0.65rem] uppercase tracking-[0.25em] hover:bg-neutral-800 hover:text-white transition-all duration-700 w-full hover:tracking-[0.4em]">
+           <button onClick={() => handleCopy("Tatar Jingganagara Blok B No. 8, Kota Baru Parahyangan, Padalarang, Kabupaten Bandung Barat, 40553 (Penerima: Zaed Ramadhan 0812-3456-7890)", "Alamat")} className="px-8 py-4 border border-primary bg-primary text-white text-[0.65rem] uppercase tracking-[0.25em] hover:bg-neutral-800 transition-all duration-700 w-full hover:tracking-[0.4em]">
              Salin Alamat
            </button>
         </div>
