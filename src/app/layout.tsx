@@ -38,6 +38,7 @@ export default function RootLayout({
           "bg-cream text-primary antialiased font-body font-light min-h-screen"
         )}
       >
+        <div className="noise-overlay" />
         {children}
       </body>
     </html>

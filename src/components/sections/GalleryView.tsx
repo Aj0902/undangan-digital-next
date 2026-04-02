@@ -1,36 +1,35 @@
 'use client';
-import { motion } from 'framer-motion';
+import FadeIn from '@/components/ui/FadeIn';
 
 export default function GalleryView() {
-  const images = [1, 2, 3, 4, 5, 6];
+  const images = [
+    { id: 1, spanClass: 'col-span-2 row-span-2 aspect-square', delay: 0 },
+    { id: 2, spanClass: 'col-span-1 row-span-1 aspect-square', delay: 0.1 },
+    { id: 3, spanClass: 'col-span-1 row-span-1 aspect-square', delay: 0.2 },
+    { id: 4, spanClass: 'col-span-2 row-span-1 aspect-[2/1]', delay: 0 },
+    { id: 5, spanClass: 'col-span-1 row-span-2 aspect-[1/2]', delay: 0 },
+    { id: 6, spanClass: 'col-span-1 row-span-1 aspect-square', delay: 0.1 },
+    { id: 7, spanClass: 'col-span-1 row-span-1 aspect-square', delay: 0.2 },
+  ];
 
   return (
     <section className="w-full py-24 px-6 bg-cream border-t-[0.5px] border-primary/5">
-      <div className="text-center mb-16">
-        <span className="text-[0.6rem] tracking-[0.3em] text-gold mb-4 uppercase block font-medium">Rekam Jejak</span>
-        <h2 className="font-heading text-4xl sm:text-5xl text-primary mb-6 italic font-light drop-shadow-sm">Galeri Kasih</h2>
-        <div className="w-16 mx-auto batik-divider opacity-50" />
-      </div>
+      <FadeIn className="text-center w-full mb-16 px-4">
+        <span className="text-[0.65rem] tracking-[0.3em] text-neutral-500 mb-4 uppercase block font-medium">Rekam Jejak</span>
+        <h2 className="font-heading text-4xl sm:text-5xl text-primary font-light">Visual Journal</h2>
+      </FadeIn>
 
-      <div className="grid grid-cols-2 gap-3 sm:gap-4">
-        {images.map((i) => (
-          <motion.div 
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 1, delay: (i % 2) * 0.2, ease: "easeOut" }}
-            className={`
-              bg-[#eceae2] flex items-center justify-center relative group overflow-hidden border-[0.5px] border-primary/5
-              ${i === 1 || i === 6 ? 'col-span-2 aspect-[2/1] sm:aspect-[2.5/1]' : 'aspect-[4/5]'}
-            `}
+      <div className="grid grid-cols-2 gap-4">
+        {images.map((img) => (
+          <FadeIn 
+            key={img.id}
+            delay={img.delay}
+            direction="up"
+            className={`${img.spanClass} group bg-neutral-200 overflow-hidden relative`}
           >
-             {/* Text Placeholder for MVP (Ini nanti diganti img Next.js) */}
-             <span className="font-heading text-xl text-primary/20 italic group-hover:scale-110 transition-transform duration-700">Foto {i}</span>
-             
-             {/* Layer Hover Emas */}
-             <div className="absolute inset-0 bg-gold/0 group-hover:bg-gold/10 transition-colors duration-500 z-10" />
-          </motion.div>
+             {/* Actual image goes here, currently using placeholder background */}
+             <div className="absolute inset-0 bg-neutral-200 mix-blend-multiply group-hover:scale-105 transition-transform duration-1000 ease-out" />
+          </FadeIn>
         ))}
       </div>
     </section>

@@ -1,44 +1,47 @@
 'use client';
-import { motion } from 'framer-motion';
+import FadeIn from '@/components/ui/FadeIn';
 
 export default function CoupleInfo() {
   return (
-    <section className="w-full py-24 px-8 text-center bg-cream flex flex-col items-center relative z-10 border-t-[0.5px] border-primary/5">
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 1.2, ease: "easeOut" }}
-        className="max-w-md mx-auto w-full"
-      >
-        <span className="text-[0.6rem] tracking-[0.3em] text-gold mb-4 uppercase block font-medium">Sang Mempelai</span>
-        <h2 className="font-heading text-4xl sm:text-5xl text-primary mb-16 italic font-light drop-shadow-sm">Dua Insan, Satu Cinta</h2>
-        
+    <section className="w-full py-24 px-8 bg-transparent flex flex-col items-center relative z-10">
+      <FadeIn className="text-center w-full mb-20">
+        <span className="text-[0.65rem] tracking-[0.3em] text-neutral-500 mb-6 uppercase block font-medium">Sang Mempelai</span>
+      </FadeIn>
+      
+      <div className="w-full max-w-lg flex flex-col gap-24">
         {/* Mempelai Pria */}
-        <div className="mb-16">
-          <h3 className="font-heading text-4xl sm:text-5xl text-gold mb-3 tracking-wide">Romeo Sagara</h3>
-          <p className="text-xs text-primary/70 mb-4 leading-loose tracking-wider uppercase font-medium">Putra Utama dari <br/> <span className="text-primary/90">Bpk. [Nama Ayah] & Ibu [Nama Ibu]</span></p>
-          <a href="#" className="inline-block border-b-[0.5px] border-primary/30 pb-1 text-[0.65rem] text-primary/60 italic tracking-widest hover:text-gold transition-colors">
-            @romeosagara
-          </a>
-        </div>
+        <FadeIn direction="up">
+          <div className="w-full aspect-[3/4] bg-neutral-200 mb-10 object-cover" />
+          
+          <div className="text-center w-full mx-auto px-4">
+            <h3 className="font-heading text-5xl sm:text-6xl text-primary mb-4 font-light">Romeo Sagara</h3>
+            <p className="text-xs text-neutral-500 mb-6 leading-loose tracking-[0.2em] uppercase font-medium">Putra Utama dari <br/> <span className="text-primary/90">Bpk. [Nama Ayah] &amp; Ibu [Nama Ibu]</span></p>
+            <a href="#" className="inline-block border-b border-neutral-300 pb-1 text-[0.65rem] text-primary/60 italic tracking-widest hover:text-primary transition-colors">
+              @romeosagara
+            </a>
+          </div>
+        </FadeIn>
 
         {/* Pemisah Simbolis */}
-        <div className="flex items-center justify-center gap-4 mb-16 opacity-50">
-          <div className="w-8 h-[0.5px] bg-gold"></div>
-          <span className="font-heading text-3xl text-gold italic font-light">&amp;</span>
-          <div className="w-8 h-[0.5px] bg-gold"></div>
-        </div>
+        <FadeIn direction="none" delay={0.2} className="flex items-center justify-center gap-6 opacity-60">
+          <div className="w-16 border-t border-neutral-300"></div>
+          <span className="font-heading text-5xl text-neutral-400 italic font-light">&amp;</span>
+          <div className="w-16 border-t border-neutral-300"></div>
+        </FadeIn>
 
         {/* Mempelai Wanita */}
-        <div className="mb-8">
-          <h3 className="font-heading text-4xl sm:text-5xl text-gold mb-3 tracking-wide">Juliet Kinanti</h3>
-          <p className="text-xs text-primary/70 mb-4 leading-loose tracking-wider uppercase font-medium">Putri Bungsu dari <br/> <span className="text-primary/90">Bpk. [Nama Ayah] & Ibu [Nama Ibu]</span></p>
-          <a href="#" className="inline-block border-b-[0.5px] border-primary/30 pb-1 text-[0.65rem] text-primary/60 italic tracking-widest hover:text-gold transition-colors">
-            @julietkinanti
-          </a>
-        </div>
-      </motion.div>
+        <FadeIn direction="up">
+          <div className="w-full aspect-[3/4] bg-neutral-200 mb-10 object-cover" />
+          
+          <div className="text-center w-full mx-auto px-4">
+            <h3 className="font-heading text-5xl sm:text-6xl text-primary mb-4 font-light">Juliet Kinanti</h3>
+            <p className="text-xs text-neutral-500 mb-6 leading-loose tracking-[0.2em] uppercase font-medium">Putri Bungsu dari <br/> <span className="text-primary/90">Bpk. [Nama Ayah] &amp; Ibu [Nama Ibu]</span></p>
+            <a href="#" className="inline-block border-b border-neutral-300 pb-1 text-[0.65rem] text-primary/60 italic tracking-widest hover:text-primary transition-colors">
+              @julietkinanti
+            </a>
+          </div>
+        </FadeIn>
+      </div>
     </section>
   );
 }
