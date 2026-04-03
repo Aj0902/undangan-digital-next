@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import FadeIn from '@/components/ui/FadeIn';
+import FadeIn from '../ui/FadeIn';
 
 export default function CountdownTimer({ targetDate }: { targetDate: string }) {
   const [timeLeft, setTimeLeft] = useState<{
