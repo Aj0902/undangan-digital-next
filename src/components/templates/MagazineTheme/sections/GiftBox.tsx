@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import FadeIn from '@/components/ui/FadeIn';
+import FadeIn from '../ui/FadeIn';
 import { toast } from 'sonner';
 
 export default function GiftBox() {

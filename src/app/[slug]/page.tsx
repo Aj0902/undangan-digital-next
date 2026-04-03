@@ -1,0 +1,103 @@
+/**
+ * @file src/app/[slug]/page.tsx
+ * @description Dynamic route — jantung dari arsitektur SaaS multi-tenant.
+ *
+ * Setiap URL `/{slug}` akan di-handle oleh halaman ini.
+ * Server Component: semua data fetching terjadi di server sebelum HTML dikirim.
+ *
+ * Alur eksekusi:
+ * 1. Next.js menerima request ke /{slug}
+ * 2. `params` di-await untuk mendapatkan nilai slug
+ * 3. Supabase di-query via getClientBySlug(slug)
+ * 4. Jika tidak ditemukan / tidak aktif → notFound() → tampil not-found.tsx
+ * 5. Jika ditemukan → pilih template berdasarkan client.template_id
+ * 6. Render template dengan data klien sebagai props
+ *
+ * ⚠️  Next.js 15: params adalah Promise, WAJIB di-await.
+ */
+
+import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+import { getClientBySlug } from '@/lib/getClientData';
+
+// ================================================================
+// generateMetadata — Meta tag dinamis per klien (SEO)
+// ================================================================
+
+export async function generateMetadata(
+  props: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await props.params;
+  const client = await getClientBySlug(slug);
+
+  if (!client) {
+    return {
+      title: 'Undangan Tidak Ditemukan',
+      description: 'Halaman undangan ini tidak tersedia.',
+    };
+  }
+
+  const { bride_name, groom_name } = client.client_details;
+
+  return {
+    title: `Undangan Pernikahan ${bride_name} & ${groom_name}`,
+    description: `Anda diundang ke pernikahan ${bride_name} & ${groom_name}. Saksikan momen bahagia mereka bersama kami.`,
+    openGraph: {
+      title: `${bride_name} & ${groom_name} — Undangan Pernikahan`,
+      description: `Anda diundang ke pernikahan ${bride_name} & ${groom_name}.`,
+      type: 'website',
+    },
+  };
+}
+
+// ================================================================
+// InvitationPage — Server Component utama
+// ================================================================
+
+export default async function InvitationPage(
+  props: { params: Promise<{ slug: string }> }
+) {
+  // ⚠️  Next.js 15: params adalah Promise — wajib await
+  const { slug } = await props.params;
+
+  // 1. Ambil semua data klien (clients + client_details + client_media)
+  const client = await getClientBySlug(slug);
+
+  // 2. Slug tidak ditemukan di DB atau klien tidak aktif → 404
+  if (!client) {
+    notFound();
+  }
+
+  // 3. Pilih template berdasarkan template_id di database
+  //    Setiap template menerima `data` (objek Client) sebagai satu-satunya prop.
+  //    Import template secara dinamis menggunakan switch untuk code splitting.
+  switch (client.template_id) {
+    case 'classic-elegant': {
+      // Dynamic import: chunk JS template hanya dimuat saat dibutuhkan
+      const { default: ClassicElegantTemplate } = await import(
+        '@/components/templates/ClassicElegant'
+      );
+      return <ClassicElegantTemplate data={client} />;
+    }
+
+    // Tambahkan template baru di sini:
+    // case 'modern-minimal': {
+    //   const { default: ModernMinimalTemplate } = await import(
+    //     '@/components/templates/ModernMinimal'
+    //   );
+    //   return <ModernMinimalTemplate data={client} />;
+    // }
+
+    default: {
+      // Fallback: pakai classic-elegant jika template_id tidak dikenal
+      // (mencegah halaman blank jika admin input template_id yang typo)
+      console.warn(
+        `[InvitationPage] Template "${client.template_id}" tidak dikenal untuk slug "${slug}". Fallback ke classic-elegant.`
+      );
+      const { default: ClassicElegantTemplate } = await import(
+        '@/components/templates/ClassicElegant'
+      );
+      return <ClassicElegantTemplate data={client} />;
+    }
+  }
+}

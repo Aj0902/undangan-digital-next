@@ -1,5 +1,5 @@
 'use client';
-import FadeIn from '@/components/ui/FadeIn';
+import FadeIn from '../ui/FadeIn';
 import Image from 'next/image';
 
 export default function CoupleInfo() {
@@ -19,7 +19,7 @@ export default function CoupleInfo() {
           
           <div className="w-full aspect-[3/4] mb-10 relative overflow-hidden border border-neutral-300 p-2">
              <div className="absolute inset-2 bg-neutral-200">
-               <Image src="/images/cover.jpg" alt="Romeo" fill className="object-cover grayscale mix-blend-multiply opacity-80 hover:scale-105 transition-transform duration-1000" />
+               <Image src="/assets/MagazineTheme/images/cover.jpg" alt="Romeo" fill className="object-cover grayscale mix-blend-multiply opacity-80 hover:scale-105 transition-transform duration-1000" />
              </div>
           </div>
           
@@ -52,7 +52,7 @@ export default function CoupleInfo() {
 
           <div className="w-full aspect-[3/4] mb-10 relative overflow-hidden border border-neutral-300 p-2">
              <div className="absolute inset-2 bg-neutral-200">
-               <Image src="/images/cover.jpg" alt="Zaed" fill className="object-cover grayscale mix-blend-multiply opacity-80 hover:scale-105 transition-transform duration-1000" />
+               <Image src="/assets/MagazineTheme/images/cover.jpg" alt="Zaed" fill className="object-cover grayscale mix-blend-multiply opacity-80 hover:scale-105 transition-transform duration-1000" />
              </div>
           </div>
           

@@ -2,10 +2,15 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import FadeIn from '@/components/ui/FadeIn';
+import FadeIn from '../ui/FadeIn';
 import { toast } from 'sonner';
 
-export default function RsvpSection() {
+interface RsvpSectionProps {
+  /** UUID klien dari tabel `clients`. Wajib agar RSVP masuk ke klien yang benar. */
+  clientId: string;
+}
+
+export default function RsvpSection({ clientId }: RsvpSectionProps) {
   const [formData, setFormData] = useState({
     name: '',
     attendance: '',
@@ -29,9 +34,10 @@ export default function RsvpSection() {
       const paxCount = parseInt(formData.pax, 10);
 
       const { error } = await supabase
-        .from('mpv-undangan-digital')
+        .from('rsvp_responses')
         .insert([
           {
+            client_id: clientId,          // ← Ikat RSVP ke klien yang spesifik
             guest_name: formData.name,
             attendance_status: isAttending,
             pax: paxCount,
