@@ -11,7 +11,7 @@ interface RevealTextProps {
   children: React.ReactNode;
   delay?: number;
   className?: string;
-  el?: keyof JSX.IntrinsicElements;
+  el?: React.ElementType;
 }
 
 export const RevealText: React.FC<RevealTextProps> = ({ 
