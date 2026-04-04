@@ -5,8 +5,21 @@
 // ========================================================
 "use client";
 import { motion } from 'framer-motion';
+import React from 'react';
 
-export const RevealText = ({ children, delay = 0, className = "", el: Tag = "div" }) => (
+interface RevealTextProps {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+  el?: keyof JSX.IntrinsicElements;
+}
+
+export const RevealText: React.FC<RevealTextProps> = ({ 
+  children, 
+  delay = 0, 
+  className = "", 
+  el: Tag = "div" 
+}) => (
   <motion.div
     initial={{ opacity: 0, y: 40 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -18,7 +31,17 @@ export const RevealText = ({ children, delay = 0, className = "", el: Tag = "div
   </motion.div>
 );
 
-export const LuxuryCard = ({ children, delay = 0, className = "" }) => (
+interface LuxuryCardProps {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}
+
+export const LuxuryCard: React.FC<LuxuryCardProps> = ({ 
+  children, 
+  delay = 0, 
+  className = "" 
+}) => (
   <motion.div
     initial={{ opacity: 0, y: 40 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -30,4 +53,5 @@ export const LuxuryCard = ({ children, delay = 0, className = "" }) => (
     <div className="relative z-10 w-full flex flex-col items-center">{children}</div>
   </motion.div>
 );
+
 
