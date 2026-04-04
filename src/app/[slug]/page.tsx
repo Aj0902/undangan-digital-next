@@ -80,13 +80,26 @@ export default async function InvitationPage(
       return <ClassicElegantTemplate data={client} />;
     }
 
-    // Tambahkan template baru di sini:
-    // case 'modern-minimal': {
-    //   const { default: ModernMinimalTemplate } = await import(
-    //     '@/components/templates/ModernMinimal'
-    //   );
-    //   return <ModernMinimalTemplate data={client} />;
-    // }
+    case 'modern-minimal': {
+      const { default: ModernMinimalTemplate } = await import(
+        '@/components/templates/ModernMinimal'
+      );
+      return <ModernMinimalTemplate data={client} />;
+    }
+
+    case 'rustic-boho': {
+      const { default: RusticBohoTemplate } = await import(
+        '@/components/templates/RusticBoho'
+      );
+      return <RusticBohoTemplate data={client} />;
+    }
+
+    case 'cream-rabbit': {
+      const { default: CreamRabbitTemplate } = await import(
+        '@/components/templates/CreamRabbit'
+      );
+      return <CreamRabbitTemplate data={client} />;
+    }
 
     default: {
       // Fallback: pakai classic-elegant jika template_id tidak dikenal
