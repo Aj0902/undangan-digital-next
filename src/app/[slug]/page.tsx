@@ -23,13 +23,25 @@ import { getClientBySlug } from '@/lib/getClientData';
 // ================================================================
 // generateMetadata — Meta tag dinamis per klien (SEO)
 // ================================================================
+// ================================================================
+// generateMetadata — Meta tag dinamis per klien (SEO)
+// ================================================================
 
 export const dynamic = 'force-dynamic';
 
 export async function generateMetadata(
-  props: { params: Promise<{ slug: string }> }
+  props: { 
+    params: Promise<{ slug: string }>;
+    searchParams: Promise<{ to?: string }>; // 1. Tambah searchParams nggo nangkep ?to=
+  }
 ): Promise<Metadata> {
   const { slug } = await props.params;
+  
+  // 2. Olah jeneng tamu soko URL
+  const resolvedSearchParams = await props.searchParams;
+  const rawGuestName = resolvedSearchParams?.to || '';
+  const guestName = rawGuestName.replace(/\+/g, ' '); 
+  
   const client = await getClientBySlug(slug);
 
   if (!client) {
@@ -40,14 +52,29 @@ export async function generateMetadata(
   }
 
   const { bride_name, groom_name } = client.client_details;
+  
+  // 3. Golek foto cover nggo thumbnail WhatsApp
+  const coverMedia = client.client_media?.find((m: any) => m.media_key === 'hero_image');
+  const coverUrl = coverMedia?.cloudinary_url || 'https://link-gambar-default-mu.com/cover.jpg'; // Ganti nganggo link gambar aslimu
+
+  const titleText = `Undangan Pernikahan ${bride_name} & ${groom_name}`;
+  const guestGreeting = guestName ? ` | Kepada Yth: ${guestName}` : '';
 
   return {
-    title: `Undangan Pernikahan ${bride_name} & ${groom_name}`,
+    title: `${titleText}${guestGreeting}`,
     description: `Anda diundang ke pernikahan ${bride_name} & ${groom_name}. Saksikan momen bahagia mereka bersama kami.`,
     openGraph: {
-      title: `${bride_name} & ${groom_name} — Undangan Pernikahan`,
+      title: `${bride_name} & ${groom_name} — Undangan Pernikahan${guestGreeting}`,
       description: `Anda diundang ke pernikahan ${bride_name} & ${groom_name}.`,
       type: 'website',
+      images: [
+        {
+          url: coverUrl, // 4. Pasang fotone neng kene
+          width: 1200,
+          height: 630,
+          alt: `Cover Undangan ${bride_name} & ${groom_name}`,
+        },
+      ],
     },
   };
 }
@@ -57,10 +84,16 @@ export async function generateMetadata(
 // ================================================================
 
 export default async function InvitationPage(
-  props: { params: Promise<{ slug: string }> }
+  props: { 
+    params: Promise<{ slug: string }>;
+    searchParams: Promise<{ to?: string }>;
+  }
 ) {
   // ⚠️  Next.js 15: params adalah Promise — wajib await
   const { slug } = await props.params;
+  const resolvedSearchParams = await props.searchParams;
+  const rawGuestName = resolvedSearchParams?.to || '';
+  const guestName = rawGuestName.replace(/\+/g, ' '); 
 
   // 1. Ambil semua data klien (clients + client_details + client_media)
   const client = await getClientBySlug(slug);
@@ -123,6 +156,15 @@ export default async function InvitationPage(
       );
       return <ModernMonarchyTemplate data={client} />;
     }
+
+    case 'golden-floral-template': {
+      const { default: GoldenFloralTemplate } = await import(
+        '@/components/templates/GoldenFloralTemplate'
+      );
+      return <GoldenFloralTemplate data={client} guestName={guestName} />;
+    }
+
+
 
     default: {
       // Fallback: pakai classic-elegant jika template_id tidak dikenal
