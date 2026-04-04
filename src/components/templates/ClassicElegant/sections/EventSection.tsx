@@ -33,6 +33,53 @@ export default function EventSection({ data }: EventSectionProps) {
     }).format(date) + " WIB";
   };
 
+  const CountdownTimer = ({ targetDate }: { targetDate: string | null }) => {
+    const [timeLeft, setTimeLeft] = React.useState({ Days: 0, Hours: 0, Minutes: 0, Seconds: 0 });
+
+    React.useEffect(() => {
+      if (!targetDate) return;
+      const target = new Date(targetDate).getTime();
+      const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const difference = target - now;
+
+        if (difference > 0) {
+          setTimeLeft({
+            Days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+            Hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+            Minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+            Seconds: Math.floor((difference % (1000 * 60)) / 1000),
+          });
+        } else {
+          clearInterval(interval);
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+    }, [targetDate]);
+
+    if (!targetDate) return null;
+
+    return (
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.2 }}
+        transition={{ duration: 1 }}
+        className="flex gap-4 md:gap-8 justify-center mb-16 w-full max-w-2xl mx-auto"
+      >
+        {Object.entries(timeLeft).map(([unit, value]) => (
+          <div key={unit} className="flex flex-col items-center">
+            <div className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center bg-white/40 backdrop-blur-md rounded-2xl shadow-xl border border-white/60 mb-3 relative overflow-hidden">
+               <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent pointer-events-none" />
+               <span className="font-heading text-2xl md:text-3xl text-primary font-light relative z-10">{value.toString().padStart(2, '0')}</span>
+            </div>
+            <span className="font-body text-[10px] md:text-xs uppercase tracking-[0.2em] text-primary/60">{unit}</span>
+          </div>
+        ))}
+      </motion.div>
+    );
+  };
+
   const EventCard = ({ 
     title, 
     date, 
@@ -54,7 +101,7 @@ export default function EventSection({ data }: EventSectionProps) {
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.2 }}
         transition={{ duration: 1, delay }}
         className="flex-1 w-full max-w-md bg-white p-8 md:p-12 shadow-2xl relative overflow-hidden group"
       >
@@ -121,12 +168,14 @@ export default function EventSection({ data }: EventSectionProps) {
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.2 }}
           className="text-center mb-16"
         >
           <p className="text-[10px] uppercase tracking-[0.5em] text-gold font-body mb-4">Waktu & Tempat</p>
-          <h2 className="font-heading text-5xl md:text-6xl text-primary font-light">Agenda Acara</h2>
+          <h2 className="font-heading text-5xl md:text-6xl text-primary font-light mb-8">Agenda Acara</h2>
         </motion.div>
+
+        <CountdownTimer targetDate={d.akad_datetime || d.resepsi_datetime} />
 
         <div className="w-full flex flex-col lg:flex-row justify-center items-stretch gap-12">
           {/* Akad Card */}

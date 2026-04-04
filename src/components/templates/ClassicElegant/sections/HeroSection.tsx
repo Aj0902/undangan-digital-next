@@ -30,20 +30,22 @@ export default function HeroSection({ data }: HeroSectionProps) {
       <div className="relative z-10 flex flex-col items-center text-center px-6">
         
         {/* Top Decorative Label */}
-        <motion.p
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 0.6, y: 0 }}
+          whileInView={{ opacity: 0.6, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
+          viewport={{ once: false, amount: 0.2 }}
           className="text-[10px] md:text-xs tracking-[0.5em] uppercase font-body mb-8 text-primary"
         >
           The Wedding of
-        </motion.p>
+        </motion.h1>
 
         {/* Names Header */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
+          viewport={{ once: false, amount: 0.2 }}
           className="mb-12"
         >
           <h1 className="text-6xl md:text-8xl font-heading font-light text-primary leading-none">
@@ -62,8 +64,9 @@ export default function HeroSection({ data }: HeroSectionProps) {
         {/* Featured Cover Image with Ornaments */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.5 }}
+          viewport={{ once: false, amount: 0.2 }}
           className="relative w-64 h-80 md:w-80 md:h-[480px] group shadow-2xl"
         >
           {/* Gold Corners (using mix-blend-multiply to remove white background) */}
@@ -99,8 +102,9 @@ export default function HeroSection({ data }: HeroSectionProps) {
         {/* Date & Location Brief */}
         <motion.div 
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.7 }}
+          whileInView={{ opacity: 0.7 }}
           transition={{ duration: 1, delay: 1.2 }}
+          viewport={{ once: false, amount: 0.2 }}
           className="mt-12 space-y-2"
         >
           {d.resepsi_datetime && (

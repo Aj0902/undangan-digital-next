@@ -23,7 +23,7 @@ export default function IntroSection({ data }: IntroSectionProps) {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: false, amount: 0.2 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
         className="max-w-2xl w-full text-center relative z-10"
       >

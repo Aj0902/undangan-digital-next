@@ -318,3 +318,40 @@ export function getMediaByType(
     .filter((m) => m.media_type === type)
     .sort((a, b) => a.display_order - b.display_order);
 }
+/**
+ * Format ISO date string ke format tanggal Indonesia.
+ * @param value - Tanggal ISO string
+ * @returns Tanggal terformat (contoh: "12 Desember 2026") or "-" jika null.
+ */
+export function formatDate(value?: string | null): string {
+  if (!value) return '-';
+  try {
+    const date = new Date(value);
+    return date.toLocaleDateString('id-ID', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    });
+  } catch (e) {
+    return '-';
+  }
+}
+
+/**
+ * Format ISO date string ke format jam Indonesia (24h).
+ * @param value - Tanggal ISO string
+ * @returns Jam terformat (contoh: "08:00") or "-" jika null.
+ */
+export function formatTime(value?: string | null): string {
+  if (!value) return '-';
+  try {
+    const date = new Date(value);
+    return date.toLocaleTimeString('id-ID', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }) + ' WIB';
+  } catch (e) {
+    return '-';
+  }
+}

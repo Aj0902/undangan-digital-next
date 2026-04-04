@@ -1,34 +1,77 @@
+'use client';
+
+import React, { useState, useRef, Suspense } from 'react';
 import type { Client } from '@/types/client';
 import { getMedia } from '@/types/client';
-import HeroCover from './sections/HeroCover';
-import GuestbookPreview from './sections/GuestbookPreview';
-import AccentBar from './ui/AccentBar';
+import OpeningCover from './sections/OpeningCover';
+import HeroSection from './sections/HeroCover';
+import EpicCallingSection from './sections/EpicCallingSection';
+import IntroSection from './sections/Prologue';
+import CoupleSection from './sections/CoupleDetails';
+import EventSection from './sections/EventSummary';
+import GiftSection from './sections/GiftAndRsvp';
+import RsvpSection from './sections/Guestbook';
+import Closing from './sections/Closing';
+import MusicPlayer from './ui/MusicPlayer';
 
 export default function RusticBohoTemplate({ data }: { data: Client }) {
-  const { client_details: details, client_media: media } = data;
-  const coverUrl = getMedia(media, 'cover');
+  const [isOpen, setIsOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const { client_media: media } = data;
+  const musicUrl = getMedia(media, 'music');
+
+  const handleOpen = () => {
+    setIsOpen(true);
+    if (musicUrl && audioRef.current) {
+      audioRef.current.play().catch(err => console.error("Audio play blocked:", err));
+      setIsPlaying(true);
+    }
+  };
+
+  const toggleMusic = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   return (
-    <main className="min-h-screen bg-[#F7EFE1] text-slate-900">
-      <HeroCover details={details} coverUrl={coverUrl} />
-      <section className="py-24">
-        <div className="container mx-auto px-6 md:px-12">
-          <AccentBar label="Detail Acara" />
-          <div className="grid gap-8 lg:grid-cols-2">
-            <div className="rounded-[2rem] bg-white p-10 shadow-sm">
-              <p className="text-sm uppercase tracking-[0.35em] text-slate-500">Akad</p>
-              <h3 className="mt-4 text-3xl font-semibold text-slate-900">{details.bride_name} & {details.groom_name}</h3>
-              <p className="mt-4 text-base leading-7 text-slate-600">Tanggal: {details.akad_datetime ? new Date(details.akad_datetime).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' }) : 'Segera diumumkan'}</p>
-              <p className="mt-2 text-sm text-slate-500">Lokasi: {details.resepsi_venue_address || 'Belum tersedia'}</p>
-            </div>
-            <div className="rounded-[2rem] bg-white p-10 shadow-sm">
-              <p className="text-sm uppercase tracking-[0.35em] text-slate-500">Doa & Cerita</p>
-              <p className="mt-4 text-base leading-7 text-slate-600">{details.gift_message || 'Kami menantikan doa dan kehadiran Anda yang penuh makna pada hari pernikahan kami.'}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <GuestbookPreview />
+    <main className="min-h-screen bg-[#FDFBF7] text-stone-800 font-body selection:bg-[#D4A373] selection:text-white overflow-hidden">
+      
+      {/* 
+        Opening Overlay (Digital Envelope Style)
+      */}
+      <Suspense fallback={null}>
+        <OpeningCover data={data} isOpen={isOpen} onOpen={handleOpen} />
+      </Suspense>
+
+      {/* 
+        Floating Music Control
+      */}
+      <MusicPlayer isPlaying={isPlaying} isVisible={isOpen} onToggle={toggleMusic} />
+
+      {/* 
+        Main Content Container
+      */}
+      <div className={`transition-opacity duration-1000 ${isOpen ? 'opacity-100 h-auto' : 'opacity-0 h-screen overflow-hidden'}`}>
+        <HeroSection data={data} />
+        <EpicCallingSection data={data} />
+        <IntroSection data={data} />
+        <CoupleSection data={data} />
+        <EventSection data={data} />
+        <GiftSection data={data} />
+        <RsvpSection data={data} />
+        <Closing data={data} />
+      </div>
+
+      {musicUrl && (
+        <audio ref={audioRef} src={musicUrl} loop preload="auto" />
+      )}
     </main>
   );
 }

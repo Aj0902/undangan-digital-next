@@ -1,75 +1,150 @@
 'use client';
-import FadeIn from '../ui/FadeIn';
+
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { MapPin, CalendarPlus } from 'lucide-react';
+import type { Client } from '@/types/client';
 
-export default function EventDetails() {
-  return (
-    <section className="w-full py-24 px-8 bg-transparent flex flex-col items-center">
-      <FadeIn className="text-center w-full mb-16 px-4">
-        <span className="text-[0.65rem] tracking-[0.3em] text-neutral-500 mb-4 uppercase block font-medium">The Celebration</span>
-        <h2 className="font-heading text-4xl sm:text-5xl text-primary font-light">Rangkaian Acara</h2>
-      </FadeIn>
-      
-      <FadeIn direction="up" className="w-full max-w-sm flex flex-col pt-8 border-t border-neutral-300 relative">
-        {/* Elemen Dekoratif Garis Vertikal */}
-        <div className="absolute left-[-2rem] top-0 bottom-0 w-[1px] bg-neutral-200 hidden sm:block" />
-        <div className="absolute right-[-2rem] top-0 bottom-0 w-[1px] bg-neutral-200 hidden sm:block" />
+export default function EventSection({ data }: { data: Client }) {
+  const { client_details: d } = data;
 
-        {/* Akad Nikah */}
-        <div className="mb-12 text-center relative">
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-heading text-[10rem] text-neutral-300 opacity-[0.08] select-none pointer-events-none z-[-1]">
-            I
-          </span>
-          <h3 className="font-heading text-3xl text-primary mb-4 italic">Akad Nikah</h3>
-          <p className="text-[0.7rem] text-primary/80 mb-2 uppercase tracking-[0.25em] font-medium">Sabtu, 23 Mei 2026</p>
-          <p className="text-[0.65rem] text-neutral-500 tracking-[0.2em] uppercase mb-4">08.00 WIB - Selesai</p>
-          <p className="text-sm text-primary leading-loose font-light">
-            Masjid Al-Irsyad<br/>
-            <span className="text-[0.6rem] text-neutral-500 uppercase tracking-widest mt-1 block">Kota Baru Parahyangan, Padalarang<br/>Kabupaten Bandung Barat</span>
-          </p>
-        </div>
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('id-ID', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    }).format(date);
+  };
 
-        <div className="w-full border-t border-neutral-200 mb-12" />
+  const formatTime = (dateString: string | null) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('id-ID', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }).format(date) + " WIB";
+  };
 
-        {/* Resepsi */}
-        <div className="mb-16 text-center relative">
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-heading text-[10rem] text-neutral-300 opacity-[0.08] select-none pointer-events-none z-[-1]">
-            II
-          </span>
-          <h3 className="font-heading text-3xl text-primary mb-4 italic">Resepsi Pernikahan</h3>
-          <p className="text-[0.7rem] text-primary/80 mb-2 uppercase tracking-[0.25em] font-medium">Sabtu, 23 Mei 2026</p>
-          <p className="text-[0.65rem] text-neutral-500 tracking-[0.2em] uppercase mb-4">11.00 - 14.00 WIB</p>
-          <p className="text-sm text-primary leading-loose font-light">
-            Mason Pine Hotel (Grand Ballroom)<br/>
-            <span className="text-[0.6rem] text-neutral-500 uppercase tracking-widest mt-1 block">Kota Baru Parahyangan, Padalarang<br/>Kabupaten Bandung Barat</span>
-          </p>
-        </div>
+  const CountdownTimer = ({ targetDate }: { targetDate: string | null }) => {
+    const [timeLeft, setTimeLeft] = useState({ D: 0, H: 0, M: 0, S: 0 });
 
-        {/* Action Buttons */}
-        <div className="text-center pt-8 border-t border-neutral-300 relative">
-          <div className="flex flex-col gap-4">
-            <a 
-              href="https://calendar.google.com" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 w-full px-6 py-5 bg-black border border-black text-white tracking-[0.25em] text-[0.65rem] uppercase hover:bg-neutral-800 hover:tracking-[0.4em] transition-all duration-700 group"
-            >
-              <CalendarPlus className="w-3.5 h-3.5" />
-              Simpan Tanggal
-            </a>
-            
-            <a 
-              href="https://maps.google.com" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 w-full px-6 py-5 bg-black border border-black text-white tracking-[0.25em] text-[0.65rem] uppercase hover:bg-neutral-800 hover:tracking-[0.4em] transition-all duration-700 group"
-            >
-              <MapPin className="w-3.5 h-3.5" />
-              <span>Buka Peta Arahan</span>
-            </a>
+    useEffect(() => {
+      if (!targetDate) return;
+      const target = new Date(targetDate).getTime();
+      const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const difference = target - now;
+
+        if (difference > 0) {
+          setTimeLeft({
+            D: Math.floor(difference / (1000 * 60 * 60 * 24)),
+            H: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+            M: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+            S: Math.floor((difference % (1000 * 60)) / 1000),
+          });
+        } else {
+          clearInterval(interval);
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+    }, [targetDate]);
+
+    if (!targetDate) return null;
+
+    return (
+      <div className="grid grid-cols-4 gap-4 w-full max-w-sm mt-12 bg-white p-6 shadow-sm border border-stone-100">
+        {Object.entries(timeLeft).map(([unit, value]) => (
+          <div key={unit} className="flex flex-col items-center">
+            <span className="font-heading text-3xl text-stone-900 tracking-tighter leading-none">{value.toString().padStart(2, '0')}</span>
+            <span className="text-[8px] uppercase tracking-[0.2em] text-stone-400 font-bold mt-2">{unit}</span>
           </div>
+        ))}
+      </div>
+    );
+  };
+
+  const EventCard = ({ title, date, venue, address, number }: any) => {
+    if (!date && !venue) return null;
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.2 }}
+        className="w-full py-16 border-t border-stone-200 relative group"
+      >
+        <span className="absolute top-8 left-0 text-[10px] tracking-[0.5em] text-stone-200 font-bold uppercase">{number}</span>
+        
+        <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-start">
+           <div className="flex-shrink-0 md:w-32">
+              <h3 className="font-heading text-3xl text-stone-900 italic serif leading-none">{title}</h3>
+           </div>
+           
+           <div className="flex-grow space-y-6">
+              <div>
+                <p className="text-[8px] uppercase tracking-[0.3em] text-stone-400 font-bold mb-2">Schedule</p>
+                <p className="font-heading text-lg text-stone-900">{formatDate(date)}</p>
+                <p className="text-sm text-stone-500">{formatTime(date)} — Selesai</p>
+              </div>
+              
+              <div>
+                <p className="text-[8px] uppercase tracking-[0.3em] text-stone-400 font-bold mb-2">Location</p>
+                <p className="font-heading text-xl text-stone-900 font-light">{venue}</p>
+                <p className="text-xs text-stone-500 leading-relaxed max-w-xs">{address}</p>
+              </div>
+
+              <div className="flex gap-4 pt-4">
+                 <a 
+                   href={`https://maps.google.com/?q=${encodeURIComponent(`${venue} ${address}`)}`}
+                   target="_blank"
+                   className="text-[8px] uppercase tracking-[0.3em] font-bold text-stone-900 border-b border-stone-900 pb-1 hover:text-stone-400 hover:border-stone-400 transition-all"
+                 >
+                   View Maps
+                 </a>
+              </div>
+           </div>
         </div>
-      </FadeIn>
+      </motion.div>
+    );
+  };
+
+  return (
+    <section className="relative w-full py-24 px-8 md:px-16 bg-stone-50 overflow-hidden border-b border-stone-200">
+      <div className="max-w-2xl mx-auto flex flex-col items-center">
+        
+        <motion.div
+           initial={{ opacity: 0 }}
+           whileInView={{ opacity: 1 }}
+           viewport={{ once: false, amount: 0.2 }}
+           className="text-center mb-16"
+        >
+           <span className="text-[10px] tracking-[0.4em] text-stone-400 uppercase font-light mb-4 block italic">Save The Date</span>
+           <h2 className="font-heading text-5xl md:text-6xl text-stone-900 tracking-tighter uppercase mb-4">Agenda Acara</h2>
+           <div className="w-12 h-px bg-stone-900 mx-auto" />
+        </motion.div>
+
+        <div className="w-full flex flex-col">
+          <EventCard 
+            title="Akad Nikah" 
+            date={d.akad_datetime}
+            venue={d.akad_venue_name}
+            address={d.akad_venue_address}
+            number="Part I"
+          />
+          <EventCard 
+            title="Resepsi" 
+            date={d.resepsi_datetime}
+            venue={d.resepsi_venue_name}
+            address={d.resepsi_venue_address}
+            number="Part II"
+          />
+        </div>
+
+        <CountdownTimer targetDate={d.akad_datetime || d.resepsi_datetime} />
+      </div>
     </section>
   );
 }

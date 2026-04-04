@@ -1,43 +1,77 @@
+'use client';
+
+import React, { useState, useRef, Suspense } from 'react';
 import type { Client } from '@/types/client';
 import { getMedia } from '@/types/client';
-import Prologue from './sections/Prologue';
-import CountdownCard from './sections/CountdownCard';
-import SectionHeader from './ui/SectionHeader';
+import OpeningCover from './sections/OpeningCover';
+import HeroSection from './sections/HeroCover';
+import EpicCallingSection from './sections/EpicCallingSection';
+import IntroSection from './sections/Prologue';
+import CoupleSection from './sections/CoupleDetails';
+import EventSection from './sections/CountdownCard';
+import GiftSection from './sections/GiftAndRsvp';
+import RsvpSection from './sections/Guestbook';
+import Closing from './sections/Closing';
+import MusicPlayer from './ui/MusicPlayer';
 
 export default function CreamRabbitTemplate({ data }: { data: Client }) {
-  const { client_details: details, client_media: media } = data;
-  const coverUrl = getMedia(media, 'cover');
+  const [isOpen, setIsOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const { client_media: media } = data;
+  const musicUrl = getMedia(media, 'music');
+
+  const handleOpen = () => {
+    setIsOpen(true);
+    if (musicUrl && audioRef.current) {
+      audioRef.current.play().catch(err => console.error("Audio play blocked:", err));
+      setIsPlaying(true);
+    }
+  };
+
+  const toggleMusic = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   return (
-    <main className="min-h-screen bg-[#F9F5EF] text-slate-900">
-      <section className="relative overflow-hidden bg-white py-24">
-        <div className="container mx-auto px-6 md:px-12">
-          <div className="grid gap-12 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-            <div className="space-y-6">
-              <p className="text-sm uppercase tracking-[0.35em] text-amber-700">Cream Rabbit</p>
-              <h1 className="text-5xl font-serif tracking-tight text-slate-900 md:text-7xl">{details.bride_name} & {details.groom_name}</h1>
-              <p className="max-w-xl text-lg leading-8 text-slate-600">
-                Sebuah undangan digital yang menghadirkan rasa mewah, hangat, dan tak lekang oleh waktu untuk hari istimewa Anda.
-              </p>
-            </div>
-            <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-100 shadow-sm">
-              <img
-                src={coverUrl || '/assets/cream-rabbit/images/cover-fallback.jpg'}
-                alt="Classic Elegant Cover"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+    <main className="min-h-screen bg-[#FFF5F5] text-stone-800 font-body selection:bg-[#FFB5A7] selection:text-white overflow-hidden">
+      
+      {/* 
+        Opening Overlay (Storybook Cover)
+      */}
+      <Suspense fallback={null}>
+        <OpeningCover data={data} isOpen={isOpen} onOpen={handleOpen} />
+      </Suspense>
 
-      <SectionHeader
-        title="Cerita Cinta"
-        description="Temukan detail acara, doa, dan rangkaian momen yang telah disiapkan khusus untuk perayaan cinta Anda."
-      />
+      {/* 
+        Floating Music Control (Bouncy Pill)
+      */}
+      <MusicPlayer isPlaying={isPlaying} isVisible={isOpen} onToggle={toggleMusic} />
 
-      <Prologue details={details} />
-      <CountdownCard details={details} />
+      {/* 
+        Main Content Container
+      */}
+      <div className={`transition-opacity duration-1000 ${isOpen ? 'opacity-100 h-auto' : 'opacity-0 h-screen overflow-hidden'}`}>
+        <HeroSection data={data} />
+        <EpicCallingSection data={data} />
+        <IntroSection data={data} />
+        <CoupleSection data={data} />
+        <EventSection data={data} />
+        <GiftSection data={data} />
+        <RsvpSection data={data} />
+        <Closing data={data} />
+      </div>
+
+      {musicUrl && (
+        <audio ref={audioRef} src={musicUrl} loop preload="auto" />
+      )}
     </main>
   );
 }

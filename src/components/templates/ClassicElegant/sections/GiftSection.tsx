@@ -32,7 +32,7 @@ export default function GiftSection({ data }: GiftSectionProps) {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.2 }}
           className="text-center mb-16"
         >
           <Gift size={32} className="text-gold mx-auto mb-6 opacity-60" />
@@ -48,7 +48,7 @@ export default function GiftSection({ data }: GiftSectionProps) {
               key={idx}
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: false, amount: 0.2 }}
               transition={{ delay: idx * 0.1 }}
               className="bg-white p-8 border border-gold/10 shadow-lg relative group overflow-hidden"
             >

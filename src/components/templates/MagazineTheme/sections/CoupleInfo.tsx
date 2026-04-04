@@ -1,73 +1,88 @@
 'use client';
-import FadeIn from '../ui/FadeIn';
-import Image from 'next/image';
 
-export default function CoupleInfo() {
+import React from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import type { Client } from '@/types/client';
+import { getMedia } from '@/types/client';
+
+export default function CoupleSection({ data }: { data: Client }) {
+  const { client_details: d, client_media: media } = data;
+  
+  const brideImg = getMedia(media, 'gallery_1');
+  const groomImg = getMedia(media, 'gallery_2');
+
   return (
-    <section className="w-full py-24 px-8 bg-transparent flex flex-col items-center relative z-10">
-      <FadeIn className="text-center w-full mb-20">
-        <span className="text-[0.65rem] tracking-[0.3em] text-neutral-500 mb-6 uppercase block font-medium">Sang Mempelai</span>
-      </FadeIn>
+    <section className="relative w-full py-24 px-8 md:px-16 bg-white overflow-hidden border-b border-stone-200">
       
-      <div className="w-full max-w-lg flex flex-col gap-24">
-        {/* Mempelai Pria */}
-        <FadeIn direction="up" className="relative">
-          {/* Elemen Latar Tipografi Massif */}
-          <span className="absolute -top-12 -left-12 font-heading text-[12rem] leading-none text-neutral-300 opacity-[0.10] select-none pointer-events-none z-[-1]">
-             I
-          </span>
-          
-          <div className="w-full aspect-[3/4] mb-10 relative overflow-hidden border border-neutral-300 p-2">
-             <div className="absolute inset-2 bg-neutral-200">
-               <Image src="/assets/MagazineTheme/images/cover.jpg" alt="Romeo" fill className="object-cover grayscale mix-blend-multiply opacity-80 hover:scale-105 transition-transform duration-1000" />
-             </div>
-          </div>
-          
-          <div className="text-center w-full mx-auto px-4 relative">
-            {/* Garis vertikal dekoratif di sisi kanan & kiri teks */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-3/4 bg-neutral-300 hidden sm:block" />
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-3/4 bg-neutral-300 hidden sm:block" />
-            
-            <h3 className="font-heading text-5xl sm:text-6xl text-primary mb-4 font-light">Siti Aisyah Prameswari</h3>
-            <p className="text-xs text-neutral-500 mb-6 leading-loose tracking-[0.2em] uppercase font-medium">Putri dari <br/> <span className="text-primary/90">Bpk. H. Ridwan Kusuma &amp; Ibu Hj. Anita Dewi</span></p>
-            <a href="#" className="inline-block border-b border-neutral-300 pb-1 text-[0.65rem] text-primary/60 italic tracking-widest hover:text-primary transition-colors">
-              @siti.prameswari
-            </a>
-          </div>
-        </FadeIn>
+      {/* Editorial Decorative Masthead */}
+      <div className="absolute top-0 inset-x-0 h-10 border-b border-stone-200 flex items-center justify-between px-12 bg-stone-50">
+        <span className="text-[8px] uppercase tracking-[0.5em] text-stone-400">The Feature</span>
+        <span className="text-[8px] uppercase tracking-[0.5em] text-stone-900 border-x border-stone-200 px-6 h-full flex items-center">The Protagonists</span>
+        <span className="text-[8px] uppercase tracking-[0.5em] text-stone-400">Issue 01</span>
+      </div>
 
-        {/* Pemisah Simbolis */}
-        <FadeIn direction="none" delay={0.2} className="flex items-center justify-center gap-6 opacity-60 my-8 relative">
-          <div className="w-24 border-t border-neutral-300"></div>
-          <span className="font-heading text-4xl text-neutral-400 italic font-light">&amp;</span>
-          <div className="w-24 border-t border-neutral-300"></div>
-        </FadeIn>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-24 mt-24">
+        
+        {/* Bride Section */}
+        <motion.div 
+           initial={{ opacity: 0, x: -30 }}
+           whileInView={{ opacity: 1, x: 0 }}
+           viewport={{ once: false, amount: 0.2 }}
+           transition={{ duration: 1.2 }}
+           className="flex flex-col items-center text-center"
+        >
+           <div className="w-full aspect-[3/4] mb-12 relative overflow-hidden bg-stone-100 border border-stone-200 group">
+              {brideImg ? (
+                <img src={brideImg} alt="Bride" className="w-full h-full object-cover filter grayscale contrast-125 opacity-90 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 transition-all duration-1000" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center italic text-stone-300 text-[10px] uppercase tracking-widest font-light">Portrait Placeholder</div>
+              )}
+              {/* Photo Caption Style */}
+              <div className="absolute bottom-4 left-4 p-2 bg-white/50 backdrop-blur-sm shadow-sm border border-stone-100">
+                 <span className="text-[8px] uppercase tracking-[0.4em] font-medium text-stone-900">Protagonist No. 01</span>
+              </div>
+           </div>
+           
+           <h3 className="font-heading text-5xl md:text-6xl text-stone-900 tracking-tighter leading-none mb-6">
+              {d.bride_full_name || d.bride_name}
+           </h3>
+           <div className="w-12 h-px bg-stone-900 mb-6" />
+           <p className="text-[10px] tracking-[0.3em] text-stone-400 uppercase font-light italic mb-2">Putri Tercinta Dari</p>
+           <p className="font-heading text-2xl text-stone-900 font-light italic px-4 leading-normal">
+              {d.bride_parents || 'Bpk. & Ibu Nama Orang Tua'}
+           </p>
+        </motion.div>
 
-        {/* Mempelai Pria (Zaed) */}
-        <FadeIn direction="up" className="relative">
-          {/* Elemen Latar Tipografi Massif */}
-          <span className="absolute -top-12 -right-12 font-heading text-[12rem] leading-none text-neutral-300 opacity-[0.10] select-none pointer-events-none z-[-1]">
-             II
-          </span>
+        {/* Groom Section */}
+        <motion.div 
+           initial={{ opacity: 0, x: 30 }}
+           whileInView={{ opacity: 1, x: 0 }}
+           viewport={{ once: false, amount: 0.2 }}
+           transition={{ duration: 1.2 }}
+           className="flex flex-col items-center text-center"
+        >
+           <div className="w-full aspect-[3/4] mb-12 relative overflow-hidden bg-stone-100 border border-stone-200 group">
+              {groomImg ? (
+                <img src={groomImg} alt="Groom" className="w-full h-full object-cover filter grayscale contrast-125 opacity-90 group-hover:grayscale-0 group-hover:scale-105 group-hover:opacity-100 transition-all duration-1000" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center italic text-stone-300 text-[10px] uppercase tracking-widest font-light">Portrait Placeholder</div>
+              )}
+               {/* Photo Caption Style */}
+               <div className="absolute bottom-4 right-4 p-2 bg-white/50 backdrop-blur-sm shadow-sm border border-stone-100">
+                 <span className="text-[8px] uppercase tracking-[0.4em] font-medium text-stone-900">Protagonist No. 02</span>
+              </div>
+           </div>
+           
+           <h3 className="font-heading text-5xl md:text-6xl text-stone-900 tracking-tighter leading-none mb-6">
+              {d.groom_full_name || d.groom_name}
+           </h3>
+           <div className="w-12 h-px bg-stone-900 mb-6" />
+           <p className="text-[10px] tracking-[0.3em] text-stone-400 uppercase font-light italic mb-2">Putra Tercinta Dari</p>
+           <p className="font-heading text-2xl text-stone-900 font-light italic px-4 leading-normal">
+              {d.groom_parents || 'Bpk. & Ibu Nama Orang Tua'}
+           </p>
+        </motion.div>
 
-          <div className="w-full aspect-[3/4] mb-10 relative overflow-hidden border border-neutral-300 p-2">
-             <div className="absolute inset-2 bg-neutral-200">
-               <Image src="/assets/MagazineTheme/images/cover.jpg" alt="Zaed" fill className="object-cover grayscale mix-blend-multiply opacity-80 hover:scale-105 transition-transform duration-1000" />
-             </div>
-          </div>
-          
-          <div className="text-center w-full mx-auto px-4 relative">
-             {/* Garis vertikal dekoratif di sisi kanan & kiri teks */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-3/4 bg-neutral-300 hidden sm:block" />
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[1px] h-3/4 bg-neutral-300 hidden sm:block" />
-            
-            <h3 className="font-heading text-5xl sm:text-6xl text-primary mb-4 font-light">Zaed Ramadhan</h3>
-            <p className="text-xs text-neutral-500 mb-6 leading-loose tracking-[0.2em] uppercase font-medium">Putra dari <br/> <span className="text-primary/90">Bpk. H. Lukman Hakim &amp; Ibu Hj. Fatimah Azzahra</span></p>
-            <a href="#" className="inline-block border-b border-neutral-300 pb-1 text-[0.65rem] text-primary/60 italic tracking-widest hover:text-primary transition-colors">
-              @zaed.ramadhan
-            </a>
-          </div>
-        </FadeIn>
       </div>
     </section>
   );

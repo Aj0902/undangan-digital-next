@@ -1,30 +1,66 @@
-import FadeIn from '../ui/FadeIn';
+'use client';
 
-export default function ColophonSection() {
+import React from 'react';
+import { motion } from 'framer-motion';
+import type { Client } from '@/types/client';
+
+export default function Closing({ data }: { data: Client }) {
+  const { client_details: d } = data;
+
   return (
-    <section className="w-full px-8 py-32 sm:py-40 bg-transparent text-center flex flex-col items-center justify-center">
-      <FadeIn className="w-full max-w-lg mx-auto flex flex-col items-center">
-        <div className="w-full border-t border-neutral-300 my-12" />
-
-        <h2 className="font-heading text-4xl sm:text-5xl text-primary font-light mb-10">
-          Mengiringi Langkah,<br />Menghimpun Doa.
+    <section className="relative w-full py-32 px-8 md:px-16 bg-white overflow-hidden text-center flex flex-col items-center">
+      
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: false, amount: 0.2 }}
+        className="max-w-xl w-full"
+      >
+        <div className="w-12 h-px bg-stone-300 mx-auto mb-16" />
+        
+        <h2 className="font-heading text-4xl md:text-6xl text-stone-900 tracking-tighter uppercase mb-12 flex flex-col gap-4">
+           <span>The End</span>
+           <span className="italic serif text-stone-300 lowercase text-3xl font-light">is just a beginning</span>
         </h2>
-        
-        <p className="text-sm sm:text-base text-primary/80 leading-loose font-light mb-16 text-balance">
-          Lembaran ini hanyalah awal dari cerita kami. Dari lubuk hati terdalam, kami mengucapkan terima kasih atas segala doa yang mengiringi langkah kami.
-        </p>
-        
-        <span className="text-[0.65rem] sm:text-xs tracking-[0.2em] font-medium text-primary mb-12 block">
-          Wassalamu’alaikum Warahmatullahi Wabarakatuh.
-        </span>
 
-        <p className="text-xs text-neutral-500 uppercase tracking-widest mb-2 font-medium">Kami yang berbahagia,</p>
-        <span className="font-heading text-4xl text-primary italic font-light mb-24 block">Siti &amp; Zaed</span>
-
-        <p className="uppercase text-[9px] sm:text-[10px] tracking-[0.3em] text-neutral-400 font-medium tracking-widest">
-          VOL. I — SITI &amp; ZAED — MMXXVI
+        <p className="font-body text-sm text-stone-500 leading-relaxed uppercase tracking-tight mb-16 px-4">
+           Lembaran ini hanyalah awal dari cerita kami. Dari lubuk hati terdalam, kami mengucapkan terima kasih atas segala doa yang mengiringi langkah kami.
         </p>
-      </FadeIn>
+
+        <div className="flex flex-col items-center gap-2 mb-24">
+           <span className="text-[10px] tracking-[0.4em] text-stone-400 uppercase font-light">With Love,</span>
+           <h3 className="font-heading text-5xl md:text-7xl text-stone-900 tracking-tighter uppercase">
+              {d.bride_name} <span className="text-stone-300">&amp;</span> {d.groom_name}
+           </h3>
+        </div>
+
+        {/* Colophon Credits Layout */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-12 border-t border-stone-100 w-full opacity-60">
+           <div className="flex flex-col items-center">
+              <span className="text-[8px] uppercase tracking-widest text-stone-400 mb-2">Location</span>
+              <span className="text-[10px] font-bold text-stone-900 uppercase">{d.akad_venue_name?.split(' ')[0] || 'Bandung'}</span>
+           </div>
+           <div className="flex flex-col items-center">
+              <span className="text-[8px] uppercase tracking-widest text-stone-400 mb-2">Issue</span>
+              <span className="text-[10px] font-bold text-stone-900 uppercase">Spring &apos;26</span>
+           </div>
+           <div className="flex flex-col items-center">
+              <span className="text-[8px] uppercase tracking-widest text-stone-400 mb-2">Publisher</span>
+              <span className="text-[10px] font-bold text-stone-900 uppercase">Eternity</span>
+           </div>
+           <div className="flex flex-col items-center">
+              <span className="text-[8px] uppercase tracking-widest text-stone-400 mb-2">Year</span>
+              <span className="text-[10px] font-bold text-stone-900 uppercase">MMXXVI</span>
+           </div>
+        </div>
+      </motion.div>
+
+      {/* Decorative vertical text */}
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 hidden md:block">
+         <span className="text-[8px] uppercase tracking-[0.5em] text-stone-200 vertical-text font-bold rotate-180">
+            THANK YOU FOR BEING PART OF OUR STORY
+         </span>
+      </div>
     </section>
   );
 }

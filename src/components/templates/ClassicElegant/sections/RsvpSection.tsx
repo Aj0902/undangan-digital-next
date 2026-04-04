@@ -22,6 +22,28 @@ export default function RsvpSection({ data }: RsvpSectionProps) {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [messages, setMessages] = useState<{name: string, message: string, date: string, attendance: boolean}[]>([]);
+
+  React.useEffect(() => {
+    const fetchMessages = async () => {
+      if (!clientId) return;
+      const { data } = await supabase
+        .from('rsvp_responses')
+        .select('guest_name, greeting_message, created_at, attendance_status')
+        .eq('client_id', clientId)
+        .order('created_at', { ascending: false });
+      
+      if (data) {
+        setMessages(data.filter(d => d.greeting_message).map(d => ({
+          name: d.guest_name,
+          message: d.greeting_message || '',
+          date: d.created_at,
+          attendance: d.attendance_status
+        })));
+      }
+    };
+    fetchMessages();
+  }, [clientId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,6 +71,15 @@ export default function RsvpSection({ data }: RsvpSectionProps) {
 
       if (error) throw error;
 
+      if (formData.message) {
+        setMessages(prev => [{
+          name: formData.name,
+          message: formData.message,
+          date: new Date().toISOString(),
+          attendance: isAttending
+        }, ...prev]);
+      }
+
       toast.success("Terima kasih atas konfirmasi Anda!");
       setIsSuccess(true);
       setFormData({ name: '', attendance: '', pax: '1', message: '' });
@@ -69,7 +100,7 @@ export default function RsvpSection({ data }: RsvpSectionProps) {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: false, amount: 0.2 }}
           className="text-center mb-16 px-4"
         >
           <p className="text-[10px] uppercase tracking-[0.5em] text-gold font-body mb-4">Reservation</p>
@@ -157,9 +188,44 @@ export default function RsvpSection({ data }: RsvpSectionProps) {
         )}
 
         {/* Decorative Divider */}
-        <div className="mt-24 opacity-20 flex justify-center">
+        <div className="mt-24 mb-16 opacity-20 flex justify-center">
            <img src="/assets/template-classic/gold-divider.png" alt="" className="w-48" />
         </div>
+
+        {/* GuestBook List */}
+        <motion.div 
+           initial={{ opacity: 0, y: 30 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: false, amount: 0.1 }}
+           className="w-full flex flex-col mt-8"
+        >
+          <h3 className="font-heading text-3xl text-primary font-light mb-8 text-center">Buku Tamu</h3>
+
+          <div className="max-h-[500px] overflow-y-auto pr-2 space-y-6 scrollbar-thin scrollbar-thumb-gold/30 scrollbar-track-transparent">
+            {messages.length === 0 ? (
+              <p className="text-center italic text-primary/40 font-body text-sm py-8">Belum ada ucapan.</p>
+            ) : (
+              messages.map((msg, i) => (
+                <div key={i} className="bg-white p-6 shadow-md border border-gold/10 rounded-sm">
+                  <div className="flex items-center justify-between mb-3 border-b border-gold/10 pb-3">
+                     <div>
+                       <p className="font-heading text-lg font-medium text-primary">{msg.name}</p>
+                       <p className="font-body text-[10px] text-primary/40 uppercase tracking-widest mt-1">
+                          {new Date(msg.date).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric'})}
+                       </p>
+                     </div>
+                     <span className={`text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full border ${msg.attendance ? 'text-green-600 border-green-200 bg-green-50' : 'text-red-500 border-red-200 bg-red-50' }`}>
+                       {msg.attendance ? 'Hadir' : 'Tidak Hadir'}
+                     </span>
+                  </div>
+                  <p className="font-body text-sm text-primary/80 leading-relaxed italic">
+                    "{msg.message}"
+                  </p>
+                </div>
+              ))
+            )}
+          </div>
+        </motion.div>
       </div>
     </section>
   );

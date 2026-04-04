@@ -24,12 +24,26 @@ export default function CoupleSection({ data }: CoupleSectionProps) {
 
       <div className="max-w-4xl mx-auto flex flex-col gap-32 relative z-10">
         
+        {/* Teks Pengantar Wajib */}
+        <motion.div
+           initial={{ opacity: 0, y: 30 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: false, amount: 0.2 }}
+           transition={{ duration: 1 }}
+           className="text-center max-w-2xl mx-auto -mb-16"
+        >
+          <p className="font-heading text-lg md:text-xl text-primary font-light italic leading-relaxed opacity-80">
+            &ldquo;Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan. Tanpa mengurangi rasa hormat, kami bermaksud mengundang Anda untuk hadir pada pernikahan kami:&rdquo;
+          </p>
+          <div className="h-[1px] w-16 bg-gold/50 mx-auto mt-8" />
+        </motion.div>
+
         {/* Mempelai Wanita (Bride) */}
         <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1.2 }}
             className="relative w-64 h-80 md:w-80 md:h-[480px] shrink-0"
           >
@@ -51,7 +65,7 @@ export default function CoupleSection({ data }: CoupleSectionProps) {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1, delay: 0.3 }}
             className="text-center md:text-left flex flex-col items-center md:items-start"
           >
@@ -80,7 +94,7 @@ export default function CoupleSection({ data }: CoupleSectionProps) {
           <motion.div 
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1.2 }}
             className="relative w-64 h-80 md:w-80 md:h-[480px] shrink-0"
           >
@@ -102,7 +116,7 @@ export default function CoupleSection({ data }: CoupleSectionProps) {
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ duration: 1, delay: 0.3 }}
             className="text-center md:text-right flex flex-col items-center md:items-end"
           >

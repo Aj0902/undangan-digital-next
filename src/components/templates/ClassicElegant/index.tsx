@@ -15,6 +15,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import type { Client } from '@/types/client';
 import { getMedia } from '@/types/client';
 import HeroSection from './sections/HeroSection';
+import EpicCallingSection from './sections/EpicCallingSection';
 import IntroSection from './sections/IntroSection';
 import CoupleSection from './sections/CoupleSection';
 import EventSection from './sections/EventSection';
@@ -82,6 +83,7 @@ export default function ClassicElegantTemplate({ data }: ClassicElegantTemplateP
       <div className={isOpen ? "opacity-100" : "opacity-0 h-screen overflow-hidden transition-opacity duration-1000"}>
         {/* ... (rest of components) */}
         <HeroSection data={data} />
+        <EpicCallingSection data={data} />
         <IntroSection data={data} />
         <CoupleSection data={data} />
         <EventSection data={data} />

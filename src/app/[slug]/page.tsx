@@ -24,6 +24,8 @@ import { getClientBySlug } from '@/lib/getClientData';
 // generateMetadata — Meta tag dinamis per klien (SEO)
 // ================================================================
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata(
   props: { params: Promise<{ slug: string }> }
 ): Promise<Metadata> {
@@ -94,11 +96,32 @@ export default async function InvitationPage(
       return <RusticBohoTemplate data={client} />;
     }
 
+    case 'magazine-theme': {
+      const { default: MagazineTheme } = await import(
+        '@/components/templates/MagazineTheme'
+      );
+      return <MagazineTheme data={client} />;
+    }
+
     case 'cream-rabbit': {
       const { default: CreamRabbitTemplate } = await import(
         '@/components/templates/CreamRabbit'
       );
       return <CreamRabbitTemplate data={client} />;
+    }
+
+    case 'avant-garde-gallery': {
+      const { default: AvantGardeGalleryTemplate } = await import(
+        '@/components/templates/AvantGardeGallery'
+      );
+      return <AvantGardeGalleryTemplate data={client} />;
+    }
+
+    case 'modern-monarchy': {
+      const { default: ModernMonarchyTemplate } = await import(
+        '@/components/templates/ModernMonarchy'
+      );
+      return <ModernMonarchyTemplate data={client} />;
     }
 
     default: {

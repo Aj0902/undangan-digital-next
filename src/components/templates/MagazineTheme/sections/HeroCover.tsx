@@ -1,91 +1,98 @@
 'use client';
 
-import FadeIn from '../ui/FadeIn';
+import React from 'react';
+import { motion } from 'framer-motion';
+import type { Client } from '@/types/client';
 
-import { motion, Variants } from 'framer-motion';
+export default function HeroSection({ data }: { data: Client }) {
+  const { client_details: d } = data;
 
-const letterVariants: Variants = {
-  hidden: { opacity: 0, y: 50, rotateX: -90 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    rotateX: 0,
-    transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
-  }
-};
+  const titleVariants: any = {
+    hidden: { opacity: 0, y: 100 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.8,
+        ease: [0.215, 0.61, 0.355, 1],
+      },
+    }),
+  };
 
-const containerVariants = {
-  hidden: { opacity: 1 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, duration: 0 }
-  }
-};
-
-function KineticText({ text }: { text: string }) {
-  return (
-    <motion.h1 
-      variants={containerVariants}
+  const nameSplit = (name: string) => name.split('').map((char, i) => (
+    <motion.span
+      key={i}
+      custom={i}
+      variants={titleVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true }}
-      className="font-heading text-[6rem] sm:text-8xl md:text-9xl tracking-tighter text-primary leading-none font-light flex overflow-hidden"
+      viewport={{ once: false, amount: 0.2 }}
+      className="inline-block"
     >
-      {text.split('').map((char, index) => (
-        <motion.span key={index} variants={letterVariants} style={{ display: 'inline-block' }}>
-          {char}
-        </motion.span>
-      ))}
-    </motion.h1>
-  );
-}
+      {char === ' ' ? '\u00A0' : char}
+    </motion.span>
+  ));
 
-export default function HeroCover() {
   return (
-    <section className="relative w-full min-h-[100dvh] flex flex-col items-center justify-center text-center select-none overflow-hidden bg-transparent px-6 py-12">
-      
-      {/* Teks Pengantar Tipis */}
-      <FadeIn className="w-full relative flex flex-col items-center justify-center h-full max-w-lg mx-auto px-6">
-        
-        <p className="uppercase tracking-[0.4em] text-[0.6rem] sm:text-xs text-neutral-500 font-medium mb-16">
-          The Wedding Celebration Of
-        </p>
-        
-        {/* Tipografi Editorial Style Raksasa (Kinetic) */}
-        <div className="flex flex-col items-center justify-center w-full mb-16">
-          <KineticText text="SITI" />
-          <motion.span 
-            initial={{ opacity: 0, scale: 0.5 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.8, duration: 1 }}
-            viewport={{ once: true }}
-            className="font-heading text-4xl sm:text-5xl text-neutral-400 italic font-light my-2 z-10"
-          >
-             &amp;
-          </motion.span>
-          <KineticText text="ZAED" />
-        </div>
-        
-        {/* Garis Horizontal Tipis */}
-        <motion.div 
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          transition={{ duration: 1.5, delay: 1, ease: 'easeInOut' }}
-          viewport={{ once: true }}
-          className="w-full max-w-xs border-t border-neutral-300 my-12 origin-center" 
-        />
+    <section className="relative w-full min-h-screen flex flex-col items-center justify-center bg-white overflow-hidden px-8 py-24">
+      {/* Editorial Background Element */}
+      <div className="absolute top-20 left-1/2 -translate-x-1/2 w-full max-w-lg h-px bg-stone-200" />
+      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-full max-w-lg h-px bg-stone-200" />
 
-        <motion.p 
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.3 }}
-          viewport={{ once: true }}
-          className="font-body tracking-[0.3em] text-xs sm:text-sm text-neutral-500 uppercase"
+      <div className="relative z-10 flex flex-col items-center text-center">
+        <motion.p
+          initial={{ opacity: 0, letterSpacing: '0.1em' }}
+          whileInView={{ opacity: 1, letterSpacing: '0.5em' }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 1.5 }}
+          className="text-[10px] md:text-xs uppercase font-light text-stone-400 mb-20 tracking-[0.5em]"
         >
-          23 . 05 . 2026
+          The Wedding Celebration
         </motion.p>
 
-      </FadeIn>
+        <div className="flex flex-col items-center mb-20">
+          <h1 className="font-heading text-7xl md:text-9xl text-stone-900 tracking-tighter leading-none flex overflow-hidden">
+            {nameSplit(d.bride_name.toUpperCase())}
+          </h1>
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, rotate: -45 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ delay: 0.5, duration: 1 }}
+            className="my-4"
+          >
+            <span className="font-heading text-4xl md:text-5xl text-stone-300 italic serif">&amp;</span>
+          </motion.div>
+
+          <h1 className="font-heading text-7xl md:text-9xl text-stone-900 tracking-tighter leading-none flex overflow-hidden">
+            {nameSplit(d.groom_name.toUpperCase())}
+          </h1>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ delay: 1, duration: 0.8 }}
+          className="flex flex-col items-center"
+        >
+          <div className="w-px h-16 bg-stone-900 mb-8" />
+          <p className="font-mono text-xs md:text-sm text-stone-500 tracking-[0.3em] uppercase">
+            {d.resepsi_datetime ? new Date(d.resepsi_datetime).toLocaleDateString('id-ID', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric'
+            }).replace(/\//g, ' . ') : 'Coming Soon'}
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Decorative Corner Text */}
+      <div className="absolute top-12 left-12 hidden md:block">
+        <span className="text-[8px] uppercase tracking-[0.3em] text-stone-300 vertical-text font-light">Issue 01 // Spring 2026</span>
+      </div>
     </section>
   );
 }
