@@ -14,7 +14,7 @@ import RsvpSection from './sections/Guestbook';
 import Closing from './sections/Closing';
 import MusicPlayer from './ui/MusicPlayer';
 
-export default function CreamRabbitTemplate({ data }: { data: Client }) {
+export default function CreamRabbitTemplate({ data, guestName }: { data: Client; guestName?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);

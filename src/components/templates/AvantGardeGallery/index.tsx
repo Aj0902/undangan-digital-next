@@ -14,7 +14,7 @@ import RsvpSection from './sections/RsvpSection';
 import Closing from './sections/Closing';
 import MusicPlayer from './ui/MusicPlayer';
 
-export default function AvantGardeGalleryTemplate({ data }: { data: Client }) {
+export default function AvantGardeGalleryTemplate({ data, guestName }: { data: Client; guestName?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);

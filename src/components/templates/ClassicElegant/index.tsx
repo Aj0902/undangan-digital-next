@@ -26,9 +26,10 @@ import MusicPlayer from './sections/MusicPlayer';
 
 interface ClassicElegantTemplateProps {
   data: Client;
+  guestName?: string;
 }
 
-export default function ClassicElegantTemplate({ data }: ClassicElegantTemplateProps) {
+export default function ClassicElegantTemplate({ data, guestName }: ClassicElegantTemplateProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);

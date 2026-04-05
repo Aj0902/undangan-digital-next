@@ -32,15 +32,15 @@ export const dynamic = 'force-dynamic';
 export async function generateMetadata(
   props: { 
     params: Promise<{ slug: string }>;
-    searchParams: Promise<{ to?: string }>; // 1. Tambah searchParams nggo nangkep ?to=
+    searchParams: Promise<{ to?: string }>;
   }
 ): Promise<Metadata> {
   const { slug } = await props.params;
-  
-  // 2. Olah jeneng tamu soko URL
   const resolvedSearchParams = await props.searchParams;
   const rawGuestName = resolvedSearchParams?.to || '';
-  const guestName = rawGuestName.replace(/\+/g, ' '); 
+  
+  // Standard decoding (handles spaces and special characters)
+  const guestName = decodeURIComponent(rawGuestName.replace(/\+/g, ' ')); 
   
   const client = await getClientBySlug(slug);
 
@@ -53,28 +53,37 @@ export async function generateMetadata(
 
   const { bride_name, groom_name } = client.client_details;
   
-  // 3. Golek foto cover nggo thumbnail WhatsApp
-  const coverMedia = client.client_media?.find((m: any) => m.media_key === 'hero_image');
-  const coverUrl = coverMedia?.cloudinary_url || 'https://link-gambar-default-mu.com/cover.jpg'; // Ganti nganggo link gambar aslimu
+  // Robust Image Selection: check common keys or fallback to first media
+  const coverMedia = client.client_media?.find((m: any) => 
+    ['hero_image', 'cover', 'main_image'].includes(m.media_key)
+  ) || client.client_media?.[0];
+  
+  const coverUrl = coverMedia?.cloudinary_url || 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622'; 
 
-  const titleText = `Undangan Pernikahan ${bride_name} & ${groom_name}`;
-  const guestGreeting = guestName ? ` | Kepada Yth: ${guestName}` : '';
+  const titleText = `${bride_name} & ${groom_name} — Undangan Pernikahan`;
+  const guestGreeting = guestName ? ` | Menuju: ${guestName}` : '';
 
   return {
     title: `${titleText}${guestGreeting}`,
-    description: `Anda diundang ke pernikahan ${bride_name} & ${groom_name}. Saksikan momen bahagia mereka bersama kami.`,
+    description: `Selamat datang di hari bahagia ${bride_name} & ${groom_name}. Saksikan momen sakral penyatuan janji suci mereka.`,
     openGraph: {
-      title: `${bride_name} & ${groom_name} — Undangan Pernikahan${guestGreeting}`,
-      description: `Anda diundang ke pernikahan ${bride_name} & ${groom_name}.`,
+      title: `${bride_name} & ${groom_name} — Official Invitation${guestGreeting}`,
+      description: `Buka undangan digital resmi ${bride_name} & ${groom_name}. Kami sangat berharap kehadiran Anda.`,
       type: 'website',
       images: [
         {
-          url: coverUrl, // 4. Pasang fotone neng kene
+          url: coverUrl,
           width: 1200,
           height: 630,
-          alt: `Cover Undangan ${bride_name} & ${groom_name}`,
+          alt: `Invitation Image for ${bride_name} & ${groom_name}`,
         },
       ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${bride_name} & ${groom_name} — Wedding Invitation`,
+      description: `Anda diundang ke pernikahan ${bride_name} & ${groom_name}.`,
+      images: [coverUrl],
     },
   };
 }
@@ -89,72 +98,65 @@ export default async function InvitationPage(
     searchParams: Promise<{ to?: string }>;
   }
 ) {
-  // ⚠️  Next.js 15: params adalah Promise — wajib await
   const { slug } = await props.params;
   const resolvedSearchParams = await props.searchParams;
   const rawGuestName = resolvedSearchParams?.to || '';
-  const guestName = rawGuestName.replace(/\+/g, ' '); 
+  const guestName = decodeURIComponent(rawGuestName.replace(/\+/g, ' ')); 
 
-  // 1. Ambil semua data klien (clients + client_details + client_media)
   const client = await getClientBySlug(slug);
 
-  // 2. Slug tidak ditemukan di DB atau klien tidak aktif → 404
   if (!client) {
     notFound();
   }
 
-  // 3. Pilih template berdasarkan template_id di database
-  //    Setiap template menerima `data` (objek Client) sebagai satu-satunya prop.
-  //    Import template secara dinamis menggunakan switch untuk code splitting.
   switch (client.template_id) {
     case 'classic-elegant': {
-      // Dynamic import: chunk JS template hanya dimuat saat dibutuhkan
       const { default: ClassicElegantTemplate } = await import(
         '@/components/templates/ClassicElegant'
       );
-      return <ClassicElegantTemplate data={client} />;
+      return <ClassicElegantTemplate data={client} guestName={guestName} />;
     }
 
     case 'modern-minimal': {
       const { default: ModernMinimalTemplate } = await import(
         '@/components/templates/ModernMinimal'
       );
-      return <ModernMinimalTemplate data={client} />;
+      return <ModernMinimalTemplate data={client} guestName={guestName} />;
     }
 
     case 'rustic-boho': {
       const { default: RusticBohoTemplate } = await import(
         '@/components/templates/RusticBoho'
       );
-      return <RusticBohoTemplate data={client} />;
+      return <RusticBohoTemplate data={client} guestName={guestName} />;
     }
 
     case 'magazine-theme': {
       const { default: MagazineTheme } = await import(
         '@/components/templates/MagazineTheme'
       );
-      return <MagazineTheme data={client} />;
+      return <MagazineTheme data={client} guestName={guestName} />;
     }
 
     case 'cream-rabbit': {
       const { default: CreamRabbitTemplate } = await import(
         '@/components/templates/CreamRabbit'
       );
-      return <CreamRabbitTemplate data={client} />;
+      return <CreamRabbitTemplate data={client} guestName={guestName} />;
     }
 
     case 'avant-garde-gallery': {
       const { default: AvantGardeGalleryTemplate } = await import(
         '@/components/templates/AvantGardeGallery'
       );
-      return <AvantGardeGalleryTemplate data={client} />;
+      return <AvantGardeGalleryTemplate data={client} guestName={guestName} />;
     }
 
     case 'modern-monarchy': {
       const { default: ModernMonarchyTemplate } = await import(
         '@/components/templates/ModernMonarchy'
       );
-      return <ModernMonarchyTemplate data={client} />;
+      return <ModernMonarchyTemplate data={client} guestName={guestName} />;
     }
 
     case 'golden-floral-template': {
@@ -171,18 +173,14 @@ export default async function InvitationPage(
       return <RoyalGoldTemplate data={client} guestName={guestName} />;
     }
 
-
-
     default: {
-      // Fallback: pakai classic-elegant jika template_id tidak dikenal
-      // (mencegah halaman blank jika admin input template_id yang typo)
       console.warn(
-        `[InvitationPage] Template "${client.template_id}" tidak dikenal untuk slug "${slug}". Fallback ke classic-elegant.`
+        `[InvitationPage] Template "${client.template_id}" tidak dikenal. Fallback ke classic-elegant.`
       );
       const { default: ClassicElegantTemplate } = await import(
         '@/components/templates/ClassicElegant'
       );
-      return <ClassicElegantTemplate data={client} />;
+      return <ClassicElegantTemplate data={client} guestName={guestName} />;
     }
   }
 }

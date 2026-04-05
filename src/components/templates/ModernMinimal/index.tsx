@@ -14,7 +14,7 @@ import GiftAndRsvp from './sections/GiftAndRsvp';
 import Closing from './sections/Closing';
 import MusicPlayer from './sections/MusicPlayer';
 
-export default function ModernMinimalTemplate({ data }: { data: Client }) {
+export default function ModernMinimalTemplate({ data, guestName }: { data: Client; guestName?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);

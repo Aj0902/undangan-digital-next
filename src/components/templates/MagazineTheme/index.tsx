@@ -15,7 +15,7 @@ import OpeningCover from "./sections/OpeningCover"; // New component required
 import EpicCallingSection from "./sections/EpicCallingSection"; // New component required
 import MusicPlayer from "./ui/MusicPlayer"; // New component required
 
-export default function MagazineTheme({ data }: { data: Client }) {
+export default function MagazineTheme({ data, guestName }: { data: Client; guestName?: string }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
