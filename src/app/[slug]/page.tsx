@@ -173,6 +173,13 @@ export default async function InvitationPage(
       return <RoyalGoldTemplate data={client} guestName={guestName} />;
     }
 
+    case 'neon-vogue': {
+      const { default: NeonVogueTemplate } = await import(
+        '@/components/templates/NeonVogue'
+      );
+      return <NeonVogueTemplate data={client} guestName={guestName} />;
+    }
+
     default: {
       console.warn(
         `[InvitationPage] Template "${client.template_id}" tidak dikenal. Fallback ke classic-elegant.`
