@@ -164,6 +164,13 @@ export default async function InvitationPage(
       return <GoldenFloralTemplate data={client} guestName={guestName} />;
     }
 
+    case 'royal-gold': {
+      const { default: RoyalGoldTemplate } = await import(
+        '@/components/templates/RoyalGold'
+      );
+      return <RoyalGoldTemplate data={client} guestName={guestName} />;
+    }
+
 
 
     default: {
