@@ -62,7 +62,7 @@ export async function uploadToCloudinary(
     const stream = cloudinary.uploader.upload_stream(
       {
         public_id:     `undangan-digital/${slug}/${mediaKey}`,
-        resource_type: resourceType,
+        resource_type: 'auto',
         overwrite:     true,  // Re-upload akan menimpa file lama secara otomatis
         // Catatan: folder TIDAK perlu ditulis terpisah karena public_id sudah
         // memuat path lengkap. Menulis keduanya menyebabkan path terduplikasi.

@@ -1,23 +1,37 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 // scripts/make-template.js
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Njupuk argumen soko terminal (misal: npm run make:template RusticBoho)
 const templateName = process.argv[2];
 
 if (!templateName) {
-  console.error('❌ Error: Masukkan nama template! (Contoh: npm run make:template RusticBoho)');
+  console.error(
+    "❌ Error: Masukkan nama template! (Contoh: npm run make:template RusticBoho)",
+  );
   process.exit(1);
 }
 
 // Ngowahi PascalCase dadi kebab-case nggo ID (RusticBoho -> rustic-boho)
-const templateId = templateName.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+const templateId = templateName
+  .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+  .toLowerCase();
 
 // Path folder sing arep digawe
-const baseDir = path.join(__dirname, '../src/components/templates', templateName);
-const sectionsDir = path.join(baseDir, 'sections');
-const uiDir = path.join(baseDir, 'ui');
-const assetsDir = path.join(__dirname, '../public/assets', templateName, 'images');
+const baseDir = path.join(
+  __dirname,
+  "../src/components/templates",
+  templateName,
+);
+const sectionsDir = path.join(baseDir, "sections");
+const uiDir = path.join(baseDir, "ui");
+const assetsDir = path.join(
+  __dirname,
+  "../public/assets",
+  templateName,
+  "images",
+);
 
 // Fungsi nggawe folder
 const createDir = (dir) => {
@@ -65,7 +79,9 @@ export const MEDIA_MANIFEST = [n
 `;
 
 // Eksekusi nggawe file
-fs.writeFileSync(path.join(baseDir, 'index.tsx'), indexContent);
-fs.writeFileSync(path.join(baseDir, 'manifest.ts'), manifestContent);
+fs.writeFileSync(path.join(baseDir, "index.tsx"), indexContent);
+fs.writeFileSync(path.join(baseDir, "manifest.ts"), manifestContent);
 
-console.log(`\n✅ BERHASIL! Template ${templateName} siap dieksekusi di src/components/templates/${templateName}`);
+console.log(
+  `\n✅ BERHASIL! Template ${templateName} siap dieksekusi di src/components/templates/${templateName}`,
+);

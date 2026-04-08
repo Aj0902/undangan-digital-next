@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Montserrat } from "next/font/google";
+import { Cormorant_Garamond, Montserrat, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
@@ -26,13 +26,16 @@ export const metadata: Metadata = {
 
 import { Toaster } from 'sonner';
 
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="scroll-smooth">
+    <html lang="id" className={cn("scroll-smooth", "font-sans", geist.variable)}>
       <body 
         className={cn(
           cormorant.variable, 

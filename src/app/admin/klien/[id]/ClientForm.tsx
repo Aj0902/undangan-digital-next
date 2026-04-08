@@ -11,6 +11,15 @@ import { useForm, useFieldArray } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast, Toaster } from 'sonner'
 
+// shadcn/ui components
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+
 import { updateClientAction, uploadMediaAction, deleteClientAction } from '../../actions'
 import { clientFormSchema, type ClientFormValues } from '@/lib/validations/client'
 import { AVAILABLE_TEMPLATES } from '@/lib/templates'
@@ -141,10 +150,10 @@ export default function ClientForm({ client }: ClientFormProps) {
            </div>
         </div>
         <div className="flex items-center gap-3">
-            <button onClick={handleDelete} disabled={isDeleting} className="px-6 py-3.5 bg-red-950/30 text-red-400 hover:bg-red-900/50 hover:text-white font-bold rounded-2xl transition-all duration-300 flex items-center gap-2 border border-red-500/20 uppercase tracking-widest text-[10px]">
+            <Button onClick={handleDelete} disabled={isDeleting} variant="destructive" className="rounded-2xl border border-red-500/20 uppercase tracking-widest text-[10px] font-bold h-auto py-3.5 px-6">
               {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
               Delete Identity
-            </button>
+            </Button>
         </div>
       </div>
 
@@ -153,212 +162,240 @@ export default function ClientForm({ client }: ClientFormProps) {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
              
              {/* 1. Konfigurasi Dasar */}
-             <section className="bg-[#111]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 shadow-2xl p-8 space-y-6 relative overflow-hidden">
+             <Card className="bg-[#111]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 shadow-2xl p-8 space-y-6 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-[50px] rounded-full" />
-                <div className="flex items-center gap-4 border-b border-white/5 pb-6">
-                  <div className="p-2.5 bg-amber-500/10 rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.1)] border border-amber-500/20">
-                    <Settings className="w-5 h-5 text-amber-500" />
+                <CardHeader className="p-0 space-y-0">
+                  <div className="flex items-center gap-4 border-b border-white/5 pb-6">
+                    <div className="p-2.5 bg-amber-500/10 rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.1)] border border-amber-500/20">
+                      <Settings className="w-5 h-5 text-amber-500" />
+                    </div>
+                    <CardTitle className="text-xl font-bold text-white uppercase tracking-widest">1. Blueprint Config</CardTitle>
                   </div>
-                  <h2 className="text-xl font-bold text-white uppercase tracking-widest">1. Blueprint Config</h2>
-                </div>
+                </CardHeader>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-bold text-white/50 block uppercase tracking-widest leading-none mb-1">URL Slug</label>
-                    <input {...register('slug')} className="w-full px-6 py-4 bg-black/50 border border-white/10 rounded-2xl focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-all outline-none text-white font-bold text-sm" />
-                    {errors.slug && <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{errors.slug.message}</p>}
+                <CardContent className="p-0 space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                    <div className="space-y-3">
+                      <Label className="text-[10px] font-bold text-white/50 block uppercase tracking-widest leading-none mb-1">URL Slug</Label>
+                      <Input {...register('slug')} className="bg-black/50 border-white/10 rounded-2xl h-14" />
+                      {errors.slug && <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{errors.slug.message}</p>}
+                    </div>
+
+                    <div className="space-y-3">
+                      <Label className="text-[10px] font-bold text-white/50 block uppercase tracking-widest mb-1">Select Theme Engine</Label>
+                      <select {...register('template_id')} className="w-full px-6 py-4 bg-black/50 border border-white/10 rounded-2xl focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-all outline-none text-white font-bold cursor-pointer text-sm">
+                        <option value="" className="bg-black text-white/50">-- Choose Template --</option>
+                        {AVAILABLE_TEMPLATES.map(t => (
+                          <option key={t.id} value={t.id} className="bg-black text-white">{t.name}</option>
+                        ))}
+                      </select>
+                      {errors.template_id && <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{errors.template_id.message}</p>}
+                    </div>
                   </div>
 
-                  <div className="space-y-3">
-                    <label className="text-[10px] font-bold text-white/50 block uppercase tracking-widest mb-1">Select Theme Engine</label>
-                    <select {...register('template_id')} className="w-full px-6 py-4 bg-black/50 border border-white/10 rounded-2xl focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-all outline-none text-white font-bold cursor-pointer text-sm">
-                      <option value="" className="bg-black text-white/50">-- Choose Template --</option>
-                      {AVAILABLE_TEMPLATES.map(t => (
-                        <option key={t.id} value={t.id} className="bg-black text-white">{t.name}</option>
-                      ))}
-                    </select>
-                    {errors.template_id && <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{errors.template_id.message}</p>}
+                  <div className="flex items-center gap-4 p-5 bg-black/30 rounded-2xl border border-white/5 relative z-10">
+                    <div className="flex items-center space-x-2">
+                       <Checkbox 
+                        id="is_active" 
+                        defaultChecked={client.is_active}
+                        onCheckedChange={(checked) => {
+                          const val = checked === true
+                          const event = { target: { name: 'is_active', value: val } }
+                          register('is_active').onChange(event as any)
+                        }}
+                      />
+                      <Label htmlFor="is_active" className="text-sm font-bold text-white/70 tracking-wide cursor-pointer">Publish Immediately (Active State)</Label>
+                    </div>
                   </div>
-                </div>
-
-                <div className="flex items-center gap-4 p-5 bg-black/30 rounded-2xl border border-white/5 relative z-10">
-                   <input {...register('is_active')} type="checkbox" className="w-6 h-6 rounded border border-white/20 bg-black/50 text-emerald-500 focus:ring-1 focus:ring-emerald-500/50 cursor-pointer" />
-                   <label className="flex-1 text-sm font-bold text-white/70 tracking-wide">Publish Immediately (Active State)</label>
-                </div>
-             </section>
+                </CardContent>
+             </Card>
 
              {/* 2. Data Pengantin & Keluarga */}
-             <section className="bg-[#111]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 shadow-2xl p-8 space-y-6">
-                <div className="flex items-center gap-4 border-b border-white/5 pb-6">
-                  <div className="p-2.5 bg-rose-500/10 rounded-xl shadow-[0_0_15px_rgba(244,63,94,0.1)] border border-rose-500/20">
-                    <Heart className="w-5 h-5 text-rose-500" />
+             <Card className="bg-[#111]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 shadow-2xl p-8 space-y-6">
+                <CardHeader className="p-0">
+                  <div className="flex items-center gap-4 border-b border-white/5 pb-6">
+                    <div className="p-2.5 bg-rose-500/10 rounded-xl shadow-[0_0_15px_rgba(244,63,94,0.1)] border border-rose-500/20">
+                      <Heart className="w-5 h-5 text-rose-500" />
+                    </div>
+                    <CardTitle className="text-xl font-bold text-white uppercase tracking-widest">2. The Couple</CardTitle>
                   </div>
-                  <h2 className="text-xl font-bold text-white uppercase tracking-widest">2. The Couple</h2>
-                </div>
+                </CardHeader>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* Wanita */}
-                  <div className="space-y-4 p-8 bg-rose-950/20 rounded-3xl border border-rose-500/20">
-                    <h3 className="text-[10px] font-extrabold text-rose-400 uppercase tracking-[0.3em]">The Bride</h3>
-                    <input {...register('bride_name')} placeholder="Nickname" className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-rose-500 focus:border-rose-500 text-sm font-bold text-white" />
-                    <input {...register('bride_full_name')} placeholder="Full Legal Name" className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-rose-500 focus:border-rose-500 text-sm font-medium text-white/80" />
-                    <input {...register('bride_parents')} placeholder="Parents Name" className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-rose-500 focus:border-rose-500 text-sm font-medium text-white/80" />
+                <CardContent className="p-0 space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Wanita */}
+                    <div className="space-y-4 p-8 bg-rose-950/20 rounded-3xl border border-rose-500/20">
+                      <h3 className="text-[10px] font-extrabold text-rose-400 uppercase tracking-[0.3em]">The Bride</h3>
+                      <Input {...register('bride_name')} placeholder="Nickname" className="bg-black/50 border-white/10" />
+                      <Input {...register('bride_full_name')} placeholder="Full Legal Name" className="bg-black/50 border-white/10" />
+                      <Input {...register('bride_parents')} placeholder="Parents Name" className="bg-black/50 border-white/10" />
+                    </div>
+                    
+                    {/* Pria */}
+                    <div className="space-y-4 p-8 bg-indigo-950/20 rounded-3xl border border-indigo-500/20">
+                      <h3 className="text-[10px] font-extrabold text-indigo-400 uppercase tracking-[0.3em]">The Groom</h3>
+                      <Input {...register('groom_name')} placeholder="Nickname" className="bg-black/50 border-white/10" />
+                      <Input {...register('groom_full_name')} placeholder="Full Legal Name" className="bg-black/50 border-white/10" />
+                      <Input {...register('groom_parents')} placeholder="Parents Name" className="bg-black/50 border-white/10" />
+                    </div>
                   </div>
                   
-                  {/* Pria */}
-                  <div className="space-y-4 p-8 bg-indigo-950/20 rounded-3xl border border-indigo-500/20">
-                    <h3 className="text-[10px] font-extrabold text-indigo-400 uppercase tracking-[0.3em]">The Groom</h3>
-                    <input {...register('groom_name')} placeholder="Nickname" className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-sm font-bold text-white" />
-                    <input {...register('groom_full_name')} placeholder="Full Legal Name" className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-sm font-medium text-white/80" />
-                    <input {...register('groom_parents')} placeholder="Parents Name" className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 text-sm font-medium text-white/80" />
+                  {/* Prologue */}
+                  <div className="space-y-3 mt-6">
+                    <Label className="text-[10px] font-extrabold text-white/40 uppercase tracking-[0.2em] px-1">Prologue Text</Label>
+                    <Textarea {...register('prologue_text')} rows={3} placeholder="Write something beautiful..." className="bg-black/50 border-white/10 rounded-2xl resize-none" />
                   </div>
-                </div>
-                
-                {/* Prologue */}
-                <div className="space-y-3 mt-6">
-                  <label className="text-[10px] font-extrabold text-white/40 uppercase tracking-[0.2em] px-1">Prologue Text</label>
-                  <textarea {...register('prologue_text')} rows={3} placeholder="Write something beautiful..." className="w-full px-6 py-4 bg-black/50 border border-white/10 rounded-2xl focus:ring-1 focus:ring-amber-500 focus:border-amber-500 text-sm font-medium text-white/80 resize-none" />
-                </div>
-             </section>
+                </CardContent>
+             </Card>
 
              {/* 3. Data Acara */}
-             <section className="bg-[#111]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 shadow-2xl p-8 space-y-6">
-                <div className="flex items-center gap-4 border-b border-white/5 pb-6">
-                  <div className="p-2.5 bg-emerald-500/10 rounded-xl shadow-[0_0_15px_rgba(52,211,153,0.1)] border border-emerald-500/20">
-                    <Calendar className="w-5 h-5 text-emerald-400" />
+             <Card className="bg-[#111]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 shadow-2xl p-8 space-y-6">
+                <CardHeader className="p-0">
+                  <div className="flex items-center gap-4 border-b border-white/5 pb-6">
+                    <div className="p-2.5 bg-emerald-500/10 rounded-xl shadow-[0_0_15px_rgba(52,211,153,0.1)] border border-emerald-500/20">
+                      <Calendar className="w-5 h-5 text-emerald-400" />
+                    </div>
+                    <CardTitle className="text-xl font-bold text-white uppercase tracking-widest">3. Event Timeline</CardTitle>
                   </div>
-                  <h2 className="text-xl font-bold text-white uppercase tracking-widest">3. Event Timeline</h2>
-                </div>
+                </CardHeader>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* Akad */}
-                  <div className="space-y-4 p-8 bg-[#0a0a0a]/50 rounded-3xl border border-white/5">
-                    <h3 className="text-[10px] font-extrabold text-emerald-400 uppercase tracking-[0.3em]">Akad Nikah</h3>
-                    <input type="datetime-local" {...register('akad_datetime')} className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 text-sm font-medium text-white/80 [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
-                    <input {...register('akad_venue_name')} placeholder="Venue Name" className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 text-sm font-medium text-white/80" />
-                    <textarea {...register('akad_venue_address')} placeholder="Full Address" rows={2} className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 text-sm font-medium text-white/80 resize-none" />
+                <CardContent className="p-0 space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Akad */}
+                    <div className="space-y-4 p-8 bg-[#0a0a0a]/50 rounded-3xl border border-white/5">
+                      <h3 className="text-[10px] font-extrabold text-emerald-400 uppercase tracking-[0.3em]">Akad Nikah</h3>
+                      <Input type="datetime-local" {...register('akad_datetime')} className="bg-black/50 border-white/10 [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
+                      <Input {...register('akad_venue_name')} placeholder="Venue Name" className="bg-black/50 border-white/10" />
+                      <Textarea {...register('akad_venue_address')} placeholder="Full Address" rows={2} className="bg-black/50 border-white/10 rounded-xl resize-none" />
+                    </div>
+                    
+                    {/* Resepsi */}
+                    <div className="space-y-4 p-8 bg-[#0a0a0a]/50 rounded-3xl border border-white/5">
+                      <h3 className="text-[10px] font-extrabold text-amber-500 uppercase tracking-[0.3em]">Resepsi</h3>
+                      <Input type="datetime-local" {...register('resepsi_datetime')} className="bg-black/50 border-white/10 [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
+                      <Input {...register('resepsi_venue_name')} placeholder="Venue Name" className="bg-black/50 border-white/10" />
+                      <Textarea {...register('resepsi_venue_address')} placeholder="Full Address" rows={2} className="bg-black/50 border-white/10 rounded-xl resize-none" />
+                    </div>
                   </div>
-                  
-                  {/* Resepsi */}
-                  <div className="space-y-4 p-8 bg-[#0a0a0a]/50 rounded-3xl border border-white/5">
-                    <h3 className="text-[10px] font-extrabold text-amber-500 uppercase tracking-[0.3em]">Resepsi</h3>
-                    <input type="datetime-local" {...register('resepsi_datetime')} className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-amber-500 focus:border-amber-500 text-sm font-medium text-white/80 [&::-webkit-calendar-picker-indicator]:filter [&::-webkit-calendar-picker-indicator]:invert" />
-                    <input {...register('resepsi_venue_name')} placeholder="Venue Name" className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-amber-500 focus:border-amber-500 text-sm font-medium text-white/80" />
-                    <textarea {...register('resepsi_venue_address')} placeholder="Full Address" rows={2} className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-amber-500 focus:border-amber-500 text-sm font-medium text-white/80 resize-none" />
-                  </div>
-                </div>
-             </section>
+                </CardContent>
+             </Card>
 
              {/* 4. Rekening Hadiah (Dynamic Array) */}
-             <section className="bg-[#111]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 shadow-2xl p-8 space-y-6">
-                <div className="flex items-center justify-between border-b border-white/5 pb-6">
-                  <h2 className="text-xl font-bold text-white uppercase tracking-widest">4. Digital Gift</h2>
-                  <button type="button" onClick={() => appendBank({ bank: '', name: '', number: '' })} className="px-5 py-2.5 bg-amber-500/10 border border-amber-500/20 text-amber-500 rounded-xl font-bold text-[10px] hover:bg-amber-500/20 transition-all flex items-center gap-2 uppercase tracking-widest">
-                    <PlusCircle className="w-4 h-4" /> Add Row 
-                  </button>
-                </div>
+             <Card className="bg-[#111]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 shadow-2xl p-8 space-y-6">
+                <CardHeader className="p-0">
+                  <div className="flex items-center justify-between border-b border-white/5 pb-6">
+                    <CardTitle className="text-xl font-bold text-white uppercase tracking-widest">4. Digital Gift</CardTitle>
+                    <Button type="button" variant="outline" onClick={() => appendBank({ bank: '', name: '', number: '' })} className="bg-amber-500/10 border-amber-500/20 text-amber-500 hover:bg-amber-500/20 hover:text-amber-400 font-bold text-[10px] uppercase tracking-widest">
+                      <PlusCircle className="w-4 h-4 mr-2" /> Add Row 
+                    </Button>
+                  </div>
+                </CardHeader>
                 
-                <div className="space-y-4">
+                <CardContent className="p-0 space-y-4">
                   {bankFields.map((field, index) => (
                     <div key={field.id} className="flex gap-4 items-start p-6 bg-[#0a0a0a]/50 rounded-3xl border border-white/5 relative group">
                       <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <input {...register(`bank_accounts.${index}.bank` as const)} placeholder="Bank (ex: BCA)" required className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-amber-500 focus:border-amber-500 text-sm font-bold text-white" />
-                        <input {...register(`bank_accounts.${index}.number` as const)} placeholder="Account No" required className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-amber-500 focus:border-amber-500 text-sm font-bold text-white font-mono" />
-                        <input {...register(`bank_accounts.${index}.name` as const)} placeholder="A.N Name" required className="w-full px-5 py-3.5 bg-black/50 border border-white/10 rounded-xl focus:ring-1 focus:ring-amber-500 focus:border-amber-500 text-sm font-bold text-white" />
+                        <Input {...register(`bank_accounts.${index}.bank` as const)} placeholder="Bank (ex: BCA)" required className="bg-black/50 border-white/10" />
+                        <Input {...register(`bank_accounts.${index}.number` as const)} placeholder="Account No" required className="bg-black/50 border-white/10 font-mono" />
+                        <Input {...register(`bank_accounts.${index}.name` as const)} placeholder="A.N Name" required className="bg-black/50 border-white/10" />
                       </div>
-                      <button type="button" onClick={() => removeBank(index)} className="p-3 text-white/20 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all">
+                      <Button type="button" variant="ghost" size="icon" onClick={() => removeBank(index)} className="text-white/20 hover:text-red-400 hover:bg-red-500/10 transition-all">
                         <MinusCircle className="w-6 h-6" />
-                      </button>
+                      </Button>
                     </div>
                   ))}
-                </div>
-                
-                {bankFields.length === 0 && (
-                  <div className="text-center p-12 border-2 border-dashed border-white/10 rounded-3xl bg-[#0a0a0a]/30">
-                     <p className="text-[10px] uppercase font-bold text-white/30 tracking-[0.2em]">No Bank Accounts Attached</p>
-                  </div>
-                )}
-             </section>
+                  
+                  {bankFields.length === 0 && (
+                    <div className="text-center p-12 border-2 border-dashed border-white/10 rounded-3xl bg-[#0a0a0a]/30">
+                       <p className="text-[10px] uppercase font-bold text-white/30 tracking-[0.2em]">No Bank Accounts Attached</p>
+                    </div>
+                  )}
+                </CardContent>
+             </Card>
 
-             <button type="submit" disabled={isUpdating} className="w-full h-20 bg-amber-500 hover:bg-amber-400 text-black text-lg font-extrabold tracking-widest uppercase rounded-[2rem] transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] flex items-center justify-center gap-3 transform hover:-translate-y-1 active:translate-y-0">
+             <Button type="submit" disabled={isUpdating} className="w-full h-20 bg-amber-500 hover:bg-amber-400 text-black text-lg font-extrabold tracking-widest uppercase rounded-[2rem] transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.4)] flex items-center justify-center gap-3 transform hover:-translate-y-1 active:translate-y-0">
                {isUpdating ? <Loader2 className="w-6 h-6 animate-spin" /> : <Save className="w-6 h-6" />}
                Save Master Data
-             </button>
+             </Button>
           </form>
         </div>
 
         {/* Media Management - SIDEBAR */}
         <div className="space-y-10">
-          <section className="bg-[#111]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 shadow-2xl p-8 space-y-8 h-full sticky top-28 overflow-hidden relative">
+          <Card className="bg-[#111]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 shadow-2xl p-8 space-y-8 h-full sticky top-28 overflow-hidden relative">
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-amber-500/5 blur-[40px] rounded-full pointer-events-none" />
-            <div className="flex items-center gap-4 border-b border-white/5 pb-6">
-                <div className="p-2.5 bg-amber-500/10 rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.1)] border border-amber-500/20">
-                  <ImageIcon className="w-5 h-5 text-amber-500" />
-                </div>
-                <h2 className="text-xl font-bold text-white uppercase tracking-widest">Media Assets</h2>
-            </div>
-            
-            <div className="p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
-              <p className="text-[10px] text-amber-500/70 font-bold leading-relaxed uppercase tracking-wider">
-                Note: Files upload instantly to cloud storage. Use portrait ratios for High-Quality Covers.
-              </p>
-            </div>
-
-            <div className="space-y-10 relative z-10">
-              {['cover', 'music', 'gallery_01', 'gallery_02', 'gallery_03'].map((key) => {
-                const url = getMediaUrl(key)
-                const isMusic = key === 'music'
-                
-                return (
-                  <div key={key} className="group relative">
-                    <div className="flex items-center justify-between mb-3 px-1">
-                      <label className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em] flex items-center gap-2">
-                        {isMusic ? <Music className="w-3.5 h-3.5 text-amber-500/50" /> : <ImageIcon className="w-3.5 h-3.5 text-amber-500/50" />}
-                        {key.replace('_', ' ')}
-                      </label>
-                      {url && <Check className="w-4 h-4 text-emerald-500" />}
-                    </div>
-
-                    <div className={`relative ${isMusic ? 'h-[70px]' : 'aspect-video'} rounded-3xl bg-black/50 overflow-hidden border border-dashed ${isUploading === key ? 'border-amber-500' : 'border-white/20'} transition-all`}>
-                        {isUploading === key ? (
-                          <div className="absolute inset-0 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center z-10 border border-amber-500/50 rounded-3xl">
-                            <Loader2 className="w-6 h-6 animate-spin text-amber-500 mb-2" />
-                            <span className="text-[10px] font-bold text-amber-500 uppercase tracking-[0.2em]">Uploading</span>
-                          </div>
-                        ) : url ? (
-                          <>
-                            {isMusic ? (
-                               <div className="flex items-center h-full px-6 gap-4">
-                                  <div className="p-3 bg-amber-500/10 rounded-full border border-amber-500/20 text-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.2)]">
-                                    <Music className="w-4 h-4" />
-                                  </div>
-                                  <span className="text-[10px] font-bold text-white/50 truncate uppercase tracking-widest">Audio Active</span>
-                               </div>
-                            ) : (
-                               <img src={url} alt={key} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" />
-                            )}
-                            <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black via-black/80 to-transparent flex justify-end transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                               <label className="p-3 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-white cursor-pointer hover:bg-amber-500 hover:text-black hover:border-amber-500 transition-all shadow-2xl">
-                                  <Upload className="w-4 h-4" />
-                                  <input type="file" className="hidden" accept={isMusic ? "audio/*" : "image/*"} onChange={(e) => handleMediaUpload(key, isMusic ? 'audio' : 'image', e)} />
-                               </label>
-                            </div>
-                          </>
-                        ) : (
-                          <label className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer hover:bg-white/5 transition-all group-hover:border-amber-500/50">
-                             <div className="p-4 bg-white/5 border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)] rounded-2xl text-white/30 group-hover:text-amber-500 transition-colors">
-                               <Plus className="w-5 h-5" />
-                             </div>
-                             <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/30 mt-4 group-hover:text-amber-500/70 transition-colors">Upload {key}</span>
-                             <input type="file" className="hidden" accept={isMusic ? "audio/*" : "image/*"} onChange={(e) => handleMediaUpload(key, isMusic ? 'audio' : 'image', e)} />
-                          </label>
-                        )}
-                    </div>
+            <CardHeader className="p-0">
+              <div className="flex items-center gap-4 border-b border-white/5 pb-6">
+                  <div className="p-2.5 bg-amber-500/10 rounded-xl shadow-[0_0_15px_rgba(245,158,11,0.1)] border border-amber-500/20">
+                    <ImageIcon className="w-5 h-5 text-amber-500" />
                   </div>
-                )
-              })}
-            </div>
-          </section>
+                  <CardTitle className="text-xl font-bold text-white uppercase tracking-widest">Media Assets</CardTitle>
+              </div>
+            </CardHeader>
+            
+            <CardContent className="p-0 space-y-8 h-full">
+              <div className="p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl">
+                <p className="text-[10px] text-amber-500/70 font-bold leading-relaxed uppercase tracking-wider">
+                  Note: Files upload instantly to cloud storage. Use portrait ratios for High-Quality Covers.
+                </p>
+              </div>
+
+              <div className="space-y-10 relative z-10">
+                {['cover', 'music', 'gallery_01', 'gallery_02', 'gallery_03'].map((key) => {
+                  const url = getMediaUrl(key)
+                  const isMusic = key === 'music'
+                  
+                  return (
+                    <div key={key} className="group relative">
+                      <div className="flex items-center justify-between mb-3 px-1">
+                        <Label className="text-[10px] font-bold text-white/50 uppercase tracking-[0.2em] flex items-center gap-2">
+                          {isMusic ? <Music className="w-3.5 h-3.5 text-amber-500/50" /> : <ImageIcon className="w-3.5 h-3.5 text-amber-500/50" />}
+                          {key.replace('_', ' ')}
+                        </Label>
+                        {url && <Check className="w-4 h-4 text-emerald-500" />}
+                      </div>
+
+                      <div className={`relative ${isMusic ? 'h-[70px]' : 'aspect-video'} rounded-3xl bg-black/50 overflow-hidden border border-dashed ${isUploading === key ? 'border-amber-500' : 'border-white/20'} transition-all`}>
+                          {isUploading === key ? (
+                            <div className="absolute inset-0 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center z-10 border border-amber-500/50 rounded-3xl">
+                              <Loader2 className="w-6 h-6 animate-spin text-amber-500 mb-2" />
+                              <span className="text-[10px] font-bold text-amber-500 uppercase tracking-[0.2em]">Uploading</span>
+                            </div>
+                          ) : url ? (
+                            <>
+                              {isMusic ? (
+                                <div className="flex items-center h-full px-6 gap-4">
+                                    <div className="p-3 bg-amber-500/10 rounded-full border border-amber-500/20 text-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.2)]">
+                                      <Music className="w-4 h-4" />
+                                    </div>
+                                    <span className="text-[10px] font-bold text-white/50 truncate uppercase tracking-widest">Audio Active</span>
+                                </div>
+                              ) : (
+                                <img src={url} alt={key} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80" />
+                              )}
+                              <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black via-black/80 to-transparent flex justify-end transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                                <label className="p-3 bg-white/10 backdrop-blur-md rounded-xl border border-white/20 text-white cursor-pointer hover:bg-amber-500 hover:text-black hover:border-amber-500 transition-all shadow-2xl">
+                                    <Upload className="w-4 h-4" />
+                                    <input type="file" className="hidden" accept={isMusic ? "audio/*" : "image/*"} onChange={(e) => handleMediaUpload(key, isMusic ? 'audio' : 'image', e)} />
+                                </label>
+                              </div>
+                            </>
+                          ) : (
+                            <label className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer hover:bg-white/5 transition-all group-hover:border-amber-500/50">
+                               <div className="p-4 bg-white/5 border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)] rounded-2xl text-white/30 group-hover:text-amber-500 transition-colors">
+                                 <Plus className="w-5 h-5" />
+                               </div>
+                               <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/30 mt-4 group-hover:text-amber-500/70 transition-colors">Upload {key}</span>
+                               <input type="file" className="hidden" accept={isMusic ? "audio/*" : "image/*"} onChange={(e) => handleMediaUpload(key, isMusic ? 'audio' : 'image', e)} />
+                            </label>
+                          )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
