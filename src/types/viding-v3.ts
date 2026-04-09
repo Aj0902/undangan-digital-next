@@ -75,7 +75,7 @@ export const BaseSectionSchema = z.object({
   id: z.string(),
   type: z.string(),
   title: z.string().optional(),
-  isVisible: z.boolean().default(true),
+  isVisible: z.boolean().optional().default(true),
   background: BackgroundSchema.default({ type: "color", value: "#1a1f24", opacity: 1, effect: "none" }),
   ornaments: z.array(OrnamentSchema).default([]),
   

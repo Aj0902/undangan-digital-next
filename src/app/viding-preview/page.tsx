@@ -15,6 +15,7 @@ const SAMPLE_DOCUMENT: VidingDocument = {
       type: "cover",
       id: "cover-1",
       title: "Wedding Invitation",
+      isVisible: true,
       background: {
         type: "image",
         url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
