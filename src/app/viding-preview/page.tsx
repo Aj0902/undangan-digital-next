@@ -19,6 +19,8 @@ const SAMPLE_DOCUMENT: VidingDocument = {
         type: "image",
         url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
         effect: "none",
+        value: "#ffffff",
+        opacity: 1,
       },
       backgroundColor: "#1a1f3d",
       backgroundOverlay: {

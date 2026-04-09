@@ -23,8 +23,9 @@ export const BackgroundSchema = z.object({
   value: z.string().optional().default("#ffffff"), // Hex color if type is color
   url: z.string().optional(), // Legacy URL field
   fileUrl: z.string().nullable().optional(), // Builder URL field
-  opacity: z.number().min(0).max(1).default(1),
-  effect: z.enum(["none", "aurora", "noise"]).default("none"),
+  fallbackImage: z.string().optional(), // Legacy fallback field
+  opacity: z.number().min(0).max(1).optional().default(1),
+  effect: z.enum(["none", "aurora", "noise"]).optional().default("none"),
 });
 
 export type Background = z.infer<typeof BackgroundSchema>;
@@ -80,6 +81,7 @@ export const BaseSectionSchema = z.object({
   
   // Fields from legacy schemas
   backgroundColor: z.string().optional(),
+  backgroundImage: z.string().optional(),
   backgroundOverlay: z.object({
     enabled: z.boolean().default(false),
     color: z.string().default("#000000"),
@@ -110,9 +112,9 @@ export type GaleriSection = Section;
  * SKEMA PENGATURAN GLOBAL
  */
 export const GlobalSettingsSchema = z.object({
-  primaryColor: z.string().default("#1a2e25"),
-  accentColor: z.string().default("#d4af37"),
-  fontFamily: z.string().default("Cormorant Garamond"),
+  primaryColor: z.string().optional().default("#1a2e25"),
+  accentColor: z.string().optional().default("#d4af37"),
+  fontFamily: z.string().optional().default("Cormorant Garamond"),
   breakpoints: z.object({
     mobile: z.number().default(640),
     tablet: z.number().default(1024),
