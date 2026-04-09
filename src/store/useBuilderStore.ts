@@ -75,8 +75,8 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
       isVisible: true,
       background: { type: 'color', value: '#1a1f24', opacity: 0.8 },
       ornaments: [
-        { id: 'orn-1', type: 'bunga-sudut', src: null, x: 85, y: 10, scale: 1.5, animate: 'float', rotation: 0, opacity: 1 },
-        { id: 'orn-2', type: 'bunga-sudut', src: null, x: 15, y: 90, scale: 1.5, animate: 'float', rotation: 180, opacity: 1 }
+        { id: 'orn-1', type: 'bunga-sudut', src: null, x: 85, y: 10, scale: 1.5, animate: 'float', rotation: 0, opacity: 1, zIndex: 0 },
+        { id: 'orn-2', type: 'bunga-sudut', src: null, x: 15, y: 90, scale: 1.5, animate: 'float', rotation: 180, opacity: 1, zIndex: 0 }
       ]
     },
     'seksi-mempelai': {
@@ -92,7 +92,7 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
       isVisible: true,
       background: { type: 'color', value: '#1a1f24', opacity: 1 },
       ornaments: [
-        { id: 'orn-3', type: 'daun-emas', src: null, x: 50, y: 50, scale: 3, animate: 'none', rotation: 0, opacity: 1 }
+        { id: 'orn-3', type: 'daun-emas', src: null, x: 50, y: 50, scale: 3, animate: 'none', rotation: 0, opacity: 1, zIndex: 0 }
       ]
     },
     'seksi-acara': {

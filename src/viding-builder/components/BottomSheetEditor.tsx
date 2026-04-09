@@ -78,6 +78,7 @@ export function BottomSheetEditor() {
         scale: 1,
         rotation: 0,
         opacity: 1,
+        zIndex: 0,
         animate: 'none'
       });
       setSubTab('ornamen');
@@ -366,6 +367,7 @@ export function BottomSheetEditor() {
                                   scale: 1,
                                   rotation: 0,
                                   opacity: 1,
+                                  zIndex: 0,
                                   animate: 'none'
                                 });
                               }}
