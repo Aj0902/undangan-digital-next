@@ -73,7 +73,9 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
       id: 'seksi-cover',
       type: 'Cover',
       isVisible: true,
-      background: { type: 'color', value: '#1a1f24', opacity: 0.8 },
+      background: { type: 'color', value: '#1a1f24', opacity: 0.8, effect: 'none' },
+      backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
+      layout: 'center',
       ornaments: [
         { id: 'orn-1', type: 'bunga-sudut', src: null, x: 85, y: 10, scale: 1.5, animate: 'float', rotation: 0, opacity: 1, zIndex: 0 },
         { id: 'orn-2', type: 'bunga-sudut', src: null, x: 15, y: 90, scale: 1.5, animate: 'float', rotation: 180, opacity: 1, zIndex: 0 }
@@ -83,14 +85,18 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
       id: 'seksi-mempelai',
       type: 'Mempelai',
       isVisible: true,
-      background: { type: 'color', value: '#242a30', opacity: 1 },
+      background: { type: 'color', value: '#242a30', opacity: 1, effect: 'none' },
+      backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
+      layout: 'center',
       ornaments: []
     },
     'seksi-galeri': {
       id: 'seksi-galeri',
       type: 'Galeri',
       isVisible: true,
-      background: { type: 'color', value: '#1a1f24', opacity: 1 },
+      background: { type: 'color', value: '#1a1f24', opacity: 1, effect: 'none' },
+      backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
+      layout: 'center',
       ornaments: [
         { id: 'orn-3', type: 'daun-emas', src: null, x: 50, y: 50, scale: 3, animate: 'none', rotation: 0, opacity: 1, zIndex: 0 }
       ]
@@ -99,7 +105,9 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
       id: 'seksi-acara',
       type: 'Acara',
       isVisible: true,
-      background: { type: 'color', value: '#242a30', opacity: 1 },
+      background: { type: 'color', value: '#242a30', opacity: 1, effect: 'none' },
+      backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
+      layout: 'center',
       ornaments: []
     }
   },

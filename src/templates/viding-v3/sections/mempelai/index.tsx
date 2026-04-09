@@ -125,7 +125,7 @@ export function MempelaiSectionRenderer({
         )}
       </motion.div>
 
-      {section.ornaments.map((ornament) => (
+      {section.ornaments.map((ornament: Ornament) => (
         <OrnamentRenderer
           key={ornament.id}
           ornament={ornament}

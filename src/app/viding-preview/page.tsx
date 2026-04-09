@@ -45,6 +45,10 @@ const SAMPLE_DOCUMENT: VidingDocument = {
           rotation: 0,
           opacity: 0.8,
           zIndex: 2,
+          x: 18,
+          y: 25,
+          scale: 1,
+          animate: "none",
           animation: {
             type: "bounce",
             duration: 1.4,
@@ -61,6 +65,10 @@ const SAMPLE_DOCUMENT: VidingDocument = {
           rotation: 35,
           opacity: 0.65,
           zIndex: 2,
+          x: 78,
+          y: 72,
+          scale: 1,
+          animate: "none",
           animation: {
             type: "bounce",
             duration: 1.6,

@@ -234,7 +234,9 @@ export function BottomSheetEditor() {
                                 id: newId,
                                 type: libSec.type as any,
                                 isVisible: true,
-                                background: { type: 'color', value: libSec.bg, opacity: 1 },
+                                background: { type: 'color', value: libSec.bg, opacity: 1, effect: 'none' },
+                                backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
+                                layout: 'center',
                                 ornaments: []
                               });
                               setShowSectionLibrary(false);

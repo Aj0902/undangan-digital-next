@@ -77,7 +77,7 @@ export function GaleriSectionRenderer({
           className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
           variants={elementsVariants}
         >
-          {section.content.images.map((image, index) => (
+          {section.content.images.map((image: { url: string; caption?: string }, index: number) => (
             <motion.div
               key={index}
               className="aspect-square overflow-hidden rounded-lg shadow-lg"
@@ -104,7 +104,7 @@ export function GaleriSectionRenderer({
         )}
       </motion.div>
 
-      {section.ornaments.map((ornament) => (
+      {section.ornaments.map((ornament: Ornament) => (
         <OrnamentRenderer
           key={ornament.id}
           ornament={ornament}

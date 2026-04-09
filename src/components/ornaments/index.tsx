@@ -48,8 +48,9 @@ export function OrnamentRenderer({
       const percentX = (deltaX / containerWidth) * 100;
       const percentY = (deltaY / containerHeight) * 100;
 
-      const newX = Math.max(-50, Math.min(150, ornament.position.x + percentX));
-      const newY = Math.max(-50, Math.min(150, ornament.position.y + percentY));
+      const position = ornament.position || { x: ornament.x, y: ornament.y };
+      const newX = Math.max(-50, Math.min(150, position.x + percentX));
+      const newY = Math.max(-50, Math.min(150, position.y + percentY));
 
       onUpdate({
         position: { x: newX, y: newY },
@@ -57,7 +58,7 @@ export function OrnamentRenderer({
 
       setDragStart({ x: e.clientX, y: e.clientY });
     },
-    [isDragging, dragStart, onUpdate, ornament.position],
+    [isDragging, dragStart, onUpdate, ornament.position, ornament.x, ornament.y],
   );
 
   const handleMouseUp = useCallback(() => {
@@ -78,10 +79,10 @@ export function OrnamentRenderer({
 
   const baseStyle = {
     position: "absolute" as const,
-    left: `${ornament.position.x}%`,
-    top: `${ornament.position.y}%`,
-    width: `${ornament.size.width}px`,
-    height: `${ornament.size.height}px`,
+    left: `${(ornament.position || { x: ornament.x }).x}%`,
+    top: `${(ornament.position || { y: ornament.y }).y}%`,
+    width: `${(ornament.size || { width: 100 }).width}px`,
+    height: `${(ornament.size || { height: 100 }).height}px`,
     rotate: ornament.rotation,
     opacity: ornament.opacity,
     zIndex: ornament.zIndex,

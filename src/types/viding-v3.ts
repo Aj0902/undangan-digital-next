@@ -75,7 +75,7 @@ export const BaseSectionSchema = z.object({
   type: z.string(),
   title: z.string().optional(),
   isVisible: z.boolean().default(true),
-  background: BackgroundSchema.default({ type: "color", value: "#1a1f24", opacity: 1 }),
+  background: BackgroundSchema.default({ type: "color", value: "#1a1f24", opacity: 1, effect: "none" }),
   ornaments: z.array(OrnamentSchema).default([]),
   
   // Fields from legacy schemas
@@ -84,8 +84,12 @@ export const BaseSectionSchema = z.object({
     enabled: z.boolean().default(false),
     color: z.string().default("#000000"),
     opacity: z.number().min(0).max(1).default(0.3),
-  }).optional(),
-  layout: z.enum(["center", "top", "bottom", "custom"]).default("center"),
+  }).optional().default({
+    enabled: false,
+    color: "#000000",
+    opacity: 0.3
+  }),
+  layout: z.enum(["center", "top", "bottom", "custom"]).optional().default("center"),
   content: z.any().optional(), // Content varies by section type
   motion: z.object({
     entrance: MotionPresetSchema.optional(),
@@ -96,6 +100,11 @@ export const BaseSectionSchema = z.object({
 });
 
 export type Section = z.infer<typeof BaseSectionSchema>;
+
+// BACKWARD COMPATIBILITY TYPES
+export type CoverSection = Section;
+export type MempelaiSection = Section;
+export type GaleriSection = Section;
 
 /**
  * SKEMA PENGATURAN GLOBAL
@@ -125,7 +134,11 @@ export const VidingDocumentSchema = z.object({
   updatedAt: z.string(),
   sectionOrder: z.array(z.string()).default([]),
   sections: z.record(z.string(), BaseSectionSchema),
-  globalSettings: GlobalSettingsSchema.default({}),
+  globalSettings: GlobalSettingsSchema.default({
+    primaryColor: "#1a2e25",
+    accentColor: "#d4af37",
+    fontFamily: "Cormorant Garamond"
+  }),
 });
 
 export type VidingDocument = z.infer<typeof VidingDocumentSchema>;
