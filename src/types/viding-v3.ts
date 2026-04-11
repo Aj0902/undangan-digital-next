@@ -142,7 +142,9 @@ export const VidingDocumentSchema = z.object({
   globalSettings: GlobalSettingsSchema.default({
     primaryColor: "#1a2e25",
     accentColor: "#d4af37",
-    fontFamily: "Cormorant Garamond"
+    fontFamily: "Cormorant Garamond",
+    audioUrl: "",
+    audioAutoPlay: true,
   }),
 });
 

@@ -84,6 +84,7 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
     'seksi-cover': {
       id: 'seksi-cover',
       type: 'cover',
+      variant: 'default',
       isVisible: true,
       background: { type: 'color', value: '#1a1f24', opacity: 0.8, effect: 'none' },
       backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
@@ -96,6 +97,7 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
     'seksi-mempelai': {
       id: 'seksi-mempelai',
       type: 'mempelai',
+      variant: 'default',
       isVisible: true,
       background: { type: 'color', value: '#242a30', opacity: 1, effect: 'none' },
       backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
@@ -105,6 +107,7 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
     'seksi-galeri': {
       id: 'seksi-galeri',
       type: 'galeri',
+      variant: 'default',
       isVisible: true,
       background: { type: 'color', value: '#1a1f24', opacity: 1, effect: 'none' },
       backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
@@ -116,6 +119,7 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
     'seksi-acara': {
       id: 'seksi-acara',
       type: 'acara',
+      variant: 'default',
       isVisible: true,
       background: { type: 'color', value: '#242a30', opacity: 1, effect: 'none' },
       backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },

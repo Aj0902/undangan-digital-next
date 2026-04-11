@@ -80,8 +80,8 @@ export function CanvasViewport() {
         mode="edit" 
         onSectionSelect={handleSectionSelect}
         onOrnamentSelect={handleOrnamentSelect}
-        selectedSectionId={selectedSectionId}
-        selectedOrnamentId={selectedElementId}
+        selectedSectionId={selectedSectionId || undefined}
+        selectedOrnamentId={selectedElementId || undefined}
         clientData={clientData || undefined}
         isOpenedExternal={isOpened}
         onOpenExternal={() => setOpened(true)}
