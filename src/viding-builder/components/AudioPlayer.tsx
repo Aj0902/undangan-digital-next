@@ -19,6 +19,7 @@ export function AudioPlayer({ url, autoPlay = false, isInvitationOpened = false 
   useEffect(() => {
     if (isInvitationOpened && audioRef.current && !isPlaying) {
       audioRef.current.play().catch(err => console.log("Autoplay blocked or failed:", err));
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsPlaying(true);
     }
   }, [isInvitationOpened]);

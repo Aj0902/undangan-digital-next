@@ -18,6 +18,77 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { signOutAction } from '@/app/admin/actions'
 import { Button } from '@/components/ui/button'
 
+interface NavItem {
+  name: string
+  icon: any
+  href: string
+}
+
+interface SidebarContentProps {
+  navItems: NavItem[]
+  isCollapsed: boolean
+  user: any
+  onCloseMobile: () => void
+}
+
+const SidebarContent = ({ navItems, isCollapsed, user, onCloseMobile }: SidebarContentProps) => (
+  <>
+    <div className="p-10 flex items-center gap-4 border-b border-white/5 relative overflow-hidden group">
+      <div className="absolute top-0 left-0 w-full h-full bg-emerald-500/5 blur-[40px] z-0 group-hover:bg-emerald-500/10 transition-colors"></div>
+      <div className="p-3 bg-emerald-500/10 rounded-2xl shadow-lg shadow-emerald-900/20 border border-emerald-500/20 relative z-10 aurora-glow">
+        <ShieldCheck className="w-6 h-6 text-emerald-400" />
+      </div>
+      <div className="relative z-10">
+        <h2 className="text-white font-serif tracking-widest text-xl leading-none uppercase">Viding <span className="text-emerald-400 italic font-sans block text-xs mt-1 tracking-[0.3em]">Arctic</span></h2>
+      </div>
+      <button 
+        onClick={onCloseMobile}
+        className="lg:hidden ml-auto p-2 text-white/20 hover:text-white"
+      >
+        <X size={20} />
+      </button>
+    </div>
+
+    <nav className="flex-1 px-6 py-10 space-y-3 overflow-y-auto custom-scrollbar">
+      {navItems.map((item) => (
+        <Link
+          key={item.name}
+          href={item.href}
+          onClick={onCloseMobile}
+          className={`flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-500 hover:bg-emerald-500/10 hover:text-emerald-400 group relative overflow-hidden ${isCollapsed ? 'justify-center lg:px-0' : ''}`}
+          title={isCollapsed ? item.name : ''}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-700"></div>
+          <item.icon className={`w-5 h-5 relative z-10 transition-transform group-hover:scale-110 group-hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.5)] ${isCollapsed ? 'w-6 h-6' : ''}`} />
+          {!isCollapsed && <span className="font-bold text-[13px] tracking-widest uppercase relative z-10 whitespace-nowrap">{item.name}</span>}
+          {!isCollapsed && <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1 relative z-10" />}
+        </Link>
+      ))}
+    </nav>
+
+    <div className="p-8 border-t border-white/5 mt-auto">
+      {user && (
+        <div className="flex items-center gap-4 p-4 rounded-3xl bg-white/[0.03] border border-white/5 mb-8 hover:bg-white/[0.05] transition-colors cursor-default group">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 aurora-glow group-hover:border-emerald-500/40 transition-colors text-emerald-400 uppercase font-bold text-sm">
+            {user.email?.[0] || 'V'}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-[11px] font-bold text-white truncate tracking-wider uppercase">{user.email?.split('@')[0]}</p>
+            <p className="text-[9px] text-white/20 truncate uppercase tracking-[0.2em] mt-1">Authorized Access</p>
+          </div>
+        </div>
+      )}
+      
+      <form action={signOutAction}>
+        <button className="flex items-center gap-4 w-full px-5 py-4 rounded-2xl hover:bg-red-500/10 hover:text-red-400 text-white/30 transition-all font-bold text-[11px] uppercase tracking-[0.3em] group">
+          <LogOut className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+          Terminate Session
+        </button>
+      </form>
+    </div>
+  </>
+)
+
 interface AdminShellProps {
   children: React.ReactNode
   user: any
@@ -33,64 +104,6 @@ export default function AdminShell({ children, user }: AdminShellProps) {
     { name: 'Pabrik Preset', icon: Palette, href: '/admin/presets' },
     { name: 'Tambah Klien', icon: PlusCircle, href: '/admin/klien/baru' },
   ]
-
-  const SidebarContent = () => (
-    <>
-      <div className="p-10 flex items-center gap-4 border-b border-white/5 relative overflow-hidden group">
-        <div className="absolute top-0 left-0 w-full h-full bg-emerald-500/5 blur-[40px] z-0 group-hover:bg-emerald-500/10 transition-colors"></div>
-        <div className="p-3 bg-emerald-500/10 rounded-2xl shadow-lg shadow-emerald-900/20 border border-emerald-500/20 relative z-10 aurora-glow">
-          <ShieldCheck className="w-6 h-6 text-emerald-400" />
-        </div>
-        <div className="relative z-10">
-          <h2 className="text-white font-serif tracking-widest text-xl leading-none uppercase">Viding <span className="text-emerald-400 italic font-sans block text-xs mt-1 tracking-[0.3em]">Arctic</span></h2>
-        </div>
-        <button 
-          onClick={() => setIsSidebarOpen(false)}
-          className="lg:hidden ml-auto p-2 text-white/20 hover:text-white"
-        >
-          <X size={20} />
-        </button>
-      </div>
-
-      <nav className="flex-1 px-6 py-10 space-y-3 overflow-y-auto custom-scrollbar">
-        {navItems.map((item) => (
-          <Link
-            key={item.name}
-            href={item.href}
-            onClick={() => setIsSidebarOpen(false)}
-            className={`flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-500 hover:bg-emerald-500/10 hover:text-emerald-400 group relative overflow-hidden ${isCollapsed ? 'justify-center lg:px-0' : ''}`}
-            title={isCollapsed ? item.name : ''}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-transparent translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-700"></div>
-            <item.icon className={`w-5 h-5 relative z-10 transition-transform group-hover:scale-110 group-hover:drop-shadow-[0_0_10px_rgba(16,185,129,0.5)] ${isCollapsed ? 'w-6 h-6' : ''}`} />
-            {!isCollapsed && <span className="font-bold text-[13px] tracking-widest uppercase relative z-10 whitespace-nowrap">{item.name}</span>}
-            {!isCollapsed && <ChevronRight className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1 relative z-10" />}
-          </Link>
-        ))}
-      </nav>
-
-      <div className="p-8 border-t border-white/5 mt-auto">
-        {user && (
-          <div className="flex items-center gap-4 p-4 rounded-3xl bg-white/[0.03] border border-white/5 mb-8 hover:bg-white/[0.05] transition-colors cursor-default group">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 aurora-glow group-hover:border-emerald-500/40 transition-colors text-emerald-400 uppercase font-bold text-sm">
-              {user.email?.[0] || 'V'}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[11px] font-bold text-white truncate tracking-wider uppercase">{user.email?.split('@')[0]}</p>
-              <p className="text-[9px] text-white/20 truncate uppercase tracking-[0.2em] mt-1">Authorized Access</p>
-            </div>
-          </div>
-        )}
-        
-        <form action={signOutAction}>
-          <button className="flex items-center gap-4 w-full px-5 py-4 rounded-2xl hover:bg-red-500/10 hover:text-red-400 text-white/30 transition-all font-bold text-[11px] uppercase tracking-[0.3em] group">
-            <LogOut className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-            Terminate Session
-          </button>
-        </form>
-      </div>
-    </>
-  )
 
   return (
     <div className="flex min-h-screen bg-black font-sans selection:bg-emerald-500/30 overflow-x-hidden">
@@ -137,7 +150,12 @@ export default function AdminShell({ children, user }: AdminShellProps) {
               </form>
            </div>
         ) : (
-          <SidebarContent />
+          <SidebarContent 
+            navItems={navItems} 
+            isCollapsed={isCollapsed} 
+            user={user} 
+            onCloseMobile={() => setIsSidebarOpen(false)} 
+          />
         )}
       </aside>
 

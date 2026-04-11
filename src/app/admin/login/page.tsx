@@ -142,7 +142,7 @@ export default function LoginPage() {
 
           <div className="mt-12 pt-8 border-t border-white/[0.03] text-center">
             <p className="text-[9px] text-white/10 uppercase tracking-[0.5em] font-bold">
-              Secure Cloud <span className="text-emerald-500/40">//</span> Arctic Region
+              Secure Cloud <span className="text-emerald-500/40">{"//"}</span> Arctic Region
             </p>
           </div>
         </motion.div>

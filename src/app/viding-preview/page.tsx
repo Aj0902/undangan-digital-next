@@ -37,6 +37,7 @@ const SAMPLE_DOCUMENT: VidingDocument = {
     accentColor: "#d4af37",
     fontFamily: "Cormorant Garamond",
     audioUrl: "",
+    audioAutoPlay: true,
   },
 };
 

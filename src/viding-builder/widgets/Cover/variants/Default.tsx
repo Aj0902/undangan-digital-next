@@ -24,19 +24,24 @@ export default function CoverDefault({
   onOpen 
 }: CoverDefaultProps) {
   const { bride_name, groom_name, akad_datetime } = clientData.client_details || {};
-  const [guestName, setGuestName] = useState("Tamu Undangan");
+  const [mounted, setMounted] = useState(false);
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => setMounted(true), []);
+
+  // Read guest name from URL ?to= parameter
+  const guestName = React.useMemo(() => {
+    if (typeof window === "undefined" || !mounted) return "Tamu Undangan";
+    try {
+      const to = new URLSearchParams(window.location.search).get("to");
+      return to ? decodeURIComponent(to.replace(/\+/g, " ")) : "Tamu Undangan";
+    } catch (e) {
+      return "Tamu Undangan";
+    }
+  }, [mounted]);
 
   // Get cover image from client_media
   const coverImg = getMedia(clientData.client_media || [], 'cover');
   const fallbackCover = "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000&auto=format&fit=crop";
-
-  // Read guest name from URL ?to= parameter
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const to = new URLSearchParams(window.location.search).get("to");
-      if (to) setGuestName(decodeURIComponent(to.replace(/\+/g, " ")));
-    }
-  }, []);
 
   // ═══════════════════════════════════════════════════════
   // MODE 1: OPENING OVERLAY (Full-screen hero, invitation sealed)
