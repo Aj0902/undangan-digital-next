@@ -3,7 +3,8 @@
 import React, { useState, useTransition } from 'react'
 import { 
   ArrowLeft, Save, Upload, Image as ImageIcon, Music, Trash2, Check, Loader2, 
-  ExternalLink, Plus, Settings, Heart, PlusCircle, MinusCircle, Calendar
+  ExternalLink, Plus, Settings, Heart, PlusCircle, MinusCircle, Calendar,
+  Layout, Layers, Paintbrush
 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -21,26 +22,29 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 
 import { updateClientAction, uploadMediaAction, deleteClientAction } from '../../actions'
+import { applyPresetToClientAction } from '../../preset-actions'
 import { clientFormSchema, type ClientFormValues } from '@/lib/validations/client'
 import { AVAILABLE_TEMPLATES } from '@/lib/templates'
 
 interface ClientFormProps {
   client: any
+  availablePresets: any[]
 }
 
-export default function ClientForm({ client }: ClientFormProps) {
+export default function ClientForm({ client, availablePresets }: ClientFormProps) {
   const [isUpdating, startUpdate] = useTransition()
   const [isDeleting, startDelete] = useTransition()
   const [isUploading, setIsUploading] = useState<string | null>(null)
   const router = useRouter()
 
   // Initialize React Hook Form
-  const { register, control, handleSubmit, formState: { errors } } = useForm<ClientFormValues>({
-    resolver: zodResolver(clientFormSchema),
+  const { register, control, handleSubmit, formState: { errors }, watch } = useForm<ClientFormValues>({
+    resolver: zodResolver(clientFormSchema) as any,
     defaultValues: {
       id: client.id,
       slug: client.slug || '',
       template_id: client.template_id || '',
+      template_type: client.template_type || 'dinamis',
       is_active: client.is_active ?? true,
       
       bride_name: client.client_details?.bride_name || '',
@@ -64,6 +68,26 @@ export default function ClientForm({ client }: ClientFormProps) {
       bank_accounts: client.client_details?.bank_accounts || [],
     }
   })
+
+  // Watch the template type to toggle dropdown options
+  const templateType = watch('template_type')
+  const templateId = watch('template_id')
+  const slug = watch('slug')
+
+  const handleTemplateChange = async (val: string) => {
+    if (templateType === 'dinamis' && val) {
+      if (confirm('Menerapkan preset ini akan mengganti desain kustom yang ada (jika ada). Lanjutkan?')) {
+        startUpdate(async () => {
+          const result = await applyPresetToClientAction(client.id, val);
+          if (result.error) toast.error(result.error);
+          else {
+            toast.success('Preset applied successfully!');
+            router.refresh();
+          }
+        });
+      }
+    }
+  }
 
   // Dynamic Array for Bank Accounts
   const { fields: bankFields, append: appendBank, remove: removeBank } = useFieldArray({
@@ -150,6 +174,14 @@ export default function ClientForm({ client }: ClientFormProps) {
            </div>
         </div>
         <div className="flex items-center gap-3">
+            {templateType === 'dinamis' && (
+              <Button asChild className="bg-emerald-500 hover:bg-emerald-400 text-black font-bold h-auto py-3.5 px-8 rounded-2xl shadow-xl shadow-emerald-900/20 uppercase tracking-[0.2em] text-[10px] transition-all transform hover:-translate-y-1">
+                <Link href={`/builder/${slug}`}>
+                  <Paintbrush className="w-4 h-4 mr-3" />
+                  Customize in Builder
+                </Link>
+              </Button>
+            )}
             <Button onClick={handleDelete} disabled={isDeleting} variant="destructive" className="rounded-2xl border border-red-500/20 uppercase tracking-widest text-[10px] font-bold h-auto py-3.5 px-6">
               {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
               Delete Identity
@@ -181,15 +213,52 @@ export default function ClientForm({ client }: ClientFormProps) {
                       {errors.slug && <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{errors.slug.message}</p>}
                     </div>
 
-                    <div className="space-y-3">
-                      <Label className="text-[10px] font-bold text-white/50 block uppercase tracking-widest mb-1">Select Theme Engine</Label>
-                      <select {...register('template_id')} className="w-full px-6 py-4 bg-black/50 border border-white/10 rounded-2xl focus:ring-1 focus:ring-amber-500 focus:border-amber-500 transition-all outline-none text-white font-bold cursor-pointer text-sm">
-                        <option value="" className="bg-black text-white/50">-- Choose Template --</option>
-                        {AVAILABLE_TEMPLATES.map(t => (
-                          <option key={t.id} value={t.id} className="bg-black text-white">{t.name}</option>
-                        ))}
-                      </select>
-                      {errors.template_id && <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{errors.template_id.message}</p>}
+                    <div className="space-y-6">
+                      {/* Type Switcher */}
+                      <div className="space-y-3">
+                        <Label className="text-[10px] font-bold text-white/50 block uppercase tracking-widest mb-1">Choose Engine Type</Label>
+                        <div className="grid grid-cols-2 gap-3">
+                          <label className={`flex items-center justify-center gap-3 p-4 rounded-xl border transition-all cursor-pointer ${templateType === 'statis' ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400' : 'bg-white/5 border-white/5 text-white/40 hover:bg-white/10'}`}>
+                            <input type="radio" value="statis" {...register('template_type')} className="hidden" />
+                            <Layout className="w-4 h-4" />
+                            <span className="text-[10px] font-extrabold uppercase tracking-widest">Static</span>
+                          </label>
+                          <label className={`flex items-center justify-center gap-3 p-4 rounded-xl border transition-all cursor-pointer ${templateType === 'dinamis' ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400' : 'bg-white/5 border-white/5 text-white/40 hover:bg-white/10'}`}>
+                            <input type="radio" value="dinamis" {...register('template_type')} className="hidden" />
+                            <Layers className="w-4 h-4" />
+                            <span className="text-[10px] font-extrabold uppercase tracking-widest">Dynamic (v3)</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      {/* Template Display */}
+                      <div className="space-y-3">
+                        <Label className="text-[10px] font-bold text-white/50 block uppercase tracking-widest mb-1">
+                          Select {templateType === 'statis' ? 'Static Base' : 'Design Preset'}
+                        </Label>
+                        <select 
+                          {...register('template_id')} 
+                          onChange={(e) => {
+                            register('template_id').onChange(e);
+                            handleTemplateChange(e.target.value);
+                          }}
+                          className="w-full px-6 py-4 bg-black/50 border border-white/10 rounded-2xl focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all outline-none text-white font-bold cursor-pointer text-sm"
+                        >
+                          <option value="" className="bg-black text-white/50">-- Choose Template --</option>
+                          {templateType === 'statis' ? (
+                            AVAILABLE_TEMPLATES.map(t => (
+                              <option key={t.id} value={t.id} className="bg-black text-white">{t.name}</option>
+                            ))
+                          ) : (
+                            availablePresets.map(p => (
+                              <option key={p.id} value={p.id} className="bg-black text-white">
+                                {p.nama_preset} {p.kategori ? `(${p.kategori})` : ''}
+                              </option>
+                            ))
+                          )}
+                        </select>
+                        {errors.template_id && <p className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{errors.template_id.message}</p>}
+                      </div>
                     </div>
                   </div>
 
@@ -341,7 +410,7 @@ export default function ClientForm({ client }: ClientFormProps) {
               </div>
 
               <div className="space-y-10 relative z-10">
-                {['cover', 'music', 'gallery_01', 'gallery_02', 'gallery_03'].map((key) => {
+                {['cover', 'bride_photo', 'groom_photo', 'gallery_01', 'gallery_02', 'gallery_03', 'gallery_04', 'gallery_05', 'gallery_06', 'music'].map((key) => {
                   const url = getMediaUrl(key)
                   const isMusic = key === 'music'
                   

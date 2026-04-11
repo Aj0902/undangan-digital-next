@@ -15,13 +15,29 @@ export async function createClientAction(data: ClientFormValues) {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) throw new Error('Anda harus login terlebih dahulu.')
 
+    // Fetch preset JSON if dynamic template is selected
+    let customConfig = null;
+    if (data.template_type === 'dinamis' && data.template_id) {
+      const { data: preset } = await supabase
+        .from('presets')
+        .select('json_config')
+        .eq('id', data.template_id)
+        .single()
+      
+      if (preset) {
+        customConfig = preset.json_config;
+      }
+    }
+
     // 1. Insert into 'clients' table
     const { data: newClient, error: clientError } = await supabase
       .from('clients')
       .insert([{ 
         slug: data.slug, 
         template_id: data.template_id, 
-        is_active: data.is_active 
+        template_type: data.template_type,
+        is_active: data.is_active,
+        custom_config: customConfig
       }])
       .select()
       .single()
@@ -90,12 +106,35 @@ export async function updateClientAction(data: ClientFormValues) {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) throw new Error('Unauthorized')
 
+    // Fetch existing client to check if template changed
+    const { data: existingClient } = await supabase
+      .from('clients')
+      .select('template_id, custom_config')
+      .eq('id', data.id)
+      .single()
+
+    let customConfig = existingClient?.custom_config;
+    
+    if (existingClient && data.template_type === 'dinamis' && data.template_id && data.template_id !== existingClient.template_id) {
+      const { data: preset } = await supabase
+        .from('presets')
+        .select('json_config')
+        .eq('id', data.template_id)
+        .single()
+        
+      if (preset) {
+        customConfig = preset.json_config;
+      }
+    }
+
     const { error: clientError } = await supabase
       .from('clients')
       .update({ 
         slug: data.slug, 
         template_id: data.template_id, 
-        is_active: data.is_active 
+        template_type: data.template_type,
+        is_active: data.is_active,
+        custom_config: customConfig
       })
       .eq('id', data.id)
 

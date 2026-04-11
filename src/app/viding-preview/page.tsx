@@ -13,100 +13,48 @@ const SAMPLE_DOCUMENT: VidingDocument = {
   sections: {
     "cover-1": {
       type: "cover",
+      variant: "default",
       id: "cover-1",
-      title: "Wedding Invitation",
       isVisible: true,
       background: {
         type: "image",
-        url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
-        effect: "none",
         value: "#ffffff",
         opacity: 1,
+        effect: "none",
+        url: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800",
       },
-      backgroundColor: "#1a1f3d",
       backgroundOverlay: {
         enabled: true,
         color: "#000000",
         opacity: 0.45,
       },
       layout: "center",
-      content: {
-        mainText: "Ahmad & Siti",
-        subText: "Undangan Digital Sinematik yang Elegan",
-        ctaButton: {
-          label: "Buka Undangan",
-          action: "scroll",
-        },
-      },
-      ornaments: [
-        {
-          id: "ornament-1",
-          type: "shape",
-          name: "#ec4899",
-          position: { x: 18, y: 25 },
-          size: { width: 48, height: 48 },
-          rotation: 0,
-          opacity: 0.8,
-          zIndex: 2,
-          x: 18,
-          y: 25,
-          scale: 1,
-          animate: "none",
-          animation: {
-            type: "bounce",
-            duration: 1.4,
-            delay: 0,
-            easing: "ease-in-out",
-          },
-        },
-        {
-          id: "ornament-2",
-          type: "shape",
-          name: "#f59e0b",
-          position: { x: 78, y: 72 },
-          size: { width: 40, height: 40 },
-          rotation: 35,
-          opacity: 0.65,
-          zIndex: 2,
-          x: 78,
-          y: 72,
-          scale: 1,
-          animate: "none",
-          animation: {
-            type: "bounce",
-            duration: 1.6,
-            delay: 0.4,
-            easing: "ease-in-out",
-          },
-        },
-      ],
-      motion: {
-        entrance: {
-          type: "fade",
-          duration: 1,
-          delay: 0,
-          easing: "ease-out",
-        },
-        elements: {
-          type: "slide",
-          duration: 0.8,
-          delay: 0.3,
-          easing: "ease-out",
-        },
-      },
+      ornaments: [],
     },
   },
   globalSettings: {
     primaryColor: "#1a2e25",
     accentColor: "#d4af37",
     fontFamily: "Cormorant Garamond",
+    audioUrl: "",
   },
 };
 
 export default function VidingPreviewPage() {
   return (
     <main className="min-h-screen bg-[#0f172a] text-white">
-      <VidingTemplate document={SAMPLE_DOCUMENT} mode="preview" />
+      <VidingTemplate 
+        document={SAMPLE_DOCUMENT} 
+        mode="preview" 
+        clientData={{
+          id: "dummy",
+          slug: "preview",
+          client_details: {
+            bride_name: "Siti",
+            groom_name: "Ahmad",
+          }
+        } as any}
+      />
     </main>
   );
 }

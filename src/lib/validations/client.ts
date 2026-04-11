@@ -10,6 +10,7 @@ export const clientFormSchema = z.object({
   id: z.string().optional(), // Hanya ada saat edit
   slug: z.string().min(3, 'Slug minimal 3 karakter').regex(/^[a-z0-9-]+$/, 'Hanya boleh huruf kecil, angka, dan strip (-)'),
   template_id: z.string().min(1, 'Template wajib dipilih'),
+  template_type: z.enum(['statis', 'dinamis']).optional().default('dinamis'),
   is_active: z.boolean().optional(),
   
   bride_name: z.string().min(1, 'Nama panggilan mempelai wanita wajib diisi'),

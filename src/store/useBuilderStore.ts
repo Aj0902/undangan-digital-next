@@ -1,9 +1,12 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { VidingDocument, Section, Ornament, Background, GlobalSettings } from "@/types/viding-v3";
+import { Client } from "@/types/client";
+import { DUMMY_CLIENT_DATA } from "@/viding-builder/lib/dummy-data";
 
 interface BuilderStore {
   activeDocument: VidingDocument | null;
+  clientData: Client | null; // Data riil klien (details + media) untuk widget
   selectedSectionId: string | null;
   selectedElementId: string | null;
   isDirty: boolean;
@@ -11,16 +14,22 @@ interface BuilderStore {
   mode: "edit" | "preview";
   canvasZoom: number;
   viewDevice: "desktop" | "mobile";
+  slug: string | null;
+  contextMode: "client" | "preset";
+  presetId: string | null;
+  presetInfo: { name: string; category: string } | null;
   
   // UI State
+  isOpened: boolean; // State untuk simulasi "Buka Undangan" di builder
   isPanelOpen: boolean;
   panelTab: "widget" | "section" | "global";
   subTab: "bg" | "ornamen";
 
   // Actions
   setDocument: (doc: VidingDocument) => void;
+  initDocument: (slug: string, doc: VidingDocument | null, mode?: "client" | "preset", clientData?: Client | null) => void;
   updateDocument: (updates: Partial<VidingDocument>) => void;
-  saveDocument: () => Promise<void>;
+  saveDocument: (extraInfo?: { name?: string; category?: string; thumbnailUrl?: string }) => Promise<void>;
   
   // UI Actions
   setPanelOpen: (isOpen: boolean) => void;
@@ -29,6 +38,7 @@ interface BuilderStore {
   setViewDevice: (device: "desktop" | "mobile") => void;
   setCanvasZoom: (zoom: number) => void;
   setMode: (mode: "edit" | "preview") => void;
+  setOpened: (isOpen: boolean) => void;
 
   // Section Actions
   selectSection: (id: string | null) => void;
@@ -67,11 +77,13 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
     fontFamily: "'Cormorant Garamond', serif",
     primaryColor: "#ffffff",
     accentColor: "#D4AF37",
+    audioUrl: "",
+    audioAutoPlay: false,
   },
   sections: {
     'seksi-cover': {
       id: 'seksi-cover',
-      type: 'Cover',
+      type: 'cover',
       isVisible: true,
       background: { type: 'color', value: '#1a1f24', opacity: 0.8, effect: 'none' },
       backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
@@ -83,7 +95,7 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
     },
     'seksi-mempelai': {
       id: 'seksi-mempelai',
-      type: 'Mempelai',
+      type: 'mempelai',
       isVisible: true,
       background: { type: 'color', value: '#242a30', opacity: 1, effect: 'none' },
       backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
@@ -92,7 +104,7 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
     },
     'seksi-galeri': {
       id: 'seksi-galeri',
-      type: 'Galeri',
+      type: 'galeri',
       isVisible: true,
       background: { type: 'color', value: '#1a1f24', opacity: 1, effect: 'none' },
       backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
@@ -103,7 +115,7 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
     },
     'seksi-acara': {
       id: 'seksi-acara',
-      type: 'Acara',
+      type: 'acara',
       isVisible: true,
       background: { type: 'color', value: '#242a30', opacity: 1, effect: 'none' },
       backgroundOverlay: { enabled: false, color: '#000000', opacity: 0.3 },
@@ -113,6 +125,9 @@ const DEFAULT_DOCUMENT: Partial<VidingDocument> = {
   },
   sectionOrder: ['seksi-cover', 'seksi-mempelai', 'seksi-galeri', 'seksi-acara'],
 };
+
+import { createClient } from "@/utils/supabase/client";
+const supabase = createClient();
 
 export const useBuilderStore = create<BuilderStore>()(
   devtools((set, get) => ({
@@ -129,34 +144,127 @@ export const useBuilderStore = create<BuilderStore>()(
     mode: "edit",
     canvasZoom: 1,
     viewDevice: "mobile",
+    clientData: null,
+    slug: null,
+    contextMode: "client",
+    presetId: null,
+    presetInfo: null,
     
+    isOpened: false,
     isPanelOpen: true,
     panelTab: "widget",
     subTab: "bg",
 
     setDocument: (doc) => set({ activeDocument: doc, isDirty: false, saveStatus: "saved" }),
     
+    initDocument: (idOrSlug, doc, mode = "client", clientDataProp = null) => {
+      // Resolve clientData: use provided data for client mode, dummy for preset mode
+      const resolvedClientData = mode === "client" && clientDataProp 
+        ? clientDataProp 
+        : (DUMMY_CLIENT_DATA as Client);
+
+      // Auto-cleanup: strip deprecated 'opening' sections from old presets
+      const cleanDoc = (d: VidingDocument): VidingDocument => {
+        const openingIds = Object.values(d.sections)
+          .filter(s => s.type === 'opening')
+          .map(s => s.id);
+        if (openingIds.length === 0) return d;
+        
+        console.log('[BuilderStore] Auto-cleaning deprecated opening sections:', openingIds);
+        const newSections = { ...d.sections };
+        openingIds.forEach(id => delete newSections[id]);
+        return {
+          ...d,
+          sections: newSections,
+          sectionOrder: d.sectionOrder.filter(id => !openingIds.includes(id)),
+        };
+      };
+
+      if (doc) {
+        const cleaned = cleanDoc(doc);
+        set({ 
+          slug: mode === "client" ? idOrSlug : null,
+          presetId: mode === "preset" ? idOrSlug : null,
+          contextMode: mode, 
+          clientData: resolvedClientData,
+          activeDocument: cleaned, 
+          isDirty: false, 
+          saveStatus: "saved" 
+        });
+      } else {
+        // Fallback ke default jika JSON kosong
+        set({ 
+          slug: mode === "client" ? idOrSlug : null,
+          presetId: mode === "preset" ? idOrSlug : null,
+          contextMode: mode,
+          clientData: resolvedClientData,
+          activeDocument: {
+            id: crypto.randomUUID(),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            ...DEFAULT_DOCUMENT
+          } as VidingDocument, 
+          isDirty: true, 
+          saveStatus: "idle" 
+        });
+      }
+    },
+
     updateDocument: (updates) => set((state) => ({
       activeDocument: state.activeDocument ? { ...state.activeDocument, ...updates } : null,
       isDirty: true,
       saveStatus: "idle"
     })),
 
-    saveDocument: async () => {
-      const { activeDocument, isDirty } = get();
+    saveDocument: async (extraInfo) => {
+      const { activeDocument, isDirty, slug, presetId, contextMode } = get();
       if (!activeDocument || !isDirty) return;
 
       set({ saveStatus: "saving" });
       try {
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
+        if (contextMode === 'client') {
+          if (!slug) throw new Error("Slug klien tidak ditemukan");
+          // Update tabel clients
+          const { error } = await supabase
+            .from('clients')
+            .update({ 
+              custom_config: activeDocument,
+              template_type: 'dinamis'
+            })
+            .eq('slug', slug);
+          if (error) throw error;
+        } else {
+          // Update/Insert tabel presets (Pabrik)
+          if (presetId && presetId !== 'new') {
+            const { error } = await supabase
+              .from('presets')
+              .update({ 
+                json_config: activeDocument,
+                ...(extraInfo?.name && { nama_preset: extraInfo.name }),
+                ...(extraInfo?.category && { kategori: extraInfo.category }),
+                ...(extraInfo?.thumbnailUrl && { thumbnail_url: extraInfo.thumbnailUrl })
+              })
+              .eq('id', presetId);
+            if (error) throw error;
+          } else {
+            // New Preset
+            if (!extraInfo || !extraInfo.name || !extraInfo.category) throw new Error("Informasi preset wajib diisi untuk preset baru");
+            const { error } = await supabase
+              .from('presets')
+              .insert({ 
+                nama_preset: extraInfo.name, 
+                kategori: extraInfo.category,
+                json_config: activeDocument,
+                thumbnail_url: extraInfo.thumbnailUrl || null
+              });
+            if (error) throw error;
+          }
+        }
         
-        // In real app, you'd call: await api.saveDocument(activeDocument);
-        console.log("Document saved to backend:", activeDocument);
-
         set({ isDirty: false, saveStatus: "saved" });
-      } catch (error) {
-        console.error("Failed to save document:", error);
+      } catch (error: any) {
+        console.error("Failed to save document to Supabase:", error);
+        alert(`Gagal menyimpan: ${error?.message || JSON.stringify(error)}`);
         set({ saveStatus: "error" });
       }
     },
@@ -167,6 +275,7 @@ export const useBuilderStore = create<BuilderStore>()(
     setViewDevice: (device) => set({ viewDevice: device }),
     setCanvasZoom: (zoom) => set({ canvasZoom: zoom }),
     setMode: (mode) => set({ mode }),
+    setOpened: (isOpen) => set({ isOpened: isOpen }),
 
     selectSection: (id) => set({ selectedSectionId: id, selectedElementId: null }),
     

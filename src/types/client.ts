@@ -206,6 +206,19 @@ export interface Client {
    */
   is_active: boolean;
 
+  /**
+   * Tipe template yang digunakan.
+   * 'statis' -> Template lawas di folder static-legacy.
+   * 'dinamis' -> Template Viding V3 yang di-render via Master Shell.
+   */
+  template_type: 'statis' | 'dinamis';
+
+  /**
+   * Konfigurasi desain spesifik untuk klien ini (JSON JSONB dari Supabase).
+   * Hanya berisi data desain (Warna, Posisi Ornamen), bukan data konten.
+   */
+  custom_config: any | null;
+
   /** Timestamp pembuatan baris (ISO 8601). */
   created_at: string;
 

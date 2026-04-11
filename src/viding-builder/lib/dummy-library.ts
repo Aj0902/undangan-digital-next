@@ -20,10 +20,12 @@ export const LIBRARY_ORNAMENTS = [
 ];
 
 export const LIBRARY_SECTIONS = [
-  { id: 'lib-sec-1', type: 'Cover', label: 'Cover Minimalis', bg: '#fdfbf7' },
-  { id: 'lib-sec-2', type: 'Mempelai', label: 'Mempelai Elegan', bg: '#1a1f24' },
-  { id: 'lib-sec-3', type: 'Acara', label: 'Acara Modern', bg: '#ffffff' },
-  { id: 'lib-sec-4', type: 'Galeri', label: 'Galeri Grid', bg: '#242a30' },
-  { id: 'lib-sec-5', type: 'Cerita', label: 'Cerita Cinta', bg: '#fdfbf7' },
-  { id: 'lib-sec-6', type: 'Penutup', label: 'Penutup Klasik', bg: '#1a1f24' },
+  { id: 'lib-sec-1', type: 'cover', variant: 'default', label: 'Cover Minimalis', bg: '#fdfbf7' },
+  { id: 'lib-sec-2', type: 'mempelai', variant: 'default', label: 'Mempelai Elegan', bg: '#1a1f24' },
+  { id: 'lib-sec-3', type: 'acara', variant: 'default', label: 'Acara Modern', bg: '#ffffff' },
+  { id: 'lib-sec-4', type: 'galeri', variant: 'default', label: 'Galeri Grid', bg: '#242a30' },
+  { id: 'lib-sec-5', type: 'lovestory', variant: 'default', label: 'Cerita Cinta (Timeline)', bg: '#fdfbf7' },
+  { id: 'lib-sec-6', type: 'closing', variant: 'default', label: 'Penutup Klasik', bg: '#1a1f24' },
+  { id: 'lib-sec-7', type: 'rsvp', variant: 'default', label: 'RSVP & Ucapan', bg: '#1a1f24' },
+  { id: 'lib-sec-8', type: 'gift', variant: 'default', label: 'Amplop Digital (E-Gift)', bg: '#fdfbf7' },
 ];

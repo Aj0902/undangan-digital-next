@@ -19,6 +19,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getClientBySlug } from "@/lib/getClientData";
+import VidingTemplate from "@/templates/viding-v3";
+import { VidingDocument } from "@/types/viding-v3";
 
 // ================================================================
 // generateMetadata — Meta tag dinamis per klien (SEO)
@@ -108,73 +110,84 @@ export default async function InvitationPage(props: {
     notFound();
   }
 
+  // ================================================================
+  // TRAFFIC LIGHT ROUTER: Statis vs Dinamis (Viding Engine v3.0)
+  // ================================================================
+  if (client.template_type === 'dinamis' && client.custom_config) {
+    return (
+      <VidingTemplate 
+        document={client.custom_config as VidingDocument} 
+        mode="preview" 
+        clientData={client} 
+      />
+    );
+  }
+
+
   switch (client.template_id) {
     case "classic-elegant": {
       const { default: ClassicElegantTemplate } =
-        await import("@/components/templates/ClassicElegant");
+        await import("@/legacy/templates/ClassicElegant");
       return <ClassicElegantTemplate data={client} guestName={guestName} />;
     }
 
     case "modern-minimal": {
       const { default: ModernMinimalTemplate } =
-        await import("@/components/templates/ModernMinimal");
+        await import("@/legacy/templates/ModernMinimal");
       return <ModernMinimalTemplate data={client} guestName={guestName} />;
     }
 
     case "rustic-boho": {
       const { default: RusticBohoTemplate } =
-        await import("@/components/templates/RusticBoho");
+        await import("@/legacy/templates/RusticBoho");
       return <RusticBohoTemplate data={client} guestName={guestName} />;
     }
 
     case "magazine-theme": {
-      const { default: MagazineTheme } =
-        await import("@/components/templates/MagazineTheme");
-      return <MagazineTheme data={client} guestName={guestName} />;
+      const { default: MagazineTemplate } =
+        await import("@/legacy/templates/MagazineTheme");
+      return <MagazineTemplate data={client} guestName={guestName} />;
     }
 
     case "cream-rabbit": {
       const { default: CreamRabbitTemplate } =
-        await import("@/components/templates/CreamRabbit");
+        await import("@/legacy/templates/CreamRabbit");
       return <CreamRabbitTemplate data={client} guestName={guestName} />;
     }
 
     case "avant-garde-gallery": {
-      const { default: AvantGardeGalleryTemplate } =
-        await import("@/components/templates/AvantGardeGallery");
-      return <AvantGardeGalleryTemplate data={client} guestName={guestName} />;
+      const { default: AvantGardeTemplate } =
+        await import("@/legacy/templates/AvantGardeGallery");
+      return <AvantGardeTemplate data={client} guestName={guestName} />;
     }
 
     case "modern-monarchy": {
       const { default: ModernMonarchyTemplate } =
-        await import("@/components/templates/ModernMonarchy");
+        await import("@/legacy/templates/ModernMonarchy");
       return <ModernMonarchyTemplate data={client} guestName={guestName} />;
     }
 
-    case "golden-floral-template": {
+    case "golden-floral": {
       const { default: GoldenFloralTemplate } =
-        await import("@/components/templates/GoldenFloralTemplate");
+        await import("@/legacy/templates/GoldenFloralTemplate");
       return <GoldenFloralTemplate data={client} guestName={guestName} />;
     }
 
     case "royal-gold": {
       const { default: RoyalGoldTemplate } =
-        await import("@/components/templates/RoyalGold");
+        await import("@/legacy/templates/RoyalGold");
       return <RoyalGoldTemplate data={client} guestName={guestName} />;
     }
 
     case "neon-vogue": {
       const { default: NeonVogueTemplate } =
-        await import("@/components/templates/NeonVogue");
+        await import("@/legacy/templates/NeonVogue");
       return <NeonVogueTemplate data={client} guestName={guestName} />;
     }
 
     default: {
-      console.warn(
-        `[InvitationPage] Template "${client.template_id}" tidak dikenal. Fallback ke classic-elegant.`,
-      );
       const { default: ClassicElegantTemplate } =
-        await import("@/components/templates/ClassicElegant");
+        await import("@/legacy/templates/ClassicElegant");
       return <ClassicElegantTemplate data={client} guestName={guestName} />;
     }
   }

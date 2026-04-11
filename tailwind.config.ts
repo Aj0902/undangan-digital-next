@@ -12,6 +12,7 @@ const config: Config = {
         cream: "var(--bg-cream)",
         primary: "var(--text-primary)",
         gold: "var(--accent-gold)",
+        "aurora-emerald": "#10b981", 
         background: "var(--bg-cream)",
         foreground: "var(--text-primary)",
       },
@@ -23,6 +24,7 @@ const config: Config = {
         widest: '.25em',
         wider: '.15em',
         loose: '.05em',
+        ultra: '.5em',
       }
     },
   },

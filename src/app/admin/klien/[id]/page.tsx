@@ -8,20 +8,26 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
   const supabase = await createClient()
 
   // Fetch client including details and media
-  const { data: client, error } = await supabase
+  const { data: client, error: clientError } = await supabase
     .from('clients')
     .select('*, client_details(*), client_media(*)')
     .eq('id', id)
     .single()
 
-  if (error || !client) {
-    console.error('Error fetching client details:', error)
+  // Fetch presets for dynamic selection
+  const { data: presets } = await supabase
+    .from('presets')
+    .select('id, nama_preset, kategori')
+    .order('nama_preset', { ascending: true })
+
+  if (clientError || !client) {
+    console.error('Error fetching client details:', clientError)
     return notFound()
   }
 
   return (
     <div className="max-w-6xl mx-auto pb-24">
-       <ClientForm client={client} />
+       <ClientForm client={client} availablePresets={presets || []} />
     </div>
   )
 }

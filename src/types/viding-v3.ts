@@ -74,6 +74,7 @@ export type Ornament = z.infer<typeof OrnamentSchema>;
 export const BaseSectionSchema = z.object({
   id: z.string(),
   type: z.string(),
+  variant: z.string().optional().default("default"),
   title: z.string().optional(),
   isVisible: z.boolean().optional().default(true),
   background: BackgroundSchema.default({ type: "color", value: "#1a1f24", opacity: 1, effect: "none" }),
@@ -115,6 +116,8 @@ export const GlobalSettingsSchema = z.object({
   primaryColor: z.string().optional().default("#1a2e25"),
   accentColor: z.string().optional().default("#d4af37"),
   fontFamily: z.string().optional().default("Cormorant Garamond"),
+  audioUrl: z.string().optional().default(""),
+  audioAutoPlay: z.boolean().optional().default(false),
   breakpoints: z.object({
     mobile: z.number().default(640),
     tablet: z.number().default(1024),
