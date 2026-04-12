@@ -70,7 +70,7 @@ export default function EventSection({ data }: { data: Client }) {
     );
   };
 
-  const EventCard = ({ title, date, venue, address, number }: any) => {
+   const EventCard = ({ title, date, venue, address, number }: any) => {
     if (!date && !venue) return null;
     return (
       <motion.div
@@ -87,13 +87,13 @@ export default function EventSection({ data }: { data: Client }) {
            <div className="w-12 h-px bg-[#D4A373]/20" />
 
            <div className="space-y-2">
-              <p className="text-[10px] tracking-[0.3em] text-stone-400 font-bold uppercase italic">When</p>
+              <p className="text-[10px] tracking-[0.3em] text-stone-400 font-bold uppercase italic">Waktu</p>
               <p className="font-heading text-2xl text-stone-900 font-light">{formatDate(date)}</p>
               <p className="font-mono text-[10px] text-[#D4A373] tracking-widest">{formatTime(date)} — Selesai</p>
            </div>
            
            <div className="space-y-2">
-              <p className="text-[10px] tracking-[0.3em] text-stone-400 font-bold uppercase italic">Where</p>
+              <p className="text-[10px] tracking-[0.3em] text-stone-400 font-bold uppercase italic">Lokasi</p>
               <p className="font-heading text-xl text-stone-900 font-semibold lowercase italic">{venue}</p>
               <p className="text-xs text-stone-500 leading-relaxed font-light max-w-[250px] mx-auto italic">{address}</p>
            </div>
@@ -105,7 +105,7 @@ export default function EventSection({ data }: { data: Client }) {
                 className="flex items-center justify-center gap-2 w-full py-4 bg-[#F7EFE1] text-[#D4A373] rounded-full text-[10px] uppercase font-bold tracking-[0.2em] hover:bg-[#D4A373] hover:text-white transition-all duration-500"
               >
                 <MapPin size={12} />
-                Open Digital Maps
+                Buka Peta Digital
               </a>
            </div>
         </div>
@@ -154,7 +154,7 @@ export default function EventSection({ data }: { data: Client }) {
              className="flex items-center gap-3 px-12 py-5 border-2 border-[#D4A373] text-[#D4A373] rounded-full text-[10px] uppercase font-bold tracking-[0.4em] hover:bg-[#D4A373] hover:text-white transition-all duration-700"
            >
               <CalendarPlus size={14} />
-              Save The Date
+              Simpan Tanggal
            </a>
         </div>
       </div>

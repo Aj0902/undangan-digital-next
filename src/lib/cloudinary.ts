@@ -2,15 +2,15 @@
 // Fungsi-fungsi untuk berinteraksi dengan Cloudinary API
 // ⚠️ Hanya dipakai di server (Server Actions / API Routes) — JANGAN import di Client Component
 
-import { v2 as cloudinary } from 'cloudinary';
-import type { UploadApiResponse, UploadApiErrorResponse } from 'cloudinary';
+import { v2 as cloudinary } from "cloudinary";
+import type { UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
 
 // ---------------------------------------------------------------------------
 // Inisialisasi Cloudinary — membaca kredensial dari process.env
 // ---------------------------------------------------------------------------
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
-  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
@@ -18,10 +18,10 @@ cloudinary.config({
 // Tipe hasil upload
 // ---------------------------------------------------------------------------
 export interface CloudinaryUploadResult {
-  public_id: string;    // contoh: 'undangan-digital/siti-zaed-2026/cover'
-  secure_url: string;   // URL HTTPS lengkap dari Cloudinary CDN
-  url: string;          // URL HTTP (gunakan secure_url saja)
-  format: string;       // ekstensi file: 'jpg', 'mp3', dst.
+  public_id: string; // contoh: 'undangan-digital/siti-zaed-2026/cover'
+  secure_url: string; // URL HTTPS lengkap dari Cloudinary CDN
+  url: string; // URL HTTP (gunakan secure_url saja)
+  format: string; // ekstensi file: 'jpg', 'mp3', dst.
   resource_type: string; // 'image', 'video', atau 'raw'
   width?: number;
   height?: number;
@@ -56,28 +56,48 @@ export async function uploadToCloudinary(
   fileBuffer: Buffer,
   slug: string,
   mediaKey: string,
-  resourceType: 'image' | 'video' | 'raw' = 'image'
+  resourceType: "image" | "video" | "raw" = "image",
 ): Promise<CloudinaryUploadResult> {
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       {
-        public_id:     `undangan-digital/${slug}/${mediaKey}`,
-        resource_type: 'auto',
-        overwrite:     true,  // Re-upload akan menimpa file lama secara otomatis
+        public_id: `undangan-digital/${slug}/${mediaKey}`,
+        resource_type: resourceType, // ✅ FIX: Gunakan parameter resourceType, bukan hardcoded 'auto'
+        overwrite: true, // Re-upload akan menimpa file lama secara otomatis
         // Catatan: folder TIDAK perlu ditulis terpisah karena public_id sudah
         // memuat path lengkap. Menulis keduanya menyebabkan path terduplikasi.
       },
-      (error: UploadApiErrorResponse | undefined, result: UploadApiResponse | undefined) => {
+      (
+        error: UploadApiErrorResponse | undefined,
+        result: UploadApiResponse | undefined,
+      ) => {
         if (error) {
-          reject(new Error(`Upload ke Cloudinary gagal [${slug}/${mediaKey}]: ${error.message}`));
+          reject(
+            new Error(
+              `Upload ke Cloudinary gagal [${slug}/${mediaKey}]: ${error.message}`,
+            ),
+          );
           return;
         }
         if (!result) {
-          reject(new Error('Upload ke Cloudinary gagal: tidak ada response dari server.'));
+          reject(
+            new Error(
+              "Upload ke Cloudinary gagal: tidak ada response dari server.",
+            ),
+          );
+          return;
+        }
+        // ✅ Validasi response dari Cloudinary
+        if (!result.secure_url || !result.public_id) {
+          reject(
+            new Error(
+              "Upload ke Cloudinary gagal: response tidak memiliki secure_url atau public_id.",
+            ),
+          );
           return;
         }
         resolve(result as CloudinaryUploadResult);
-      }
+      },
     );
 
     stream.end(fileBuffer);
@@ -104,9 +124,9 @@ export async function uploadToCloudinary(
 export function getOptimizedImageUrl(publicId: string, width = 1200): string {
   return cloudinary.url(publicId, {
     width,
-    crop:         'limit',   // Tidak memaksakan crop — hanya batasi maksimum lebar
-    fetch_format: 'auto',    // Otomatis WebP di browser yang support, fallback ke JPEG/PNG
-    quality:      'auto',    // Cloudinary optimalkan kualitas secara cerdas
-    secure:       true,      // Selalu gunakan HTTPS
+    crop: "limit", // Tidak memaksakan crop — hanya batasi maksimum lebar
+    fetch_format: "auto", // Otomatis WebP di browser yang support, fallback ke JPEG/PNG
+    quality: "auto", // Cloudinary optimalkan kualitas secara cerdas
+    secure: true, // Selalu gunakan HTTPS
   });
 }

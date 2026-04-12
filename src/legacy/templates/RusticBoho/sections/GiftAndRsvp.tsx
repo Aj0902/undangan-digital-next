@@ -29,9 +29,9 @@ export default function GiftSection({ data }: { data: Client }) {
            className="text-center mb-16"
         >
            <span className="text-[10px] tracking-[0.4em] text-[#D4A373] uppercase font-bold mb-4 block italic">Digital Registry</span>
-           <h2 className="font-heading text-5xl md:text-7xl text-stone-900 tracking-tighter leading-none lowercase">Tanda Kasih</h2>
+           <h2 className="font-heading text-5xl md:text-7xl text-stone-900 tracking-tighter leading-none lowercase">Kado Digital</h2>
            <p className="text-[10px] leading-relaxed tracking-[0.1em] text-stone-500 max-w-sm mx-auto uppercase mt-6 font-light">
-              Doa restu Anda adalah karunia yang sangat berarti bagi kami. Namun, apabila Anda ingin memberikan tanda kasih, dapat melalui detail di bawah ini.
+              Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika Anda ingin memberikan tanda kasih, Anda dapat memberikannya melalui detail di bawah ini.
            </p>
         </motion.div>
 
@@ -60,12 +60,12 @@ export default function GiftSection({ data }: { data: Client }) {
                    {copiedId === `acc-${idx}` ? (
                      <>
                        <Check size={12} />
-                       <span>Copied</span>
+                       <span>Nomor Tersalin</span>
                      </>
                    ) : (
                      <>
                        <Copy size={12} />
-                       <span>Copy Number</span>
+                       <span>Salin Nomor Rekening</span>
                      </>
                    )}
                  </button>
