@@ -33,6 +33,14 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# audio files (should be uploaded to Cloudinary, not committed to Git)
+*.mp3
+*.wav
+*.flac
+*.m4a
+*.aac
+*.ogg
+
 # vercel
 .vercel
 
