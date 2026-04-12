@@ -9,8 +9,8 @@ import { Heart } from 'lucide-react';
 export default function CoupleSection({ data }: { data: Client }) {
   const { client_details: d, client_media: media } = data;
   
-  const brideImg = getMedia(media, 'gallery_1');
-  const groomImg = getMedia(media, 'gallery_2');
+  const brideImg = getMedia(media, 'bride_photo');
+  const groomImg = getMedia(media, 'groom_photo');
 
   return (
     <section className="relative w-full py-32 px-8 md:px-16 bg-white overflow-hidden">

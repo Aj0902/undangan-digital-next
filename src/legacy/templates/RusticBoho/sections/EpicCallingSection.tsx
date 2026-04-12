@@ -7,7 +7,7 @@ import { getMedia } from "@/types/client";
 
 export default function EpicCallingSection({ data }: { data: Client }) {
   const { client_details: d, client_media: media } = data;
-  const portraitUrl = getMedia(media, "image_1");
+  const portraitUrl = getMedia(media, "gallery_01");
 
   return (
     <section className="relative w-full py-32 px-8 md:px-16 bg-white overflow-hidden border-b border-stone-100 flex flex-col items-center">

@@ -8,15 +8,21 @@ export const MEDIA_MANIFEST = [
     required: true,
   },
   {
-    key: 'gallery_1',
+    key: 'bride_photo',
     type: 'image' as const,
-    label: 'Galeri Foto 1',
+    label: 'mempelai pria',
     required: false,
   },
   {
-    key: 'gallery_2',
+    key: 'groom_photo',
     type: 'image' as const,
-    label: 'Galeri Foto 2',
+    label: 'mempelai wanita',
+    required: false,
+  },
+    {
+    key: 'gallery_01',
+    type: 'image' as const,
+    label: 'card foto',
     required: false,
   },
 ] as const;
