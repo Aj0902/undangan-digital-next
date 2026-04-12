@@ -38,10 +38,6 @@ export default function EpicCallingSection({ data }: { data: Client }) {
             Sesungguhnya pada yang demikian itu terdapat tanda-tanda bagi
             orang-orang yang beriman.(QS. Ar-Rum: 21)"
           </p>
-
-          <p className="text-[10px] uppercase tracking-[0.2em] text-stone-400 mt-6 font-bold">
-            {d.quote_source}
-          </p>
         </motion.div>
 
         {/* Right Side: Editorial Image */}
