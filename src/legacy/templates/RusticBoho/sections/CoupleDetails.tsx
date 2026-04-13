@@ -44,7 +44,9 @@ export default function CoupleSection({ data }: { data: Client }) {
            <div className="w-12 h-px bg-[#D4A373] mb-6" />
            <p className="text-[10px] tracking-[0.3em] text-stone-400 uppercase font-bold italic mb-2">Putri Tercinta Dari</p>
            <p className="font-body text-base md:text-lg text-stone-900 px-4 leading-normal font-light">
-              {d.bride_parents}
+              {d.bride_parents?.split(/\s*(?:&|dan|Dan)\s*/).map((p, i, a) => (
+                <React.Fragment key={i}>{p}{i < a.length - 1 && <br />}</React.Fragment>
+              ))}
            </p>
         </motion.div>
 
@@ -76,7 +78,9 @@ export default function CoupleSection({ data }: { data: Client }) {
            <div className="w-12 h-px bg-[#D4A373] mb-6" />
            <p className="text-[10px] tracking-[0.3em] text-stone-400 uppercase font-bold italic mb-2">Putra Tercinta Dari</p>
            <p className="font-body text-base md:text-lg text-stone-900 px-4 leading-normal font-light">
-              {d.groom_parents}
+              {d.groom_parents?.split(/\s*(?:&|dan|Dan)\s*/).map((p, i, a) => (
+                <React.Fragment key={i}>{p}{i < a.length - 1 && <br />}</React.Fragment>
+              ))}
            </p>
         </motion.div>
 
