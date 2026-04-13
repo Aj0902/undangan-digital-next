@@ -1,14 +1,23 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Check, Copy } from 'lucide-react';
 import type { Client } from '@/types/client';
 
 export default function GiftSection({ data }: { data: Client }) {
   const { client_details: d } = data;
+  const containerRef = useRef<HTMLDivElement>(null);
   const bankAccounts = d.bank_accounts ?? [];
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const yOrnLeft = useTransform(scrollYProgress, [0, 1], [-70, 70]);
+  const yOrnRight = useTransform(scrollYProgress, [0, 1], [70, -70]);
 
   const handleCopy = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -19,19 +28,40 @@ export default function GiftSection({ data }: { data: Client }) {
   if (bankAccounts.length === 0) return null;
 
   return (
-    <section className="relative w-full py-32 px-8 md:px-16 bg-white overflow-hidden border-b border-stone-100">
-      <div className="max-w-4xl mx-auto flex flex-col items-center">
-        
+    <section ref={containerRef} className="relative w-full py-32 px-8 md:px-16 overflow-hidden border-b border-stone-100">
+      {/* Floating Parallax Ornaments - Accurate Placement */}
+      <motion.img 
+        src="/assets/rustic-boho/images/Or-kiri.svg"
+        style={{ y: yOrnLeft, rotate: -45 }}
+        className="absolute -left-32 top-1/4 w-80 md:w-[35rem] opacity-[0.15] pointer-events-none z-0"
+        alt="Ornament Kiri"
+      />
+      <motion.img 
+        src="/assets/rustic-boho/images/Or-kanansvg.svg"
+        style={{ y: yOrnRight, rotate: 120 }}
+        className="absolute -right-32 bottom-1/4 w-80 md:w-[35rem] opacity-[0.15] pointer-events-none z-0"
+        alt="Ornament Kanan"
+      />
+
+       {/* Bridge Ornament to Guestbook */}
+       <motion.img 
+        src="/assets/rustic-boho/images/or-bawah-tengah.svg"
+        style={{ y: yOrnRight }}
+        className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-80 opacity-[0.15] pointer-events-none z-20"
+        alt="Bridge Ornament"
+      />
+
+      <div className="max-w-4xl mx-auto flex flex-col items-center relative z-10">
         <motion.div
-           initial={{ opacity: 0, y: 20 }}
+           initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: false, amount: 0.2 }}
-           transition={{ duration: 1.2 }}
+           transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
            className="text-center mb-20"
         >
-           <p className="font-accent text-4xl text-[#D4A373] mb-[-0.5rem]  font-extrabold">Tanda Kasih</p>
+           <p className="font-accent text-4xl text-[#D4A373] mb-[-0.5rem] ">Tanda Kasih</p>
            <h2 className="font-heading text-fluid-h2 text-stone-900 tracking-tighter leading-none ">Kado Digital</h2>
-           <p className="font-body text-sm leading-relaxed text-stone-500 max-w-md mx-auto mt-8 italic font-light">
+           <p className="font-body text-xs md:text-sm leading-relaxed text-stone-500 max-w-md mx-auto mt-8 italic font-light">
               Doa Restu Bapak/Ibu/Saudara/i Merupakan Karunia Yang Sangat Berarti Bagi Kami. Namun Jika Anda Ingin Memberikan Tanda Kasih, Anda Dapat Memberikannya Melalui Detail Di Bawah Ini.
            </p>
         </motion.div>
@@ -40,10 +70,10 @@ export default function GiftSection({ data }: { data: Client }) {
           {bankAccounts.map((acc, idx) => (
             <motion.div
               key={idx}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.98 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: false, amount: 0.2 }}
-              transition={{ delay: idx * 0.1, duration: 1, ease: [0.19, 1, 0.22, 1] }}
+              transition={{ delay: idx * 0.1, duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
               className="group flex flex-col items-center p-12 bg-[#FDFBF7] border border-stone-50 rounded-[50px_10px_50px_10px] relative overflow-hidden hover:bg-white hover:shadow-2xl transition-all duration-700"
             >
                <div className="absolute top-0 right-0 p-8 opacity-5">
@@ -84,8 +114,10 @@ export default function GiftSection({ data }: { data: Client }) {
           ))}
         </div>
 
-        {/* Decorative Divider */}
-        <div className="mt-24 h-px w-20 bg-gradient-to-r from-transparent via-[#D4A373]/30 to-transparent" />
+        {/* Decorative Divider Ornament */}
+        <div className="mt-24">
+          <img src="/assets/rustic-boho/images/or-bawah-tengah.svg" className="w-48 opacity-[0.2]" alt="" />
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, Suspense } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import type { Client } from "../../../types/client";
 import { getMedia } from "../../../types/client";
 import OpeningCover from "./sections/OpeningCover";
@@ -24,9 +25,13 @@ export default function RusticBohoTemplate({
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const { client_media: media } = data;
   const musicUrl = getMedia(media, "music");
+
+  const { scrollYProgress } = useScroll();
+  const yBg = useTransform(scrollYProgress, [0, 1], ["0%", "5%"]);
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -87,6 +92,12 @@ export default function RusticBohoTemplate({
         }
       `,
         }}
+      />
+
+      {/* Global Seamless Background Texture */}
+      <motion.div 
+        style={{ y: yBg }}
+        className="fixed inset-0 pointer-events-none opacity-[0.25] z-0 bg-[url('/assets/rustic-boho/images/Bg-elegant.png')] bg-cover bg-center" 
       />
 
       {/* Premium Texture Overlays */}

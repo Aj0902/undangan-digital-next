@@ -1,13 +1,20 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { supabase } from "../../../../lib/supabase";
 import { toast } from "sonner";
 import type { Client } from "../../../../types/client";
 
 export default function RsvpSection({ data }: { data: Client }) {
   const { id: clientId, client_details: d } = data;
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const yOrnLeft = useTransform(scrollYProgress, [0, 1], [-120, 120]);
+  const yOrnRight = useTransform(scrollYProgress, [0, 1], [120, -120]);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -73,7 +80,7 @@ export default function RsvpSection({ data }: { data: Client }) {
 
     try {
       if (!formData.name || !formData.attendance) {
-        throw new Error("Mohon lengkapi Nama & Konfirmasi KeHadiran.");
+        throw new Error("Mohon Lengkapi Nama & Konfirmasi Kehadiran.");
       }
 
       const { error } = await supabase.from("rsvp_responses").insert([
@@ -91,20 +98,43 @@ export default function RsvpSection({ data }: { data: Client }) {
       toast.success("Doa & Konfirmasi Telah Terkirim");
       setFormData({ name: "", attendance: "", pax: "1", message: "" });
     } catch (err: any) {
-      toast.error(err.message || "Gagal Mengirim...VP.");
+      toast.error(err.message || "Gagal Mengirim Konfirmasi.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section className="relative w-full py-32 px-8 md:px-16 bg-[#FDFBF7] overflow-hidden border-b border-stone-100">
-      <div className="max-w-4xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-16 md:gap-24">
+    <section ref={containerRef} className="relative w-full py-32 px-8 md:px-16 overflow-hidden border-b border-stone-100">
+      {/* Floating Parallax Ornaments - Accurate Placement */}
+      <motion.img 
+        src="/assets/rustic-boho/images/Or-kiri.svg"
+        style={{ y: yOrnLeft, rotate: 15 }}
+        className="absolute -left-32 top-10 w-80 md:w-[45rem] opacity-[0.15] pointer-events-none z-0"
+        alt="Ornament Kiri"
+      />
+      <motion.img 
+        src="/assets/rustic-boho/images/Or-kanansvg.svg"
+        style={{ y: yOrnRight, rotate: -25 }}
+        className="absolute -right-32 bottom-20 w-80 md:w-[45rem] opacity-[0.15] pointer-events-none z-0"
+        alt="Ornament Kanan"
+      />
+
+       {/* Bridge Ornament to Closing */}
+       <motion.img 
+        src="/assets/rustic-boho/images/or-bawah-tengah.svg"
+        style={{ y: yOrnLeft }}
+        className="absolute -bottom-24 left-1/4 w-80 opacity-[0.2] pointer-events-none z-20"
+        alt="Bridge Ornament"
+      />
+
+      <div className="max-w-4xl mx-auto flex flex-col md:grid md:grid-cols-2 gap-16 md:gap-24 relative z-10">
         {/* RSVP FORM */}
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
           className="bg-white p-10 md:p-14 rounded-[60px] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.1)] relative border border-stone-50"
         >
           <div className="text-center mb-12">
@@ -133,7 +163,7 @@ export default function RsvpSection({ data }: { data: Client }) {
 
             <div className="space-y-2">
               <label className="text-[10px] uppercase tracking-[0.4em] text-stone-300 ml-6 font-bold">
-                Apakah Anda Akan Hadir??
+                Apakah Anda Akan Hadir?
               </label>
               <select
                 value={formData.attendance}
@@ -144,10 +174,10 @@ export default function RsvpSection({ data }: { data: Client }) {
                 required
               >
                 <option value="" disabled hidden>
-                  silakan pilih
+                  Silakan Pilih
                 </option>
-                <option value="Hadir">ya, saya akan Hadir</option>
-                <option value="tidak">maaf, berhalangan Hadir</option>
+                <option value="Hadir">Ya, Saya Akan Hadir</option>
+                <option value="tidak">Maaf, Berhalangan Hadir</option>
               </select>
             </div>
 
@@ -178,13 +208,14 @@ export default function RsvpSection({ data }: { data: Client }) {
 
         {/* GUESTBOOK FEED */}
         <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, scale: 0.98 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1], delay: 0.2 }}
           className="flex flex-col h-full mt-16 md:mt-0"
         >
           <div className="mb-12">
-             <p className="font-accent text-4xl text-[#D4A373] mb-[-0.5rem] ">warm</p>
+             <p className="font-accent text-4xl text-[#D4A373] mb-[-0.5rem] ">Warm</p>
              <h2 className="font-heading text-fluid-h3 text-stone-900 tracking-tighter leading-none ">
                Messages
              </h2>
@@ -198,7 +229,7 @@ export default function RsvpSection({ data }: { data: Client }) {
                 </p>
               ) : greetings.length === 0 ? (
                 <p className="text-[10px] uppercase tracking-widest text-stone-300 font-bold italic">
-                  Belum Ada Pesan. jadilah yang pertama Mengirim... doa!
+                  Belum Ada Pesan. Jadilah Yang Pertama Mengirim Doa Terbaik!
                 </p>
               ) : (
                 greetings.map((msg, i) => (

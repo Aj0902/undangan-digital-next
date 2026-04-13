@@ -1,25 +1,55 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import type { Client } from '@/types/client';
 import { getMedia } from '@/types/client';
 import { Heart } from 'lucide-react';
 
 export default function CoupleSection({ data }: { data: Client }) {
    const { client_details: d, client_media: media } = data;
+   const containerRef = useRef<HTMLDivElement>(null);
 
    const brideImg = getMedia(media, 'bride_photo');
    const groomImg = getMedia(media, 'groom_photo');
 
-   return (
-      <section className="relative w-full py-32 px-8 md:px-16 bg-white overflow-hidden">
-         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24 relative z-10">
+   const { scrollYProgress } = useScroll({
+      target: containerRef,
+      offset: ["start end", "end start"]
+   });
 
+   const yOrnLeft = useTransform(scrollYProgress, [0, 1], [-150, 150]);
+   const yOrnRight = useTransform(scrollYProgress, [0, 1], [150, -150]);
+
+   return (
+      <section ref={containerRef} className="relative w-full py-40 px-8 md:px-16 overflow-hidden flex flex-col items-center">
+         {/* Background Ornaments - Accurate Placement */}
+         <motion.img 
+            src="/assets/rustic-boho/images/Or-kiri.svg"
+            style={{ y: yOrnLeft, rotate: -15 }}
+            className="absolute -left-32 top-0 w-80 md:w-[45rem] opacity-[0.15] pointer-events-none z-0"
+            alt="Ornament Kiri"
+         />
+         <motion.img 
+            src="/assets/rustic-boho/images/Or-kanansvg.svg"
+            style={{ y: yOrnRight, rotate: 10 }}
+            className="absolute -right-32 bottom-0 w-80 md:w-[45rem] opacity-[0.15] pointer-events-none z-0"
+            alt="Ornament Kanan"
+         />
+
+         {/* Bridge Ornament to EventSummary */}
+         <motion.img 
+            src="/assets/rustic-boho/images/or-bawah-tengah.svg"
+            style={{ y: yOrnLeft }}
+            className="absolute -bottom-24 left-1/4 w-80 opacity-[0.15] pointer-events-none z-20 -rotate-45"
+            alt="Bridge Ornament"
+         />
+
+         <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-24 relative z-10">
             {/* Bride Section */}
             <motion.div
-               initial={{ opacity: 0, y: 30 }}
-               whileInView={{ opacity: 1, y: 0 }}
+               initial={{ opacity: 0, scale: 0.98 }}
+               whileInView={{ opacity: 1, scale: 1 }}
                viewport={{ once: false, amount: 0.2 }}
                transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
                className="flex flex-col items-center text-center group"
@@ -57,8 +87,8 @@ export default function CoupleSection({ data }: { data: Client }) {
 
             {/* Groom Section */}
             <motion.div
-               initial={{ opacity: 0, y: 30 }}
-               whileInView={{ opacity: 1, y: 0 }}
+               initial={{ opacity: 0, scale: 0.98 }}
+               whileInView={{ opacity: 1, scale: 1 }}
                viewport={{ once: false, amount: 0.2 }}
                transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1], delay: 0.2 }}
                className="flex flex-col items-center text-center group"
@@ -93,7 +123,6 @@ export default function CoupleSection({ data }: { data: Client }) {
                   </div>
                </div>
             </motion.div>
-
          </div>
       </section>
    );

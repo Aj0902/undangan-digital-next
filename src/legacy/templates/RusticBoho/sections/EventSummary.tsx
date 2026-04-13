@@ -1,12 +1,21 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { MapPin, CalendarPlus } from 'lucide-react';
 import type { Client } from '@/types/client';
 
 export default function EventSection({ data }: { data: Client }) {
   const { client_details: d } = data;
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const yOrnLeft = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const yOrnRight = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "";
@@ -75,8 +84,8 @@ export default function EventSection({ data }: { data: Client }) {
     if (!date && !venue) return null;
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, scale: 0.98 }}
+        whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: false, amount: 0.2 }}
         className="w-full py-16 px-10 bg-white border border-stone-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] rounded-[60px] relative overflow-hidden group hover:shadow-2xl hover:border-[#D4A373]/20 transition-all duration-1000"
       >
@@ -84,7 +93,7 @@ export default function EventSection({ data }: { data: Client }) {
         
         <div className="flex flex-col items-center text-center space-y-8">
            <div className="space-y-2">
-              <p className="font-accent text-4xl text-[#D4A373] mb-[-0.5rem] ">the sacred</p>
+              <p className="font-accent text-4xl text-[#D4A373] mb-[-0.5rem] ">The Sacred</p>
               <h3 className="font-heading text-3xl md:text-4xl text-stone-900 leading-none  tracking-tighter">{title}</h3>
            </div>
            
@@ -121,14 +130,35 @@ export default function EventSection({ data }: { data: Client }) {
   };
 
   return (
-    <section className="relative w-full py-32 px-8 md:px-16 bg-[#FDFBF7] overflow-hidden">
-      <div className="max-w-5xl mx-auto flex flex-col items-center">
-        
+    <section ref={containerRef} className="relative w-full py-32 px-8 md:px-16 overflow-hidden">
+      {/* Floating Parallax Ornaments - Accurate Placement */}
+      <motion.img 
+        src="/assets/rustic-boho/images/Or-kiri.svg"
+        style={{ y: yOrnLeft, rotate: 180 }}
+        className="absolute -left-32 bottom-20 w-80 md:w-[40rem] opacity-[0.15] pointer-events-none z-0"
+        alt="Ornament Kiri"
+      />
+      <motion.img 
+        src="/assets/rustic-boho/images/Or-kanansvg.svg"
+        style={{ y: yOrnRight, rotate: -45 }}
+        className="absolute -right-32 top-10 w-80 md:w-[40rem] opacity-[0.15] pointer-events-none z-0"
+        alt="Ornament Kanan"
+      />
+
+       {/* Bridge Ornament to GiftSection */}
+       <motion.img 
+        src="/assets/rustic-boho/images/or-bawah-tengah.svg"
+        style={{ y: yOrnLeft }}
+        className="absolute -bottom-24 right-1/4 w-80 opacity-[0.15] pointer-events-none z-20 rotate-45"
+        alt="Bridge Ornament"
+      />
+
+      <div className="max-w-5xl mx-auto flex flex-col items-center relative z-10">
         <motion.div
-           initial={{ opacity: 0, y: 20 }}
+           initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: false, amount: 0.2 }}
-           transition={{ duration: 1.2 }}
+           transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
            className="text-center mb-24"
         >
            <p className="font-accent text-4xl text-[#D4A373] mb-[-0.5rem]">Simpan Tanggal Untuk</p>

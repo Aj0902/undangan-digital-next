@@ -57,50 +57,41 @@ export default function HeroSection({ data }: { data: Client }) {
   const { client_details: d, client_media: media } = data;
   const coverUrl = getMedia(media, "cover");
   const { scrollYProgress } = useScroll();
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 20]);
+  
+  const rotateOrn = useTransform(scrollYProgress, [0, 1], [0, 20]);
+  const yOrnLeft = useTransform(scrollYProgress, [0, 1], [0, -150]);
+  const yOrnRight = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
-    <section className="relative h-screen flex flex-col items-center justify-center py-12 px-8 overflow-hidden bg-[#FDFBF7]">
+    <section className="relative h-screen flex flex-col items-center justify-center py-12 px-8 overflow-hidden">
       <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
 
-      {/* Decorative Ornaments */}
-      <div className="absolute top-20 left-10 w-32 h-32 opacity-10 pointer-events-none rotate-[-15deg]">
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M50 0C50 0 45 20 25 20C5 20 0 0 0 0C0 0 5 20 25 20C45 20 50 40 50 40C50 40 55 20 75 20C95 20 100 0 100 0C100 0 95 20 75 20C55 20 50 0 50 0Z"
-            fill="#D4A373"
-          />
-        </svg>
-      </div>
-      <div className="absolute bottom-20 right-10 w-32 h-32 opacity-10 pointer-events-none rotate-[165deg]">
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M50 0C50 0 45 20 25 20C5 20 0 0 0 0C0 0 5 20 25 20C45 20 50 40 50 40C50 40 55 20 75 20C95 20 100 0 100 0C100 0 95 20 75 20C55 20 50 0 50 0Z"
-            fill="#D4A373"
-          />
-        </svg>
-      </div>
+      {/* Parallax Ornaments - Accurate Placement */}
+      <motion.img 
+        src="/assets/rustic-boho/images/Or-kiri.svg"
+        style={{ y: yOrnLeft, rotate: -15 }}
+        className="absolute -top-10 -left-20 w-80 md:w-[45rem] opacity-[0.15] pointer-events-none z-0"
+        alt="Ornament Kiri"
+      />
+      <motion.img 
+        src="/assets/rustic-boho/images/Or-kanansvg.svg"
+        style={{ y: yOrnRight, rotate: 165 }}
+        className="absolute -bottom-20 -right-20 w-80 md:w-[45rem] opacity-[0.15] pointer-events-none z-0"
+        alt="Ornament Kanan"
+      />
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85vw] h-[85vw] border border-[#D4A373]/10 rounded-full pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center text-center max-w-3xl">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="relative w-56 h-72 sm:w-64 sm:h-80 md:w-80 md:h-[520px] mb-12 md:mb-16 group"
+           initial={{ opacity: 0, scale: 0.9 }}
+           whileInView={{ opacity: 1, scale: 1 }}
+           viewport={{ once: false, amount: 0.2 }}
+           transition={{ duration: 1.5, ease: "easeOut" }}
+           className="relative w-56 h-72 sm:w-64 sm:h-80 md:w-80 md:h-[520px] mb-12 md:mb-16 group"
         >
           <motion.div
-            style={{ rotate }}
+            style={{ rotate: rotateOrn }}
             className="absolute -inset-6 border-2 border-[#D4A373]/10 rounded-t-full pointer-events-none"
           />
           <div className="w-full h-full rounded-t-full overflow-hidden border-[12px] border-white shadow-2xl relative">
@@ -120,11 +111,11 @@ export default function HeroSection({ data }: { data: Client }) {
         </motion.div>
 
         <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 1 }}
-          className="font-accent text-3xl md:text-4xl text-[#D4A373] mb-4"
+           initial={{ opacity: 0, y: 10 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: false, amount: 0.2 }}
+           transition={{ duration: 1 }}
+           className="font-accent text-3xl md:text-4xl text-[#D4A373] mb-4"
         >
           Undangan Pernikahan
         </motion.p>
@@ -142,11 +133,11 @@ export default function HeroSection({ data }: { data: Client }) {
         </div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ delay: 0.8, duration: 1.5 }}
-          className="flex flex-col items-center gap-4"
+           initial={{ opacity: 0 }}
+           whileInView={{ opacity: 1 }}
+           viewport={{ once: false, amount: 0.2 }}
+           transition={{ delay: 0.8, duration: 1.5 }}
+           className="flex flex-col items-center gap-4"
         >
           <div className="h-px w-12 bg-[#D4A373]/40" />
           <p className="font-body text-xs md:text-sm tracking-[0.5em] uppercase font-bold text-stone-400">

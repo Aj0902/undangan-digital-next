@@ -62,11 +62,32 @@ export default function OpeningCover({
           }}
           className="fixed inset-0 z-[100] bg-[#F7EFE1] flex flex-col items-center justify-center overflow-hidden h-screen w-full"
         >
-          {/* Background Decorative Illustration */}
+          {/* Background Texture Overlay */}
+          <div className="absolute inset-0 opacity-[0.4] pointer-events-none z-0 bg-[url('/assets/rustic-boho/images/Bg-elegant.png')] bg-cover bg-center" />
+          
           <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
 
-          <FloatingLeaf className="top-10 left-10" delay={0} size={64} />
-          <FloatingLeaf className="bottom-20 right-10" delay={1} size={80} />
+          {/* Slow Floating Ornaments - Accurate Placement */}
+          <motion.img 
+            src="/assets/rustic-boho/images/Or-kiri.svg"
+            animate={{ 
+              y: [0, -20, 0],
+              rotate: [0, 5, 0]
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -left-20 -top-10 w-80 md:w-[40rem] opacity-[0.15] pointer-events-none z-0"
+            alt="Ornament Kiri"
+          />
+          <motion.img 
+            src="/assets/rustic-boho/images/Or-kanansvg.svg"
+            animate={{ 
+              y: [0, 20, 0],
+              rotate: [0, -5, 0]
+            }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="absolute -right-20 -bottom-10 w-80 md:w-[40rem] opacity-[0.15] pointer-events-none z-0"
+            alt="Ornament Kanan"
+          />
 
           <div className="relative z-10 flex flex-col items-center text-center px-8 w-full max-w-lg">
             {/* Arch Frame with Floral Ornaments */}
@@ -76,11 +97,8 @@ export default function OpeningCover({
               transition={{ duration: 1.8, ease: [0.19, 1, 0.22, 1] }}
               className="w-56 h-72 sm:w-64 sm:h-80 md:w-80 md:h-96 mb-12 rounded-t-full border border-[#D4A373]/20 p-3 relative group"
             >
-              {/* Decorative Floral Ornaments - Refined */}
               <div className="absolute -top-10 -left-10 w-32 h-32 opacity-20 pointer-events-none -rotate-12 transition-transform group-hover:rotate-0 duration-[3s]">
-                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M40 160C40 160 45 100 100 100C155 100 160 160 160 160C160 160 155 100 100 100C45 100 40 40 40 40C40 40 45 100 100 100C155 100 160 40 160 40C160 40 155 100 100 100C45 100 40 160 40 160Z" fill="#D4A373" />
-                </svg>
+                <img src="/assets/rustic-boho/images/or-bawah-tengah.svg" className="w-full h-full rotate-180" alt="" />
               </div>
 
               <div className="w-full h-full rounded-t-full overflow-hidden bg-stone-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] border-[8px] border-white relative">
@@ -124,7 +142,7 @@ export default function OpeningCover({
                 <div className="h-px w-24 bg-gradient-to-r from-transparent via-[#D4A373]/50 to-transparent mb-8" />
 
                 <p className="text-[10px] uppercase tracking-[0.5em] text-stone-400 mb-4 font-medium italic">
-                  Kepada Yth. bapak/ibu/saudara/i
+                  Kepada Yth. Bapak/Ibu/Saudara/i
                 </p>
 
                 <h2 className="font-heading text-2xl md:text-4xl text-stone-800 tracking-normal mb-8 ">
