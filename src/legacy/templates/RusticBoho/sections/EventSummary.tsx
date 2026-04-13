@@ -62,7 +62,7 @@ export default function EventSection({ data }: { data: Client }) {
          
          {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="flex flex-col items-center group-hover:scale-110 transition-transform duration-500">
-            <span className="font-heading text-4xl text-stone-900 tracking-tighter leading-none italic">{value.toString().padStart(2, '0')}</span>
+            <span className="font-heading text-4xl text-stone-900 tracking-tighter leading-none">{value.toString().padStart(2, '0')}</span>
             <span className="text-[8px] uppercase tracking-[0.2em] text-[#D4A373] font-bold mt-2">{unit}</span>
           </div>
         ))}
@@ -82,19 +82,19 @@ export default function EventSection({ data }: { data: Client }) {
         <span className="absolute top-6 right-8 text-[8px] tracking-[0.5em] text-[#D4A373]/30 font-bold uppercase">{number}</span>
         
         <div className="flex flex-col items-center text-center space-y-6">
-           <h3 className="font-heading text-4xl text-stone-900 leading-none lowercase italic">{title}</h3>
+           <h3 className="font-heading text-2xl md:text-3xl text-stone-900 leading-none">{title}</h3>
            
            <div className="w-12 h-px bg-[#D4A373]/20" />
 
            <div className="space-y-2">
               <p className="text-[10px] tracking-[0.3em] text-stone-400 font-bold uppercase italic">Waktu</p>
-              <p className="font-heading text-2xl text-stone-900 font-light">{formatDate(date)}</p>
+              <p className="font-body text-lg md:text-xl text-stone-900 font-semibold">{formatDate(date)}</p>
               <p className="font-mono text-[10px] text-[#D4A373] tracking-widest">{formatTime(date)} — Selesai</p>
            </div>
            
            <div className="space-y-2">
               <p className="text-[10px] tracking-[0.3em] text-stone-400 font-bold uppercase italic">Lokasi</p>
-              <p className="font-heading text-xl text-stone-900 font-semibold lowercase italic">{venue}</p>
+              <p className="font-body text-base md:text-lg text-stone-800 font-medium">{venue}</p>
               <p className="text-xs text-stone-500 leading-relaxed font-light max-w-[250px] mx-auto italic">{address}</p>
            </div>
 
@@ -124,7 +124,7 @@ export default function EventSection({ data }: { data: Client }) {
            className="text-center mb-20"
         >
            <span className="text-[10px] tracking-[0.4em] text-[#D4A373] uppercase font-bold mb-4 block italic">The Celebration</span>
-           <h2 className="font-heading text-5xl md:text-7xl text-stone-900 tracking-tighter leading-none lowercase">Agenda Acara</h2>
+           <h2 className="font-heading text-4xl md:text-6xl text-stone-900 tracking-tighter leading-none">Agenda Acara</h2>
            <div className="w-16 h-px bg-[#D4A373]/20 mx-auto mt-6" />
         </motion.div>
 

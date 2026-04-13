@@ -110,7 +110,7 @@ export default function RsvpSection({ data }: { data: Client }) {
           <span className="text-[10px] tracking-[0.4em] text-[#D4A373] uppercase font-bold mb-4 block italic text-center">
             RSVP
           </span>
-          <h2 className="font-heading text-5xl text-stone-900 tracking-tighter leading-none lowercase mb-12 text-center">
+          <h2 className="font-heading text-3xl md:text-5xl text-stone-900 tracking-tighter leading-none mb-12 text-center">
             Konfirmasi Kehadiran
           </h2>
 
@@ -126,7 +126,7 @@ export default function RsvpSection({ data }: { data: Client }) {
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
-                className="w-full bg-[#FDFBF7] border border-stone-100 p-6 rounded-3xl font-heading text-xl focus:outline-none focus:border-[#D4A373] transition-colors placeholder:text-stone-300 uppercase tracking-tight shadow-inner"
+                className="w-full bg-[#FDFBF7] border border-stone-100 p-6 rounded-3xl font-body text-base md:text-lg focus:outline-none focus:border-[#D4A373] transition-colors placeholder:text-stone-300 tracking-tight shadow-inner"
                 required
               />
             </div>
@@ -140,7 +140,7 @@ export default function RsvpSection({ data }: { data: Client }) {
                 onChange={(e) =>
                   setFormData({ ...formData, attendance: e.target.value })
                 }
-                className="w-full bg-[#FDFBF7] border border-stone-100 p-6 rounded-3xl font-heading text-xl focus:outline-none focus:border-[#D4A373] transition-colors uppercase appearance-none cursor-pointer tracking-tight shadow-inner"
+                className="w-full bg-[#FDFBF7] border border-stone-100 p-6 rounded-3xl font-body text-base md:text-lg focus:outline-none focus:border-[#D4A373] transition-colors uppercase appearance-none cursor-pointer tracking-tight shadow-inner"
                 required
               >
                 <option value="" disabled hidden>
@@ -162,7 +162,7 @@ export default function RsvpSection({ data }: { data: Client }) {
                 onChange={(e) =>
                   setFormData({ ...formData, message: e.target.value })
                 }
-                className="w-full bg-[#FDFBF7] border border-stone-100 p-6 rounded-3xl font-heading text-xl focus:outline-none focus:border-[#D4A373] transition-colors placeholder:text-stone-300 uppercase tracking-tight resize-none shadow-inner"
+                 className="w-full bg-[#FDFBF7] border border-stone-100 p-6 rounded-3xl font-body text-base md:text-lg focus:outline-none focus:border-[#D4A373] transition-colors placeholder:text-stone-300 tracking-tight resize-none shadow-inner"
               />
             </div>
 
@@ -186,7 +186,7 @@ export default function RsvpSection({ data }: { data: Client }) {
           <span className="text-[10px] tracking-[0.4em] text-[#D4A373] uppercase font-bold mb-4 block italic">
             Wishes From Heart
           </span>
-          <h2 className="font-heading text-5xl text-stone-900 tracking-tighter leading-none lowercase mb-12">
+          <h2 className="font-heading text-3xl md:text-5xl text-stone-900 tracking-tighter leading-none mb-12">
             Buku Tamu
           </h2>
 
@@ -210,7 +210,7 @@ export default function RsvpSection({ data }: { data: Client }) {
                     className="p-8 bg-white/50 rounded-[40px] border border-stone-100 relative shadow-lg"
                   >
                     <div className="flex justify-between items-center mb-4">
-                      <h4 className="font-heading text-2xl text-stone-900 italic lowercase">
+                      <h4 className="font-body text-lg text-stone-900 font-semibold">
                         {msg.guest_name}
                       </h4>
                       <span

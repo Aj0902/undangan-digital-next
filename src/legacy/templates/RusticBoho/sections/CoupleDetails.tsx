@@ -38,12 +38,12 @@ export default function CoupleSection({ data }: { data: Client }) {
               </div>
            </div>
            
-           <h3 className="font-heading text-5xl md:text-7xl text-stone-900 tracking-tighter lowercase leading-[0.8] mb-6">
+           <h3 className="font-heading text-4xl md:text-6xl text-stone-900 tracking-tighter leading-[0.8] mb-6">
               {d.bride_full_name || d.bride_name}
            </h3>
            <div className="w-12 h-px bg-[#D4A373] mb-6" />
            <p className="text-[10px] tracking-[0.3em] text-stone-400 uppercase font-bold italic mb-2">Putri Tercinta Dari</p>
-           <p className="font-heading text-3xl text-stone-900 font-light italic px-4 leading-normal lowercase">
+           <p className="font-body text-base md:text-lg text-stone-900 px-4 leading-normal font-light">
               {d.bride_parents}
            </p>
         </motion.div>
@@ -65,17 +65,17 @@ export default function CoupleSection({ data }: { data: Client }) {
                    <div className="w-full h-full flex items-center justify-center italic text-stone-300 text-[10px] uppercase tracking-widest font-light">Portrait Placeholder</div>
                  )}
               </div>
-              <div className="absolute -top-4 -left-4 w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#D4A373] shadow-md border border-stone-100 font-heading italic text-xl">
+              <div className="absolute -top-4 -left-4 w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#D4A373] shadow-md border border-stone-100 font-heading text-xl">
                  &amp;
               </div>
            </div>
            
-           <h3 className="font-heading text-5xl md:text-7xl text-stone-900 tracking-tighter lowercase leading-[0.8] mb-6">
+           <h3 className="font-heading text-4xl md:text-6xl text-stone-900 tracking-tighter leading-[0.8] mb-6">
               {d.groom_full_name || d.groom_name}
            </h3>
            <div className="w-12 h-px bg-[#D4A373] mb-6" />
            <p className="text-[10px] tracking-[0.3em] text-stone-400 uppercase font-bold italic mb-2">Putra Tercinta Dari</p>
-           <p className="font-heading text-3xl text-stone-900 font-light italic px-4 leading-normal lowercase">
+           <p className="font-body text-base md:text-lg text-stone-900 px-4 leading-normal font-light">
               {d.groom_parents}
            </p>
         </motion.div>

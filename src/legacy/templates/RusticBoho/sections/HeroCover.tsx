@@ -132,14 +132,14 @@ export default function HeroSection({ data }: { data: Client }) {
         <div className="mb-8 md:mb-12">
           <TextReveal
             text={d.bride_name}
-            className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-heading leading-none lowercase italic text-stone-900"
+            className="text-4xl sm:text-5xl md:text-7xl font-heading leading-none text-stone-900"
           />
           <div className="text-4xl md:text-5xl text-[#D4A373]/30 italic my-2 md:my-4">
             &amp;
           </div>
           <TextReveal
             text={d.groom_name}
-            className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-heading leading-none lowercase italic text-stone-900"
+            className="text-4xl sm:text-5xl md:text-7xl font-heading leading-none text-stone-900"
           />
         </div>
 

@@ -29,7 +29,7 @@ export default function GiftSection({ data }: { data: Client }) {
            className="text-center mb-16"
         >
            <span className="text-[10px] tracking-[0.4em] text-[#D4A373] uppercase font-bold mb-4 block italic">Digital Registry</span>
-           <h2 className="font-heading text-5xl md:text-7xl text-stone-900 tracking-tighter leading-none lowercase">Kado Digital</h2>
+           <h2 className="font-heading text-4xl md:text-6xl text-stone-900 tracking-tighter leading-none">Kado Digital</h2>
            <p className="text-[10px] leading-relaxed tracking-[0.1em] text-stone-500 max-w-sm mx-auto uppercase mt-6 font-light">
               Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Namun jika Anda ingin memberikan tanda kasih, Anda dapat memberikannya melalui detail di bawah ini.
            </p>
@@ -50,7 +50,7 @@ export default function GiftSection({ data }: { data: Client }) {
                
                <div className="text-center relative z-10 w-full">
                  <p className="text-[10px] tracking-[0.4em] text-stone-400 uppercase font-bold mb-6 italic">{acc.bank}</p>
-                 <h3 className="font-heading text-3xl text-stone-900 mb-2 italic lowercase">{acc.name}</h3>
+                 <h3 className="font-body text-xl text-stone-900 mb-2 font-semibold">{acc.name}</h3>
                  <p className="font-mono text-xl text-stone-900 tracking-widest font-light mb-8">{acc.number}</p>
                  
                  <button 

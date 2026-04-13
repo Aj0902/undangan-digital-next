@@ -138,7 +138,7 @@ export default function OpeningCover({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1 }}
-              className="font-heading text-5xl sm:text-6xl md:text-8xl lg:text-9xl text-stone-900 tracking-tighter leading-none mb-4 md:mb-6 lowercase italic"
+              className="font-heading text-4xl sm:text-5xl md:text-7xl text-stone-900 tracking-tighter leading-none mb-4 md:mb-6"
             >
               {d.bride_name}{" "}
               <span className="font-light text-[#D4A373]">&amp;</span>{" "}
@@ -154,7 +154,7 @@ export default function OpeningCover({
               <p className="text-[9px] md:text-[10px] uppercase tracking-[0.4em] text-stone-400 mb-3 md:mb-4 italic font-medium">
                 Kepada Yth. Bapak/Ibu/Saudara/i
               </p>
-              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl text-stone-900 tracking-tight mb-3 md:mb-4 lowercase">
+              <h2 className="font-heading text-2xl md:text-4xl text-stone-900 tracking-tight mb-3 md:mb-4">
                 {guestName}
               </h2>
               <div className="h-px w-12 md:w-16 bg-[#D4A373]/40 mx-auto" />

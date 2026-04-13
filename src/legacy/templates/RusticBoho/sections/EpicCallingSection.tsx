@@ -23,7 +23,7 @@ export default function EpicCallingSection({ data }: { data: Client }) {
           <span className="text-[10px] tracking-[0.4em] text-[#D4A373] uppercase font-bold mb-8 italic">
             Invitation
           </span>
-          <h2 className="font-heading text-5xl md:text-7xl text-stone-900 tracking-tighter leading-tight mb-12 lowercase">
+          <h2 className="font-heading text-4xl md:text-6xl text-stone-900 tracking-tighter leading-tight mb-12">
             We Are <br />{" "}
             <span className="italic font-light text-stone-300">Getting</span>{" "}
             <br /> Married

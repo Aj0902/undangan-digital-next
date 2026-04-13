@@ -54,11 +54,11 @@ export default function RusticBohoTemplate({
       <style
         dangerouslySetInnerHTML={{
           __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
         
         :root {
-          --font-heading: 'Cormorant Garamond', serif;
-          --font-body: 'Montserrat', sans-serif;
+          --font-heading: 'Cinzel', serif;
+          --font-body: 'Lora', serif;
         }
 
         .font-heading { font-family: var(--font-heading) !important; }

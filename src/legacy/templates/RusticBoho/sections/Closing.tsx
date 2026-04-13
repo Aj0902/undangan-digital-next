@@ -26,7 +26,7 @@ export default function Closing({ data }: { data: Client }) {
         </p>
 
         <div className="flex flex-col items-center gap-4 py-8 border-t border-[#D4A373]/10">
-           <h3 className="font-heading text-6xl md:text-8xl text-stone-900 tracking-tighter lowercase italic">
+           <h3 className="font-heading text-5xl md:text-7xl text-stone-900 tracking-tighter">
               {d.bride_name} <span className="font-light text-stone-300">&amp;</span> {d.groom_name}
            </h3>
         </div>

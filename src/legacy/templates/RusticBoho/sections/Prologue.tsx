@@ -32,16 +32,19 @@ export default function IntroSection({ data }: { data: Client }) {
           transition={{ duration: 2 }}
           className="relative"
         >
-          <div className="font-heading text-3xl md:text-5xl text-stone-900 leading-[1.4] mb-12 text-balance font-light relative italic">
-            Assalamu&apos;alaikum Wr. Wb.
-            <br />
-            Tanpa mengurangi rasa hormat. Kami mengundang Bapak/Ibu/Saudara/i
-            serta kerabat sekalian untuk menghadiri acara pernikahan kami:
+          <div className="mb-12 space-y-8 relative">
+            <h2 className="font-heading text-2xl md:text-4xl text-stone-900 tracking-wide uppercase">
+              Assalamu&apos;alaikum Wr. Wb.
+            </h2>
+            <p className="font-body text-sm md:text-base text-stone-600 leading-relaxed max-w-lg mx-auto italic font-light">
+              Tanpa mengurangi rasa hormat. Kami mengundang Bapak/Ibu/Saudara/i
+              serta kerabat sekalian untuk menghadiri acara pernikahan kami:
+            </p>
           </div>
 
           <div className="flex flex-col items-center gap-6 mt-20">
             <div className="w-16 h-px bg-[#D4A373]/30" />
-            <span className="font-heading text-3xl text-[#D4A373] italic lowercase tracking-tight">
+            <span className="font-heading text-3xl text-[#D4A373] tracking-tight">
               the wedding celebration
             </span>
             <div className="w-16 h-px bg-[#D4A373]/30" />
