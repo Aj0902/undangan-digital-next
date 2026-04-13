@@ -8,46 +8,44 @@ export default function IntroSection({ data }: { data: Client }) {
   const { client_details: d } = data;
 
   return (
-    <section className="relative min-h-[80vh] flex flex-col items-center justify-center bg-[#FDFBF7] py-32 px-12 md:px-24 border-b border-[#D4A373]/10">
-      {/* Editorial Decorative Graphic */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-heading text-[20rem] text-[#D4A373]/5 select-none pointer-events-none z-0 rotate-12">
-        B
+    <section className="relative min-h-[70vh] flex flex-col items-center justify-center bg-[#FDFBF7] py-32 px-12 md:px-24 border-b border-[#D4A373]/5 overflow-hidden">
+      {/* Editorial Decorative Graphic - Large Lettering */}
+      <div className="absolute -right-20 top-1/2 -translate-y-1/2 font-heading text-[30rem] text-stone-200/20 select-none pointer-events-none z-0 rotate-12 ">
+        {d.bride_name?.[0]}
+      </div>
+      <div className="absolute -left-20 top-1/4 font-accent text-[20rem] text-[#D4A373]/5 select-none pointer-events-none z-0 -rotate-12">
+        &
       </div>
 
-      <div className="max-w-2xl w-full text-center relative z-10">
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 0.8 }}
-          className="text-[10px] tracking-[0.4em] text-stone-400 uppercase font-light mb-16 italic"
-        >
-          Salam Hangat Dari Kami
-        </motion.p>
-
+      <div className="max-w-3xl w-full text-center relative z-10">
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 2 }}
-          className="relative"
+          transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
+          className="space-y-12"
         >
-          <div className="mb-12 space-y-8 relative">
-            <h2 className="font-heading text-2xl md:text-4xl text-stone-900 tracking-wide uppercase">
+          <div className="space-y-4">
+            <p className="font-accent text-4xl text-[#D4A373]">Salam Hangat & Doa Restu</p>
+            <h2 className="font-heading text-fluid-h3 text-stone-900 tracking-tight leading-none ">
               Assalamu&apos;alaikum Wr. Wb.
             </h2>
-            <p className="font-body text-sm md:text-base text-stone-600 leading-relaxed max-w-lg mx-auto italic font-light">
-              Tanpa mengurangi rasa hormat. Kami mengundang Bapak/Ibu/Saudara/i
-              serta kerabat sekalian untuk menghadiri acara pernikahan kami:
-            </p>
           </div>
 
-          <div className="flex flex-col items-center gap-6 mt-20">
-            <div className="w-16 h-px bg-[#D4A373]/30" />
-            <span className="font-heading text-3xl text-[#D4A373] tracking-tight">
-              the wedding celebration
-            </span>
-            <div className="w-16 h-px bg-[#D4A373]/30" />
+          <div className="relative">
+            <div className="absolute left-1/2 -translate-x-1/2 -top-6 w-12 h-px bg-[#D4A373]/20" />
+            <p className="font-body text-base md:text-lg text-stone-500 leading-relaxed max-w-xl mx-auto italic font-light">
+              Tanpa Mengurangi Rasa Hormat, kami mengundang Bapak/Ibu/Saudara/i
+              Serta Kerabat Sekalian Untuk Menghadiri Acara Pernikahan Kami:
+            </p>
+            <div className="absolute left-1/2 -translate-x-1/2 -bottom-6 w-12 h-px bg-[#D4A373]/20" />
+          </div>
+
+          <div className="pt-20">
+            <div className="flex flex-col items-center gap-2">
+              <span className="font-accent text-5xl text-[#D4A373]/80">Pernikahan Suci Kami</span>
+              <span className="font-heading text-[10px] tracking-[0.8em] uppercase text-stone-300 font-bold">MMXXVI</span>
+            </div>
           </div>
         </motion.div>
       </div>

@@ -120,44 +120,42 @@ export default function HeroSection({ data }: { data: Client }) {
         </motion.div>
 
         <motion.p
-          initial={{ opacity: 0, letterSpacing: "0.3em" }}
-          whileInView={{ opacity: 1, letterSpacing: "0.6em" }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 1.5 }}
-          className="text-[10px] md:text-xs tracking-[0.6em] text-[#D4A373] mb-10 font-bold uppercase"
+          transition={{ duration: 1 }}
+          className="font-accent text-3xl md:text-4xl text-[#D4A373] mb-4"
         >
-          The Wedding Celebration Of
+          Undangan Pernikahan
         </motion.p>
 
         <div className="mb-8 md:mb-12">
-          <TextReveal
-            text={d.bride_name}
-            className="text-4xl sm:text-5xl md:text-7xl font-heading leading-none text-stone-900"
-          />
-          <div className="text-4xl md:text-5xl text-[#D4A373]/30 italic my-2 md:my-4">
-            &amp;
+          <h1 className="text-fluid-h1 font-heading leading-[0.85] text-stone-900  tracking-tighter">
+            {d.bride_name}
+          </h1>
+          <div className="font-accent text-5xl md:text-6xl text-[#D4A373]/40 my-2 md:my-0">
+            &
           </div>
-          <TextReveal
-            text={d.groom_name}
-            className="text-4xl sm:text-5xl md:text-7xl font-heading leading-none text-stone-900"
-          />
+          <h1 className="text-fluid-h1 font-heading leading-[0.85] text-stone-900  tracking-tighter">
+            {d.groom_name}
+          </h1>
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: false, amount: 0.2 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          className="flex flex-col items-center gap-6"
+          transition={{ delay: 0.8, duration: 1.5 }}
+          className="flex flex-col items-center gap-4"
         >
-          <div className="h-px w-20 bg-[#D4A373]/30" />
-          <p className="text-sm md:text-base tracking-[0.4em] uppercase font-medium text-stone-500">
+          <div className="h-px w-12 bg-[#D4A373]/40" />
+          <p className="font-body text-xs md:text-sm tracking-[0.5em] uppercase font-bold text-stone-400">
             {d.resepsi_datetime
               ? new Date(d.resepsi_datetime).toLocaleDateString("id-ID", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                })
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })
               : "MMXXVI"}
           </p>
         </motion.div>
