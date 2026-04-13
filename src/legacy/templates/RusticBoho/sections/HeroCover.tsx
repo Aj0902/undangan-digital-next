@@ -88,17 +88,17 @@ export default function HeroSection({ data }: { data: Client }) {
            whileInView={{ opacity: 1, scale: 1 }}
            viewport={{ once: false, amount: 0.2 }}
            transition={{ duration: 1.5, ease: "easeOut" }}
-           className="relative w-56 h-72 sm:w-64 sm:h-80 md:w-80 md:h-[520px] mb-12 md:mb-16 group"
+           className="relative w-64 h-80 sm:w-72 sm:h-96 md:w-80 md:h-[520px] mb-12 md:mb-16 group"
         >
           <motion.div
             style={{ rotate: rotateOrn }}
-            className="absolute -inset-6 border-2 border-[#D4A373]/10 rounded-t-full pointer-events-none"
+            className="absolute -inset-8 border-[3px] border-[var(--boho-gold)]/20 rounded-t-full pointer-events-none z-10"
           />
-          <div className="w-full h-full rounded-t-full overflow-hidden border-[12px] border-white shadow-2xl relative">
+          <div className="w-full h-full rounded-t-full overflow-hidden border-[12px] border-white shadow-[0_40px_100px_-20px_rgba(140,82,48,0.15)] relative z-20">
             {coverUrl ? (
               <img
                 src={coverUrl}
-                className="w-full h-full object-cover sepia-[0.1] group-hover:scale-110 transition-transform duration-[3s]"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[4s] ease-out"
                 alt="Hero"
               />
             ) : (
@@ -106,8 +106,10 @@ export default function HeroSection({ data }: { data: Client }) {
                 Portrait Image
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--boho-terracotta)]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
           </div>
+          {/* Dreamy Shadow Overlay */}
+          <div className="absolute -inset-4 bg-[var(--boho-gold)]/5 blur-3xl rounded-full -z-10 opacity-30 group-hover:opacity-100 transition-opacity duration-1000" />
         </motion.div>
 
         <motion.p
@@ -115,19 +117,19 @@ export default function HeroSection({ data }: { data: Client }) {
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: false, amount: 0.2 }}
            transition={{ duration: 1 }}
-           className="font-accent text-3xl md:text-4xl text-[#D4A373] mb-4"
+           className="font-accent text-4xl md:text-5xl text-[var(--boho-terracotta)] mb-4 drop-shadow-sm"
         >
-          Undangan Pernikahan
+           Undangan Pernikahan
         </motion.p>
 
-        <div className="mb-8 md:mb-12">
-          <h1 className="text-fluid-h1 font-heading leading-[0.85] text-stone-900  tracking-tighter">
+        <div className="mb-12 md:mb-16 text-center w-full px-4">
+          <h1 className="text-fluid-h1 font-heading leading-[0.85] text-stone-900 tracking-tighter">
             {d.bride_name}
           </h1>
-          <div className="font-accent text-5xl md:text-6xl text-[#D4A373]/40 my-2 md:my-0">
+          <div className="font-accent text-6xl md:text-7xl text-[var(--boho-gold)]/30 my-6 md:my-4">
             &
           </div>
-          <h1 className="text-fluid-h1 font-heading leading-[0.85] text-stone-900  tracking-tighter">
+          <h1 className="text-fluid-h1 font-heading leading-[0.85] text-stone-900 tracking-tighter">
             {d.groom_name}
           </h1>
         </div>
@@ -137,15 +139,16 @@ export default function HeroSection({ data }: { data: Client }) {
            whileInView={{ opacity: 1 }}
            viewport={{ once: false, amount: 0.2 }}
            transition={{ delay: 0.8, duration: 1.5 }}
-           className="flex flex-col items-center gap-4"
+           className="flex flex-col items-center gap-6 mt-4 w-full"
         >
-          <div className="h-px w-12 bg-[#D4A373]/40" />
-          <p className="font-body text-xs md:text-sm tracking-[0.5em] uppercase font-bold text-stone-400">
+          <div className="h-px w-16 bg-[#D4A373]/40" />
+          <p className="font-body text-[11px] md:text-sm tracking-[0.6em] uppercase font-bold text-stone-400 text-center ml-[0.6em]">
             {d.resepsi_datetime
               ? new Date(d.resepsi_datetime).toLocaleDateString("id-ID", {
                 day: "2-digit",
                 month: "long",
                 year: "numeric",
+                timeZone: "Asia/Jakarta",
               })
               : "MMXXVI"}
           </p>

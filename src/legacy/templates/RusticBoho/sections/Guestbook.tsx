@@ -199,7 +199,7 @@ export default function RsvpSection({ data }: { data: Client }) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-6 bg-stone-900 text-white rounded-full text-[10px] tracking-[0.5em] uppercase font-bold hover:bg-[#D4A373] transition-all disabled:opacity-50 shadow-2xl"
+              className="w-full py-6 bg-stone-900 text-white rounded-full text-[10px] tracking-[0.5em] uppercase font-bold hover:bg-[var(--boho-terracotta)] transition-all disabled:opacity-50 shadow-[0_20px_30px_-10px_rgba(0,0,0,0.2)]"
             >
               {isSubmitting ? "Mengirim..." : "Kirim Konfirmasi"}
             </button>
@@ -212,23 +212,24 @@ export default function RsvpSection({ data }: { data: Client }) {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1], delay: 0.2 }}
-          className="flex flex-col h-full mt-16 md:mt-0"
+          className="flex flex-col h-full mt-24 md:mt-0 text-center md:text-left items-center md:items-start"
         >
-          <div className="mb-12">
-             <p className="font-accent text-4xl text-[#D4A373] mb-[-0.5rem] ">Warm</p>
+          <div className="mb-12 w-full flex flex-col items-center md:items-start">
+             <p className="font-accent text-4xl text-[var(--boho-terracotta)] mb-[-0.5rem] ">Warm</p>
              <h2 className="font-heading text-fluid-h3 text-stone-900 tracking-tighter leading-none ">
                Messages
              </h2>
+             <div className="w-12 h-px bg-[var(--boho-gold)]/30 mt-6" />
           </div>
 
           <div className="flex-grow space-y-10 overflow-y-auto max-h-[550px] pr-4 custom-scrollbar">
             <AnimatePresence mode="popLayout">
               {isLoadingGreetings ? (
-                <p className="text-[10px] uppercase tracking-widest text-stone-300 animate-pulse font-bold">
+                <p className="text-[10px] uppercase tracking-widest text-stone-400 animate-pulse font-bold">
                   Sedang Memuat Doa...
                 </p>
               ) : greetings.length === 0 ? (
-                <p className="text-[10px] uppercase tracking-widest text-stone-300 font-bold italic">
+                <p className="text-[10px] uppercase tracking-widest text-stone-400 font-bold italic">
                   Belum Ada Pesan. Jadilah Yang Pertama Mengirim Doa Terbaik!
                 </p>
               ) : (
@@ -238,28 +239,17 @@ export default function RsvpSection({ data }: { data: Client }) {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="p-10 bg-white rounded-[40px] border border-stone-50 relative shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]"
+                    className="p-8 bg-white border border-stone-50 rounded-[40px] shadow-[0_20px_50px_-10px_rgba(140,82,48,0.06)] group hover:shadow-[0_30px_70px_-10px_rgba(140,82,48,0.12)] transition-all duration-700"
                   >
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="space-y-1">
-                         <h4 className="font-heading text-lg text-stone-900  tracking-tight">
-                           {msg.guest_name}
-                         </h4>
-                         <p className="font-body text-[10px] text-stone-300 uppercase tracking-widest font-bold">
-                           {new Date(msg.created_at).toLocaleDateString("id-ID", {
-                             month: "short",
-                             day: "numeric",
-                             year: "numeric",
-                           })}
-                         </p>
-                      </div>
-                      <span
-                        className={`text-[8px] uppercase tracking-[0.2em] font-extrabold px-3 py-1.5 rounded-full border ${msg.attendance_status ? "bg-[#D4A373]/10 text-[#D4A373] border-[#D4A373]/20" : "bg-stone-50 text-stone-400 border-stone-100"}`}
-                      >
-                        {msg.attendance_status ? "Hadir" : "Absen"}
-                      </span>
+                    <div className="flex items-center gap-4 mb-4">
+                       <div className="w-12 h-12 bg-[var(--boho-bg)] rounded-full flex items-center justify-center font-heading text-lg text-[var(--boho-terracotta)] font-bold border border-stone-100 uppercase">
+                          {msg.guest_name[0]}
+                       </div>
+                       <div>
+                          <h4 className="font-heading text-lg text-stone-900 leading-none mb-1">{msg.guest_name}</h4>
+                          <span className="text-[10px] uppercase tracking-widest text-stone-400 font-bold italic">{msg.attendance_status ? 'Hadir' : 'Berhalangan'} • {msg.pax} Person</span>
+                       </div>
                     </div>
-                    <div className="w-8 h-px bg-[#D4A373]/20 mb-6" />
                     <p className="font-body text-sm text-stone-600 leading-relaxed font-light italic">
                       &ldquo;{msg.greeting_message}&rdquo;
                     </p>

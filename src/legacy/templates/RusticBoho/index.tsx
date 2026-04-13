@@ -65,11 +65,22 @@ export default function RusticBohoTemplate({
           --font-heading: 'Playfair Display', serif;
           --font-body: 'Lora', serif;
           --font-accent: 'Pinyon Script', cursive;
+          --boho-gold: #C18A4F;
+          --boho-terracotta: #8C5230;
+          --boho-bg: #FDFBF7;
+          color-scheme: light;
         }
 
         .font-heading { font-family: var(--font-heading) !important; }
         .font-body { font-family: var(--font-body) !important; }
         .font-accent { font-family: var(--font-accent) !important; }
+        
+        /* Force Light Mode Protection */
+        html, body {
+          background-color: var(--boho-bg) !important;
+          color: #2D2D2D !important;
+          color-scheme: light !important;
+        }
         
         /* Advanced Typography Utilities */
         .text-fluid-h1 { font-size: clamp(2.5rem, 8vw, 5rem); }

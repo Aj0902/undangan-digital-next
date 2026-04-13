@@ -344,6 +344,7 @@ export function formatDate(value?: string | null): string {
       day: '2-digit',
       month: 'long',
       year: 'numeric',
+      timeZone: 'UTC',
     });
   } catch (e) {
     return '-';
@@ -363,6 +364,7 @@ export function formatTime(value?: string | null): string {
       hour: '2-digit',
       minute: '2-digit',
       hour12: false,
+      timeZone: 'UTC',
     }) + ' WIB';
   } catch (e) {
     return '-';

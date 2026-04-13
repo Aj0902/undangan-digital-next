@@ -47,9 +47,9 @@ export default function EpicCallingSection({ data }: { data: Client }) {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: false, amount: 0.2 }}
           transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
-          className="flex flex-col justify-center text-center md:text-left order-2 md:order-1"
+          className="flex flex-col justify-center text-center order-2 md:order-1"
         >
-          <p className="font-accent text-3xl text-[#D4A373] mb-6 italic">
+          <p className="font-accent text-4xl text-[#D4A373] mb-6 italic">
             Undangan Suci
           </p>
           <h2 className="font-heading text-fluid-h2 text-stone-900 tracking-tighter leading-[0.85] mb-12 ">
@@ -58,16 +58,16 @@ export default function EpicCallingSection({ data }: { data: Client }) {
             <br /> Kami
           </h2>
 
-          <div className="w-12 h-px bg-[#D4A373]/30 mb-10 mx-auto md:mx-0" />
+          <div className="w-12 h-px bg-[#D4A373]/30 mb-10 mx-auto" />
 
-          <p className="font-body text-xs md:text-sm leading-relaxed text-stone-500 max-w-sm italic mx-auto md:mx-0 font-light">
+          <p className="font-body text-sm md:text-base leading-relaxed text-stone-500 max-w-lg italic mx-auto font-light">
             &ldquo;Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan
             untukmu istri-istri dari jenismu sendiri supaya kamu merasa tenteram
             kepadanya, dan dijadikan-Nya diantaramu rasa kasih sayang.
             Sesungguhnya pada yang demikian itu terdapat tanda-tanda bagi
             orang-orang yang beriman.&rdquo;
             <br />
-            <span className="text-[10px] uppercase tracking-[0.3em] text-[#D4A373] font-bold mt-6 block not-italic">QS. Ar-Rum: 21</span>
+            <span className="text-[10px] uppercase tracking-[0.4em] text-[#D4A373] font-bold mt-8 block not-italic">QS. Ar-Rum: 21</span>
           </p>
         </motion.div>
 

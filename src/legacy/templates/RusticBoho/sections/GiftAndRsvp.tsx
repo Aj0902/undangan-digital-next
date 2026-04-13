@@ -43,14 +43,6 @@ export default function GiftSection({ data }: { data: Client }) {
         alt="Ornament Kanan"
       />
 
-       {/* Bridge Ornament to Guestbook */}
-       <motion.img 
-        src="/assets/rustic-boho/images/or-bawah-tengah.svg"
-        style={{ y: yOrnRight }}
-        className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-80 opacity-[0.15] pointer-events-none z-20"
-        alt="Bridge Ornament"
-      />
-
       <div className="max-w-4xl mx-auto flex flex-col items-center relative z-10">
         <motion.div
            initial={{ opacity: 0, y: 30 }}
@@ -59,57 +51,47 @@ export default function GiftSection({ data }: { data: Client }) {
            transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
            className="text-center mb-20"
         >
-           <p className="font-accent text-4xl text-[#D4A373] mb-[-0.5rem] ">Tanda Kasih</p>
-           <h2 className="font-heading text-fluid-h2 text-stone-900 tracking-tighter leading-none ">Kado Digital</h2>
+           <p className="font-accent text-4xl text-[var(--boho-terracotta)] mb-[-0.5rem]">Wedding Gift For</p>
+           <h2 className="font-heading text-fluid-h2 text-stone-900 tracking-tighter leading-none ">Berbagi Kasih</h2>
+           <div className="w-12 h-px bg-[var(--boho-gold)]/30 mx-auto mt-8" />
            <p className="font-body text-xs md:text-sm leading-relaxed text-stone-500 max-w-md mx-auto mt-8 italic font-light">
               Doa Restu Bapak/Ibu/Saudara/i Merupakan Karunia Yang Sangat Berarti Bagi Kami. Namun Jika Anda Ingin Memberikan Tanda Kasih, Anda Dapat Memberikannya Melalui Detail Di Bawah Ini.
            </p>
         </motion.div>
 
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10">
-          {bankAccounts.map((acc, idx) => (
-            <motion.div
-              key={idx}
-              initial={{ opacity: 0, scale: 0.98 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: false, amount: 0.2 }}
-              transition={{ delay: idx * 0.1, duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
-              className="group flex flex-col items-center p-12 bg-[#FDFBF7] border border-stone-50 rounded-[50px_10px_50px_10px] relative overflow-hidden hover:bg-white hover:shadow-2xl transition-all duration-700"
-            >
-               <div className="absolute top-0 right-0 p-8 opacity-5">
-                  <svg width="60" height="60" viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                     <path d="M50 0 L100 50 L50 100 L0 50 Z" />
-                  </svg>
-               </div>
-               
-               <div className="text-center relative z-10 w-full space-y-6">
-                 <div>
-                    <p className="font-heading text-xs tracking-[0.4em] text-[#D4A373] uppercase font-bold mb-1">{acc.bank}</p>
-                    <div className="h-px w-8 bg-[#D4A373]/20 mx-auto" />
-                 </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+           {d.bank_accounts?.map((acc, i) => (
+             <motion.div
+               key={i}
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: false, amount: 0.2 }}
+               transition={{ delay: i * 0.2 }}
+               className="p-12 bg-white rounded-[60px] border border-stone-50 shadow-[0_40px_100px_-20px_rgba(140,82,48,0.1)] flex flex-col items-center text-center group hover:shadow-[0_60px_120px_-20px_rgba(140,82,48,0.18)] transition-all duration-1000"
+             >
+                <div className="mb-10 w-full">
+                    <p className="font-heading text-xs tracking-[0.5em] text-stone-300 uppercase font-bold mb-6">Digital Envelope</p>
+                    <img 
+                      src={`/assets/common/banks/${acc.bank.toLowerCase()}.png`} 
+                      className="h-10 md:h-12 object-contain mx-auto opacity-80 group-hover:opacity-100 grayscale group-hover:grayscale-0 transition-all duration-700"
+                      onError={(e) => (e.currentTarget.src = 'https://via.placeholder.com/150')}
+                      alt={acc.bank}
+                    />
+                    <div className="h-px w-8 bg-[var(--boho-gold)]/20 mx-auto mt-8" />
+                </div>
 
-                 <div className="space-y-1">
-                    <p className="font-body text-lg text-stone-900 font-semibold">{acc.name}</p>
-                    <p className="font-heading text-2xl text-stone-800 tracking-[0.2em] font-light">{acc.number}</p>
-                 </div>
-                 
-                 <button 
-                   onClick={() => handleCopy(acc.number, `acc-${idx}`)}
-                   className="flex items-center justify-center gap-3 px-10 py-5 bg-stone-900 text-white rounded-full text-[10px] uppercase font-bold tracking-[0.3em] transition-all duration-500 w-full hover:bg-[#D4A373] shadow-lg"
-                 >
-                   {copiedId === `acc-${idx}` ? (
-                     <>
-                       <Check size={14} className="animate-bounce" />
-                       <span>Berhasil Tersalin</span>
-                     </>
-                   ) : (
-                     <>
-                       <Copy size={14} className="opacity-30" />
-                       <span>Salin Nomor Rekening</span>
-                     </>
-                   )}
-                 </button>
-               </div>
+                <div className="space-y-3 w-full text-center">
+                    <p className="font-body text-xl md:text-2xl text-stone-900 font-semibold">{acc.name}</p>
+                    <p className="font-heading text-2xl md:text-3xl text-stone-800 tracking-[0.2em] font-light">{acc.number}</p>
+                </div>
+                
+                <button 
+                  onClick={() => handleCopy(acc.number, `${i}`)}
+                  className="mt-12 flex items-center gap-3 px-10 py-5 bg-stone-50 text-stone-600 border border-stone-100 rounded-full text-[10px] uppercase font-bold tracking-[0.4em] hover:bg-[var(--boho-gold)] hover:text-white hover:border-[var(--boho-gold)] transition-all duration-700 w-full justify-center shadow-sm"
+                >
+                  {copiedId === `${i}` ? <Check size={14} /> : <Copy size={14} />}
+                  {copiedId === `${i}` ? 'Tersalin' : 'Salin Rekening'}
+                </button>
             </motion.div>
           ))}
         </div>
