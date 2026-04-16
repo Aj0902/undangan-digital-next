@@ -18,8 +18,8 @@ export default function CoupleSection({ data }: { data: Client }) {
    const yOrnLeft = useTransform(scrollYProgress, [0, 1], [-50, 50]);
    const yOrnRight = useTransform(scrollYProgress, [0, 1], [50, -50]);
 
-   const brideImg = getMedia(media, 'gallery_1');
-   const groomImg = getMedia(media, 'gallery_2');
+   const brideImg = getMedia(media, 'bride_photo');
+   const groomImg = getMedia(media, 'groom_photo');
 
    return (
       <section ref={containerRef} className="relative w-full py-32 px-8 md:px-16 overflow-hidden bg-[var(--boho-bg)] flex flex-col items-center">

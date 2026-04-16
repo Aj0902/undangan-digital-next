@@ -48,9 +48,11 @@ export default function IntroSection({ data }: { data: Client }) {
           transition={{ duration: 1.8, ease: [0.19, 1, 0.22, 1] }}
           className="space-y-6 flex flex-col items-center"
         >
-          <div className="space-y-2">
-            <p className="font-accent text-4xl md:text-5xl text-[var(--boho-terracotta)]">Salam Hangat & Doa Restu</p>
-            <br />
+          <div className="flex flex-col items-center gap-2 mb-4">
+            <p className="font-accent text-4xl md:text-5xl text-[var(--boho-terracotta)]">Salam Hangat</p>
+            <span className="font-accent text-3xl md:text-4xl text-[var(--boho-gold)]/40">&</span>
+            <p className="font-accent text-4xl md:text-5xl text-[var(--boho-terracotta)]">Doa Restu</p>
+            <div className="h-4" />
             <h2 className="font-heading text-[22px] sm:text-2xl md:text-fluid-h3 text-stone-900 tracking-tight leading-none whitespace-nowrap">
               Assalamu&apos;alaikum Wr. Wb.
             </h2>
